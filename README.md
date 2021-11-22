@@ -7,6 +7,11 @@ Roles:
 - apigateway-rest-configurator
   - These are configuration tasks that strictly leverage the REST APIs provided by webMethods APIGateway (and as such, these tasks can be run from anywhere with network access to the target webMethods APIGateway REST endpoints)
 
+## Project dependencies:
+
+Some of the tasks in these roles will have dependencies on roles defined in [sagdevops-ansible-common-utils](https://github.com/SoftwareAG/sagdevops-ansible-common-utils)
+As such, make sure to include sagdevops-ansible-common-utils in your automation solution.
+
 ## Role: apigateway-files-configurator
 
 Documentation Details TBD
