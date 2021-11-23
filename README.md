@@ -20,6 +20,45 @@ Documentation Details TBD
 
 Documentation Details TBD
 
+## Using Containers
+
+### Building the containers
+
+To build containers for the configurators
+
+First set some environment variables to specify the build arguments:
+
+```
+export REG=
+export TAG=0.0.1
+export SAGDEVOPS_BASE_ANSIBLE=${REG}sagdevops-ansible-common-utils:0.0.1
+```
+
+Then, build the configurators by running:
+
+```
+docker build --rm -f Dockerfile.rest -t ${REG}apigateway-rest-configurator:${TAG} --build-arg BASE_ANSIBLE_IMAGE=${SAGDEVOPS_BASE_ANSIBLE} .
+
+docker build --rm -f Dockerfile.files -t ${REG}apigateway-files-configurator:${TAG} --build-arg BASE_ANSIBLE_IMAGE=${SAGDEVOPS_BASE_ANSIBLE} .
+```
+
+This will create 2 containers:
+ - ${REG}apigateway-rest-configurator:${TAG}
+ - ${REG}apigateway-rest-configurator:${TAG}
+
+### Testing validity of the containers
+
+Test apigateway-rest-configurator:
+
+```
+docker run ${REG}apigateway-rest-configurator:${TAG} ping.yml
+```
+
+Test apigateway-files-configurator:
+
+```
+docker run ${REG}apigateway-files-configurator:${TAG} ping.yml
+```
 
 # Authors
 Fabien Sanglier
