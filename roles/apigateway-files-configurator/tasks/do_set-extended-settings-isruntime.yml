@@ -2,8 +2,11 @@
 
   - debug: var=webmethods_apigateway_extended_settings_isruntime_watt_keys verbosity=1
 
-  - import_role:
-      name: configure-integrationserver
-    vars:
-      configs_action: set-extended-settings
-      wmis_cfgparams_extended_settings_dict: "{{ webmethods_apigateway_extended_settings_isruntime_watt_keys }}"
+  - name: "Update config file {{ runtime_instance_config_file }} with new extended settings"
+    lineinfile:
+      path: "{{ runtime_instance_config_file }}"
+      regexp: "^{{ item.key }}"
+      insertafter: "^#{{ item.key }}"
+      line: "{{ item.key }}={{ item.value }}"
+    with_dict: "{{ webmethods_apigateway_extended_settings_isruntime_watt_keys }}"
+    when: webmethods_apigateway_extended_settings_isruntime_watt_keys is defined and (webmethods_apigateway_extended_settings_isruntime_watt_keys|length > 0)
