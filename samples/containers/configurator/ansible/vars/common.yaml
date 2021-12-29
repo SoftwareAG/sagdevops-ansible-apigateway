@@ -1,0 +1,14 @@
+---
+
+##################### webmethods specifics
+webmethods_user: "{{ lookup('env', 'SAG_USER') | default('saguser',true) }}"
+webmethods_userid: "{{ lookup('env', 'SAG_USERID') | default('1724',true) }}"
+webmethods_group: "{{ lookup('env', 'SAG_GROUP') | default('saguser',true) }}"
+webmethods_groupid: "{{ lookup('env', 'SAG_GROUPID') | default('1724',true) }}"
+webmethods_install_dir: "{{ lookup('env', 'SAG_HOME') | default('/opt/softwareag',true) }}"
+
+##################### async jobs defaults
+common_async_retries: 240
+common_async_delay: 10
+common_async_timeout: 2400
+common_async_poll: 0

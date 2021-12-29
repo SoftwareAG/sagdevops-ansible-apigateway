@@ -1,0 +1,108 @@
+---
+
+# local users
+vars_apigateway_usermgt_users:
+  - loginId: "{{ envvars_apigateway_usermgt_users_sample1_username }}"
+    firstName: Sample User1
+    lastName: Api Admin
+    password: "{{ envvars_apigateway_usermgt_users_sample1_password }}"
+    emailAddresses:
+      - "{{ envvars_apigateway_usermgt_users_sample1_username }}@sample.com"
+    allowDigestAuth: false
+    active: true
+    language: en
+  - loginId: "{{ envvars_apigateway_usermgt_users_sample2_username }}"
+    firstName: Sample User2
+    lastName: Api Provider
+    password: "{{ envvars_apigateway_usermgt_users_sample2_password }}"
+    emailAddresses:
+      - "{{ envvars_apigateway_usermgt_users_sample2_username }}@sample.com"
+    allowDigestAuth: false
+    active: true
+    language: en
+  - loginId: "{{ envvars_apigateway_usermgt_users_sample3_username }}"
+    firstName: Sample User3
+    lastName: Api User
+    password: "{{ envvars_apigateway_usermgt_users_sample3_password }}"
+    emailAddresses:
+      - "{{ envvars_apigateway_usermgt_users_sample3_username }}@sample.com"
+    allowDigestAuth: false
+    active: true
+    language: en
+
+## local usergroups
+vars_apigateway_usermgt_groups:
+  - name: sample-apigateway-admins
+    description: apigateway-admins
+    empty_user_ids: false
+    user_loginids_add:
+      - "{{ envvars_apigateway_usermgt_users_sample1_username }}"
+  - name: sample-apigateway-providers
+    description: apigateway-providers
+    empty_user_ids: false
+    user_loginids_add:
+      - "{{ envvars_apigateway_usermgt_users_sample2_username }}"
+  - name: sample-apigateway-users
+    description: apigateway-users
+    empty_user_ids: false
+    user_loginids_add:
+      - "{{ envvars_apigateway_usermgt_users_sample3_username }}"
+
+## access profiles 
+## (note: the group names / user names will get replaced by their IDs in the real REST request, and merged with the userIds/groupIds fields)
+vars_apigateway_usermgt_accessprofiles:
+  - name: sample-apigateway-users-team
+    description: apigateway-users-team description
+    privilege: "10010010010100000001010001"
+    groupnames:
+      - sample-apigateway-users
+    groupIds: []
+    teamAdmin:
+      usernames: []
+      groupnames: []
+  - name: sample-apigateway-providers-team
+    description: apigateway-providers-team description
+    privilege: "111111111111111111111111100"
+    groupnames:
+      - sample-apigateway-providers
+    groupIds: []
+    teamAdmin:
+      usernames: []
+      groupnames: []
+  - name: sample-apigateway-admins-team
+    description: apigateway-admins-team description
+    privilege: "111111111111111111111111111"
+    groupnames:
+      - sample-apigateway-admins
+    groupIds: []
+    teamAdmin:
+      usernames: []
+      groupnames: []
+
+## api gateway ldap registration
+vars_apigateway_ldap_settings:
+  ldapConfig:
+    cacheSize: '10'
+    cacheTTL: '60'
+    provider: LDAP
+    ldapDirectoryList:
+    - index: 0
+      url: "{{ envvars_apigateway_ldap_url }}"
+      principal: "{{ envvars_apigateway_ldap_auth_username }}"
+      password: "{{ envvars_apigateway_ldap_auth_password }}"
+      timeout: '5'
+      poolMin: '0'
+      poolMax: '10'
+      useaf: false
+      dnPrefix:
+      dnSuffix:
+      uidProp: "{{ envvars_apigateway_ldap_users_id_attribute }}"
+      userRootDn: "{{ envvars_apigateway_ldap_users_root_dn }}"
+      useCaching: false
+      group: Everyone
+      memberAttribute: "{{ envvars_apigateway_ldap_groups_member_attribute }}"
+      groupIdProperty: "{{ envvars_apigateway_ldap_groups_id_attribute }}"
+      groupRootDN: "{{ envvars_apigateway_ldap_groups_root_dn }}"
+
+## api gateway saml settings
+vars_apigateway_saml_settings: {}

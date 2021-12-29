@@ -1,0 +1,55 @@
+---
+
+# apigateway REST access configs
+vars_apigateway_rest_protocol: "{{ envvars_apigateway_protocol }}"
+vars_apigateway_rest_host: "{{ envvars_apigateway_host }}"
+vars_apigateway_rest_port: "{{ envvars_apigateway_port }}"
+vars_apigateway_rest_login_username: "{{ envvars_apigateway_rest_login_username }}"
+vars_apigateway_rest_login_password: "{{ envvars_apigateway_rest_login_password }}"
+vars_apigateway_rest_login_password_old: "{{ envvars_apigateway_rest_login_password_old }}"
+
+# apigateway portchecks configs
+vars_portscheck_host: "{{ envvars_apigateway_host }}"
+vars_portscheck_ports:
+  - "{{ envvars_apigateway_port }}"
+vars_portscheck_ports_timeout: 900
+
+# load balancer urls
+vars_webmethods_apigateway_loadbalancers_http_urls:
+  - "{{ envvars_apigateway_loadbalancers_http_urls }}"
+  - "{{ envvars_apigateway_loadbalancers_http_urls_alt1 }}"
+  - "{{ envvars_apigateway_loadbalancers_http_urls_alt2 }}"
+  - "{{ envvars_apigateway_loadbalancers_http_urls_alt3 }}"
+vars_webmethods_apigateway_loadbalancers_https_urls:
+  - "{{ envvars_apigateway_loadbalancers_https_urls }}"
+  - "{{ envvars_apigateway_loadbalancers_https_urls_alt1 }}"
+  - "{{ envvars_apigateway_loadbalancers_https_urls_alt2 }}"
+  - "{{ envvars_apigateway_loadbalancers_https_urls_alt3 }}"
+vars_webmethods_apigateway_loadbalancers_websocket_urls:
+  - "{{ envvars_apigateway_loadbalancers_websocket_urls }}"
+  - "{{ envvars_apigateway_loadbalancers_websocket_urls_alt1 }}"
+  - "{{ envvars_apigateway_loadbalancers_websocket_urls_alt2 }}"
+  - "{{ envvars_apigateway_loadbalancers_websocket_urls_alt3 }}"
+vars_webmethods_apigateway_loadbalancers_webapp_url: "{{ envvars_apigateway_loadbalancers_webapp_url }}"
+
+## extended settings - is runtime settings (note: this must be run on all the nodes)
+vars_apigateway_apigateway_extended_settings_isruntime_watt_keys:
+  watt.net.timeout: 400
+  watt.server.threadPool: 500
+  watt.server.threadPoolMin: 50
+  watt.server.control.serverThreadThreshold: 20
+
+## extended settings - apigateway settings (note: this are replicated in the cluster)
+vars_apigateway_extended_settings_coregateway_extended_keys:
+  maxAllowedZipFileSize: "50000000"
+  enableTeamWork: "true"
+
+## api gateway promotion stages
+vars_apigateway_promotions_stages:
+  - name: "{{ envvars_apigateway_environment_stage }}"
+    description: "{{ envvars_apigateway_environment_stage }} Stage"
+    url: "{{ envvars_apigateway_loadbalancers_http_urls }}"
+    username: "{{ envvars_apigateway_rest_login_username }}"
+    password: "{{ envvars_apigateway_rest_login_password }}"
+    # keystoreAlias: "{{ webmethods_apigateway_keystore_name }}"
+    # keyAlias: "{{ webmethods_apigateway_keystore_keyalias }}"

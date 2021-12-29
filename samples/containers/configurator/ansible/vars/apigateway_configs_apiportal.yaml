@@ -1,0 +1,69 @@
+---
+
+## apiportal / devportal registration
+## portal type should be: apiportal or devportal
+vars_apigateway_portalgateway_portaltype: "{{ envvars_apigateway_portalgateway_portaltype }}"
+vars_apigateway_portalgateway_apiportal:
+  gatewayName: "API_Gateway_{{ envvars_apigateway_environment_stage }}"
+  gatewayDescription: "API Gateway in {{ envvars_apigateway_environment_stage }} environment"
+  gatewayUsername: "{{ envvars_apigateway_portalgateway_gateway_username }}"
+  gatewayPassword: "{{ envvars_apigateway_portalgateway_gateway_password }}"
+  gatewayURL: "{{ envvars_apigateway_portalgateway_gateway_url }}"
+  version: "{{ envvars_apigateway_portalgateway_version }}"
+  stageName: "{{ envvars_apigateway_environment_stage }}"
+  published: true
+  externalPortal:
+    endpointTenant: "{{ envvars_apigateway_portalgateway_apiportal_tenant }}"
+    endpointURL: "{{ envvars_apigateway_portalgateway_apiportal_url }}"
+    endpointUsername: "{{ envvars_apigateway_portalgateway_apiportal_username }}"
+    endpointPassword: "{{ envvars_apigateway_portalgateway_apiportal_password }}"
+    type: "apiportal"
+vars_apigateway_portalgateway_devportal:
+  gatewayName: "API_Gateway_{{ envvars_apigateway_environment_stage }}"
+  gatewayDescription: "API Gateway in {{ envvars_apigateway_environment_stage }} environment"
+  gatewayUsername: "{{ lookup('env', 'env_apigateway_portalgateway_gateway_username') | default('',true) }}"
+  gatewayPassword: "{{ lookup('env', 'env_apigateway_portalgateway_gateway_password') | default('',true) }}"
+  gatewayURL: "{{ lookup('env', 'env_apigateway_portalgateway_gateway_url') | default('',true) }}"
+  version: "1.0"
+  stageName: "{{ envvars_apigateway_environment_stage }}"
+  published: true
+  externalPortal:
+    endpointTenant: "{{ envvars_apigateway_portalgateway_devportal_tenant }}"
+    endpointURL: "{{ envvars_apigateway_portalgateway_devportal_url }}"
+    endpointUsername: "{{ envvars_apigateway_portalgateway_devportal_username }}"
+    endpointPassword: "{{ envvars_apigateway_portalgateway_devportal_password }}"
+    type: "devportal"
+
+# APIs to publish to api portal
+# each list item will publish a list of APIs to a list of communities using the same portalGatewayId
+vars_apigateway_apis_publish_groups:
+  - lookup_portalGatewayId:
+      name: "API_Gateway_{{ envenvvars_apigateway_environment_stage }}"
+      version: "1.0"
+      stageName: "{{ envenvvars_apigateway_environment_stage }}"
+    lookup_communityIds:
+      - name: "Public Community"
+    lookup_apiIds:
+      - name: "bookstore"
+        version: "1.0"
+      - name: "uszip"
+        version: "1.0"
+
+# API Packages to publish to api portal
+# each list item will publish a list of Packages to a list of communities using the same portalGatewayId
+vars_apigateway_packages_publish_groups:
+  - lookup_portalGatewayId:
+      name: "API_Gateway_{{ envenvvars_apigateway_environment_stage }}"
+      version: "1.0"
+      stageName: "{{ envenvvars_apigateway_environment_stage }}"
+    lookup_communityIds:
+      - name: "Public Community"
+    lookup_packageIds:
+      - name: Swag Pack Complete
+        version: "1.0"
+      - name: Swag Pack Bookstore
+        version: "1.0"
+      - name: Swag Pack UsZip
+        version: "1.0"
+      - name: Swag Pack CovidReports
+        version: "1.0"

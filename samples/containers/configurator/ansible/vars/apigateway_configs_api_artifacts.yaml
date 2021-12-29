@@ -1,0 +1,190 @@
+---
+
+## apigateway archives to import
+vars_apigateway_archives:
+  - path: "./demo_artifacts/apigw-archive-demo-uszip-1.0.zip"
+    overwrite: "apis,policies,policyactions"
+    fixingMissingVersions: "true"
+    preserveAssetState: "true"
+  - path: "./demo_artifacts/apigw-archive-demo-bookstore-1.0.zip"
+    overwrite: "apis,policies,policyactions"
+    fixingMissingVersions: "true"
+    preserveAssetState: "true"
+  - path: "./demo_artifacts/apigw-archive-demo-globalpolicy-transaction-logging.zip"
+    overwrite: "*"
+    fixingMissingVersions: "true"
+    preserveAssetState: "true"
+  - path: "./demo_artifacts/apigw-archive-demo-globalpolicy-enforcesecurity.zip"
+    overwrite: "*"
+    fixingMissingVersions: "true"
+    preserveAssetState: "true"
+
+## api aliases to import into gateway
+vars_apigateway_aliases:
+  - name: bookstore_endpoint
+    description: bookstore endpoint alias
+    type: simple
+    owner: Administrator
+    value: "{{ envvars_apigateway_aliases_bookstore_endpoint }}"
+    stage: ""
+  - name: uszip_endpoint
+    description: uszip endpoint alias
+    type: simple
+    owner: Administrator
+    value: "{{ envvars_apigateway_aliases_uszip_endpoint }}"
+    stage: ""
+
+# api plans to add or update
+vars_apigateway_plans:
+  - name: gold
+    version: "1.0"
+    deprecated: false
+    isProtected: false
+    policiesNames: []
+    cost:
+      currency:
+      value:
+      duration:
+    quota:
+      enforcementPolicyName: ""
+    protected: false
+  - name: silver
+    version: "1.0"
+    deprecated: false
+    isProtected: false
+    policiesNames: []
+    cost:
+      currency:
+      value:
+      duration:
+    quota:
+      enforcementPolicyName: ""
+    protected: false
+  - name: bronze
+    version: "1.0"
+    deprecated: false
+    isProtected: false
+    policiesNames: []
+    cost:
+      currency:
+      value:
+      duration:
+    quota:
+      enforcementPolicyName: ""
+    protected: false
+
+# api packages to add or update
+# the following attributes with "custom_" will be transformed to corresponding attributes of internal ids:
+# - custom_apiIdsByFilter --> apiIds
+# - custom_planIdsByFilter --> planIds
+# - custom_policyIdsByFilter --> policyIds
+vars_apigateway_packages:
+  - name: Swag Pack Complete
+    version: "1.0"
+    deprecated: false
+    custom_apiIdsByFilter:
+      - name: "bookstore"
+        version: "1.0"
+      - name: "uszip"
+        version: "1.0"
+    custom_planIdsByFilter:
+      - name: "gold"
+        version: "1.0"
+      - name: "silver"
+        version: "1.0"
+      - name: "bronze"
+        version: "1.0"
+    publishedPortals: []
+    custom_policyIdsByFilter: []
+    active: true
+  - name: Swag Pack Bookstore
+    version: "1.0"
+    deprecated: false
+    custom_apiIdsByFilter:
+      - name: "bookstore"
+        version: "1.0"
+    custom_planIdsByFilter:
+      - name: "gold"
+        version: "1.0"
+      - name: "silver"
+        version: "1.0"
+      - name: "bronze"
+        version: "1.0"
+    publishedPortals: []
+    custom_policyIdsByFilter: []
+    active: true
+  - name: Swag Pack UsZip
+    version: "1.0"
+    deprecated: false
+    custom_apiIdsByFilter:
+      - name: "uszip"
+        version: "1.0"
+    custom_planIdsByFilter:
+      - name: "gold"
+        version: "1.0"
+      - name: "silver"
+        version: "1.0"
+      - name: "bronze"
+        version: "1.0"
+    publishedPortals: []
+    custom_policyIdsByFilter: []
+    active: true
+
+# applications to add or update
+# the following attributes with "names/version" will be transformed to corresponding attributes of internal ids:
+# - custom_registerAPIsByFilter --> triggers the registration apis call
+vars_apigateway_applications:
+  - name: Sample Bookstore Application
+    description: Sample application needing access to the Bookstore APIs
+    version: "1.0"
+    custom_registerAPIsByFilter:
+      - name: "bookstore"
+        version: "1.0"
+    contactEmails: []
+    siteURLs: []
+    identifiers:
+      - value:
+          - "{{ envvars_apigateway_usermgt_users_sample1_username }}"
+        name: Username
+        key: httpBasicAuth
+      - value:
+          - "{{ envvars_apigateway_usermgt_users_sample2_username }}"
+        name: Username
+        key: httpBasicAuth
+      - value:
+          - "{{ envvars_apigateway_usermgt_users_sample3_username }}"
+        name: Username
+        key: httpBasicAuth
+    consumingAPIs: []
+    isSuspended: false
+    jsOrigins: []
+    authStrategyIds: []
+    restrictViewAsset: false
+    teams: []
+  - name: Sample UsZip Application
+    description: Sample application needing access to the UsZip APIs
+    version: "1.0"
+    custom_registerAPIsByFilter:
+      - name: "uszip"
+        version: "1.0"
+    contactEmails: []
+    siteURLs: []
+    identifiers:
+      - value:
+          - "{{ envvars_apigateway_usermgt_users_sample1_username }}"
+        name: Username
+        key: httpBasicAuth
+      - value:
+          - "{{ envvars_apigateway_usermgt_users_sample2_username }}"
+        name: Username
+        key: httpBasicAuth
+      - value:
+          - "{{ envvars_apigateway_usermgt_users_sample3_username }}"
+        name: Username
+        key: httpBasicAuth
+    consumingAPIs: []
+    isSuspended: false
+    jsOrigins: []
+    authStrategyIds: []
+    restrictViewAsset: false
+    teams: []

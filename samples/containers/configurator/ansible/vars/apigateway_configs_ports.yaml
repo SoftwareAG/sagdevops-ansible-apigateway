@@ -1,0 +1,139 @@
+---
+
+## apigateway ports
+vars_apigateway_apigateway_ports_list:
+  - port_type: regular_http
+    port_detail:
+      portAlias: SAGAlternatePort
+      portDescription: HTTP Alternate port
+      port: '5566'
+      bindAddress: "0.0.0.0"
+      enable: 'yes'
+      threadPool: 'true'
+      minThread: 5
+      maxThread: 20
+      threadPriority: 5
+      maxQueue: 200
+      keepAliveTimeout: 20000
+      clientAuth: none
+    access_mode:
+      accessMode: allow
+      pkg: WmRoot
+      port: ""
+      services: []
+    ip_access_mode:
+      ipAccessType: allow
+      pkg: WmRoot
+      hostsList: []
+  - port_type: regular_https
+    port_detail:
+      portAlias: SAGSecurePort
+      portDescription: HTTPS port
+      port: '5443'
+      enable: 'yes'
+      threadPool: 'true'
+      minThread: 5
+      maxThread: 20
+      threadPriority: 5
+      maxQueue: 200
+      keepAliveTimeout: 20000
+      clientAuth: none
+      keyStore: "{{ vars_apigateway_keystore_aliasname }}"
+      alias: "{{ vars_apigateway_keystore_keyalias }}"
+      trustStore: "{{ vars_apigateway_truststore_aliasname }}"
+    access_mode:
+      accessMode: allow
+      pkg: WmRoot
+      port: ""
+      services: []
+    ip_access_mode:
+      ipAccessType: allow
+      pkg: WmRoot
+      hostsList: []
+  - port_type: websocket
+    port_detail:
+      portAlias: WebsocketPort
+      portDescription: Websocket Port
+      port: '5577'
+      bindAddress: "0.0.0.0"
+      enable: 'yes'
+      maxQueue: '200'
+      idleTimeout: '60000'
+    access_mode:
+      accessMode: allow
+      pkg: WmRoot
+      port: ""
+      services: []
+    ip_access_mode:
+      ipAccessType: allow
+      pkg: WmRoot
+      hostsList: []
+  - port_type: internal_http
+    port_detail:
+      portAlias: StdInternalPort
+      portDescription: Standalone Internal port
+      port: '7777'
+      proxyHost: test.com
+      enable: 'yes'
+      threadPool: 'true'
+      minThread: '1'
+      maxThread: '5'
+      threadPriority: '5'
+      maxConnections: '5'
+      keepAliveTimeout: '20000'
+      clientAuth: none
+    access_mode:
+      accessMode: allow
+      pkg: WmRoot
+      port: ""
+      services: []
+    ip_access_mode:
+      ipAccessType: allow
+      pkg: WmRoot
+      hostsList: []
+  - port_type: external_http
+    port_detail:
+      portAlias: ExternalPort
+      portDescription: External Port
+      port: '1088'
+      bindAddress: "0.0.0.0"
+      keepAliveTimeout: '20000'
+      maxQueue: '200'
+      enable: 'yes'
+      keyStore: ""
+      alias: ""
+      trustStore: ""
+      threadPool: 'true'
+      minThread: '1'
+      maxThread: '5'
+      threadPriority: '5'
+      maxConnections: '5'
+      clientAuth: none
+      krbJaasContext: ''
+      krbClientPrincipal: ''
+      krbClientPassword: ''
+      retype_krbClientPassword: ''
+      krbServicePrincipalForm: username
+      krbServicePrincipal: ''
+      internalListenerKey: ""
+      addInternalPorts: {}
+      internalPort: '1099'
+      internalPortAlias: InternalPort_4ExternalPort
+      internalPortDescription: Internal port used by external port
+      internalEnable: 'yes'
+      internalClientAuth: none
+      internalPkg: WmRoot
+      internalSsl: 'false'
+      internalUseJSSE: 'false'
+      internalalias: ""
+      internalkeyStore: ""
+      internaltrustStore: ""
+    access_mode:
+      accessMode: allow
+      pkg: WmRoot
+      port: ""
+      services: []
+    ip_access_mode:
+      ipAccessType: allow
+      pkg: WmRoot
+      hostsList: []
