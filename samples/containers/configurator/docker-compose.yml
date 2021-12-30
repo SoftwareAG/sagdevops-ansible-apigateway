@@ -26,6 +26,7 @@ services:
       args:
         BASE_ANSIBLE_IMAGE: ${REG}sagdevops-ansible-apigateway:latest
     environment: 
+      env_apigateway_protocol: http
       env_apigateway_host: apigateway
       env_apigateway_port: "5555"
       env_apigateway_rest_user: Administrator

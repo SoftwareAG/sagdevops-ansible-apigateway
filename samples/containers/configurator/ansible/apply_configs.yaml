@@ -77,6 +77,7 @@
       set_fact:
         apigateway_rest_login_username: "{{ vars_apigateway_rest_login_username }}"
         apigateway_rest_login_password: "{{ vars_apigateway_rest_login_password }}"
+      no_log: true
       tags: always
 
     - include_role:

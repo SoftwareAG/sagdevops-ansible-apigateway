@@ -52,7 +52,7 @@ envvars_apigateway_truststore_password: "{{ lookup('env', 'env_apigateway_trusts
 envvars_apigateway_environment_stage: "{{ lookup('env', 'env_apigateway_stage') | default('dev',true) }}"
 
 # apigateway target for internal REST calls
-envvars_apigateway_protocol: "{{ lookup('env', 'env_apigateway_protocol') | default('',true) }}"
+envvars_apigateway_protocol: "{{ lookup('env', 'env_apigateway_protocol') | default('http',true) }}"
 envvars_apigateway_host: "{{ lookup('env', 'env_apigateway_host') | default('',true) }}"
 envvars_apigateway_port: "{{ lookup('env', 'env_apigateway_port') | default('',true) }}"
 envvars_apigateway_no_check_certs: "{{ lookup('env', 'env_apigateway_no_check_certs') | default('false',true) }}"
