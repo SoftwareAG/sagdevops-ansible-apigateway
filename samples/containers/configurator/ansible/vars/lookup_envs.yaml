@@ -46,23 +46,26 @@
 # env_apigateway_configure_promotions_stages
 # env_apigateway_configure_extended_settings
 
+# default config enabled (defaults to true)
+envvars_apigateway_default_enabled: "{{ lookup('env', 'env_apigateway_configure_default_enabled') | default('true',true) }}"
+
 # enable / disable the config items
-envvars_apigateway_keystoretruststore_enabled: "{{ lookup('env', 'env_apigateway_configure_keystoretruststore') | default('false',true) }}"
-envvars_apigateway_usermgt_enabled: "{{ lookup('env', 'env_apigateway_configure_usermgt') | default('false',true) }}"
-envvars_apigateway_portalgateway_enabled: "{{ lookup('env', 'env_apigateway_configure_portalgateway') | default('false',true) }}"
-envvars_apigateway_archive_imports_enabled: "{{ lookup('env', 'env_apigateway_configure_archives') | default('false',true) }}"
-envvars_apigateway_aliases_enabled: "{{ lookup('env', 'env_apigateway_configure_aliases') | default('false',true) }}"
-envvars_apigateway_ports_enabled: "{{ lookup('env', 'env_apigateway_configure_ports') | default('false',true) }}"
-envvars_apigateway_ldap_enabled: "{{ lookup('env', 'env_apigateway_configure_ldap') | default('false',true) }}"
-envvars_apigateway_saml_enabled: "{{ lookup('env', 'env_apigateway_configure_saml') | default('false',true) }}"
-envvars_apigateway_loadbalancer_enabled: "{{ lookup('env', 'env_apigateway_configure_lb') | default('false',true) }}"
-envvars_apigateway_promotions_stages_enabled: "{{ lookup('env', 'env_apigateway_configure_promotions_stages') | default('false',true) }}"
-envvars_apigateway_extended_settings_enabled: "{{ lookup('env', 'env_apigateway_configure_extended_settings') | default('false',true) }}"
-envvars_apigateway_plans_enabled: "{{ lookup('env', 'env_apigateway_configure_plans') | default('false',true) }}"
-envvars_apigateway_packages_enabled: "{{ lookup('env', 'env_apigateway_configure_packages') | default('false',true) }}"
-envvars_apigateway_applications_enabled: "{{ lookup('env', 'env_apigateway_configure_applications') | default('false',true) }}"
-envvars_apigateway_apis_publish_groups_enabled: "{{ lookup('env', 'env_apigateway_configure_apis_publish_groups') | default('false',true) }}"
-envvars_apigateway_packages_publish_groups_enabled: "{{ lookup('env', 'env_apigateway_configure_packages_publish_groups') | default('false',true) }}"
+envvars_apigateway_keystoretruststore_enabled: "{{ lookup('env', 'env_apigateway_configure_keystoretruststore') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_usermgt_enabled: "{{ lookup('env', 'env_apigateway_configure_usermgt') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_portalgateway_enabled: "{{ lookup('env', 'env_apigateway_configure_portalgateway') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_archive_imports_enabled: "{{ lookup('env', 'env_apigateway_configure_archives') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_aliases_enabled: "{{ lookup('env', 'env_apigateway_configure_aliases') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_ports_enabled: "{{ lookup('env', 'env_apigateway_configure_ports') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_ldap_enabled: "{{ lookup('env', 'env_apigateway_configure_ldap') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_saml_enabled: "{{ lookup('env', 'env_apigateway_configure_saml') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_loadbalancer_enabled: "{{ lookup('env', 'env_apigateway_configure_lb') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_promotions_stages_enabled: "{{ lookup('env', 'env_apigateway_configure_promotions_stages') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_extended_settings_enabled: "{{ lookup('env', 'env_apigateway_configure_extended_settings') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_plans_enabled: "{{ lookup('env', 'env_apigateway_configure_plans') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_packages_enabled: "{{ lookup('env', 'env_apigateway_configure_packages') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_applications_enabled: "{{ lookup('env', 'env_apigateway_configure_applications') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_apis_publish_groups_enabled: "{{ lookup('env', 'env_apigateway_configure_apis_publish_groups') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_packages_publish_groups_enabled: "{{ lookup('env', 'env_apigateway_configure_packages_publish_groups') | default(envvars_apigateway_default_enabled,true) }}"
 
 # default ignore errors (defaults to false)
 envvars_apigateway_default_ignore_errors: "{{ lookup('env', 'env_apigateway_configure_default_ignore_errors') | default('false',true) }}"
