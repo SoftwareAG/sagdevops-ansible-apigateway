@@ -1,9 +1,47 @@
 ---
 
+# enable / disable the config items
+vars_apigateway_usermgt_enabled: "{{ envvars_apigateway_usermgt_enabled }}"
+vars_apigateway_portalgateway_enabled: "{{ envvars_apigateway_portalgateway_enabled }}"
+vars_apigateway_archive_imports_enabled: "{{ envvars_apigateway_archives_enabled }}"
+vars_apigateway_aliases_enabled: "{{ envvars_apigateway_aliases_enabled }}"
+vars_apigateway_ports_enabled: "{{ envvars_apigateway_ports_enabled }}"
+vars_apigateway_ldap_enabled: "{{ envvars_apigateway_ldap_enabled }}"
+vars_apigateway_saml_enabled: "{{ envvars_apigateway_saml_enabled }}"
+vars_apigateway_loadbalancer_enabled: "{{ envvars_apigateway_lb_enabled }}"
+vars_apigateway_promotions_stages_enabled: "{{ envvars_apigateway_promotions_stages_enabled }}"
+vars_apigateway_extended_settings_enabled: "{{ envvars_apigateway_extended_settings_enabled }}"
+vars_apigateway_plans_enabled: "{{ envvars_apigateway_plans_enabled }}"
+vars_apigateway_packages_enabled: "{{ envvars_apigateway_packages_enabled }}"
+vars_apigateway_applications_enabled: "{{ envvars_apigateway_applications_enabled }}"
+vars_apigateway_apis_publish_groups_enabled: "{{ envvars_apigateway_apis_publish_groups_enabled }}"
+vars_apigateway_packages_publish_groups_enabled: "{{ envvars_apigateway_packages_publish_groups_enabled }}"
+
+# default ignore errors (defaults to false)
+vars_apigateway_default_ignore_errors: "{{ envvars_apigateway_default_ignore_errors }}"
+
+# ignore errors or not for each of the config items (defaults to vars_apigateway_default_ignore_errors)
+vars_apigateway_usermgt_ignore_errors: "{{ envvars_apigateway_usermgt_ignore_errors }}"
+vars_apigateway_portalgateway_ignore_errors: "{{ envvars_apigateway_portalgateway_ignore_errors }}"
+vars_apigateway_archive_imports_ignore_errors: "{{ envvars_apigateway_archives_ignore_errors }}"
+vars_apigateway_aliases_ignore_errors: "{{ envvars_apigateway_aliases_ignore_errors }}"
+vars_apigateway_ports_ignore_errors: "{{ envvars_apigateway_ports_ignore_errors }}"
+vars_apigateway_ldap_ignore_errors: "{{ envvars_apigateway_ldap_ignore_errors }}"
+vars_apigateway_saml_ignore_errors: "{{ envvars_apigateway_saml_ignore_errors }}"
+vars_apigateway_loadbalancer_ignore_errors: "{{ envvars_apigateway_lb_ignore_errors }}"
+vars_apigateway_promotions_stages_ignore_errors: "{{ envvars_apigateway_promotions_stages_ignore_errors }}"
+vars_apigateway_extended_settings_ignore_errors: "{{ envvars_apigateway_extended_settings_ignore_errors }}"
+vars_apigateway_plans_ignore_errors: "{{ envvars_apigateway_plans_ignore_errors }}"
+vars_apigateway_packages_ignore_errors: "{{ envvars_apigateway_packages_ignore_errors }}"
+vars_apigateway_applications_ignore_errors: "{{ envvars_apigateway_applications_ignore_errors }}"
+vars_apigateway_apis_publish_groups_ignore_errors: "{{ envvars_apigateway_apis_publish_groups_ignore_errors }}"
+vars_apigateway_packages_publish_groups_ignore_errors: "{{ envvars_apigateway_packages_publish_groups_ignore_errors }}"
+
 # apigateway REST access configs
 vars_apigateway_rest_protocol: "{{ envvars_apigateway_protocol }}"
 vars_apigateway_rest_host: "{{ envvars_apigateway_host }}"
 vars_apigateway_rest_port: "{{ envvars_apigateway_port }}"
+vars_apigateway_rest_no_check_certs: "{{ envvars_apigateway_no_check_certs }}"
 vars_apigateway_rest_login_username: "{{ envvars_apigateway_rest_login_username }}"
 vars_apigateway_rest_login_password: "{{ envvars_apigateway_rest_login_password }}"
 vars_apigateway_rest_login_password_old: "{{ envvars_apigateway_rest_login_password_old }}"
@@ -15,22 +53,22 @@ vars_portscheck_ports:
 vars_portscheck_ports_timeout: 900
 
 # load balancer urls
-vars_webmethods_apigateway_loadbalancers_http_urls:
+vars_apigateway_loadbalancers_http_urls:
   - "{{ envvars_apigateway_loadbalancers_http_urls }}"
   - "{{ envvars_apigateway_loadbalancers_http_urls_alt1 }}"
   - "{{ envvars_apigateway_loadbalancers_http_urls_alt2 }}"
   - "{{ envvars_apigateway_loadbalancers_http_urls_alt3 }}"
-vars_webmethods_apigateway_loadbalancers_https_urls:
+vars_apigateway_loadbalancers_https_urls:
   - "{{ envvars_apigateway_loadbalancers_https_urls }}"
   - "{{ envvars_apigateway_loadbalancers_https_urls_alt1 }}"
   - "{{ envvars_apigateway_loadbalancers_https_urls_alt2 }}"
   - "{{ envvars_apigateway_loadbalancers_https_urls_alt3 }}"
-vars_webmethods_apigateway_loadbalancers_websocket_urls:
+vars_apigateway_loadbalancers_websocket_urls:
   - "{{ envvars_apigateway_loadbalancers_websocket_urls }}"
   - "{{ envvars_apigateway_loadbalancers_websocket_urls_alt1 }}"
   - "{{ envvars_apigateway_loadbalancers_websocket_urls_alt2 }}"
   - "{{ envvars_apigateway_loadbalancers_websocket_urls_alt3 }}"
-vars_webmethods_apigateway_loadbalancers_webapp_url: "{{ envvars_apigateway_loadbalancers_webapp_url }}"
+vars_apigateway_loadbalancers_webapp_url: "{{ envvars_apigateway_loadbalancers_webapp_url }}"
 
 ## extended settings - is runtime settings (note: this must be run on all the nodes)
 vars_apigateway_apigateway_extended_settings_isruntime_watt_keys:
