@@ -19,6 +19,7 @@ services:
 
   apigateway_configurator:
     image: sagdevops-ansible-apigateway-sample-configurator:latest
+    command: "-vv apply_configs.yaml"
     build:
       context: .
       dockerfile: Dockerfile

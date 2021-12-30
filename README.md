@@ -16,15 +16,15 @@ Fabien Sanglier
 
 ## Project dependencies:
 
-Some of the tasks in these roles will have dependencies on roles defined in [sagdevops-ansible-common-utils](https://github.com/SoftwareAG/sagdevops-ansible-common-utils)
-As such, make sure to include sagdevops-ansible-common-utils in your automation solution.
+Some of the tasks in these roles will have dependencies on roles defined in [sagdevops-ansible-common](https://github.com/SoftwareAG/sagdevops-ansible-common)
+As such, make sure to include sagdevops-ansible-common in your automation solution.
 
 ## Using Containers
 
 ### Pre-requisite - Base Ansible runner
 
 If you haven't done so already, make sure to have the "sagdevops-ansible-runner" built and ready.
-See instructions [README-base-ansible.md](https://github.com/SoftwareAG/sagdevops-ansible-common-utils/blob/main/README-base-ansible.md) for details.
+See instructions [README-base-ansible.md](https://github.com/SoftwareAG/sagdevops-ansible-common/blob/main/README-base-ansible.md) for details.
 
 ### Building the container
 
