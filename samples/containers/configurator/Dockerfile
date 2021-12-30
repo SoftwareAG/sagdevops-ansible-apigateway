@@ -10,3 +10,6 @@ COPY ./ansible/ ${ANSIBLE_PLAYBOOKS_BASEPATH}/
 
 # add the demo artifacts
 COPY ./demo_artifacts/ ${ANSIBLE_PLAYBOOKS_BASEPATH}/demo_artifacts/
+
+# the default command args to pass to the entrypoint
+CMD ["apply_configs.yaml"]

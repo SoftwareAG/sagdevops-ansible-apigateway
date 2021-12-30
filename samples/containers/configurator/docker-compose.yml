@@ -22,6 +22,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        BASE_ANSIBLE_IMAGE: ${REG}sagdevops-ansible-apigateway:latest
     environment: 
       env_apigateway_host: apigateway
       env_apigateway_port: "5555"
