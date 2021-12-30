@@ -85,7 +85,7 @@
           ignore_errors: "{{ vars_apigateway_usermgt_ignore_errors }}"
       vars:
         configs_action: set-users
-        configs_enabled: "{{ envvars_apigateway_usermgt_enabled }}"
+        configs_enabled: "{{ vars_apigateway_usermgt_enabled }}"
         apigateway_configparams_rest_usermgt_users: "{{ vars_apigateway_usermgt_users }}"
       tags:
         - configs_users
@@ -96,7 +96,7 @@
           ignore_errors: "{{ vars_apigateway_usermgt_ignore_errors }}"
       vars:
         configs_action: set-groups
-        configs_enabled: "{{ envvars_apigateway_usermgt_enabled }}"
+        configs_enabled: "{{ vars_apigateway_usermgt_enabled }}"
         apigateway_configparams_rest_usermgt_groups: "{{ vars_apigateway_usermgt_groups }}"
       tags:
         - configs_groups
@@ -107,7 +107,7 @@
           ignore_errors: "{{ vars_apigateway_usermgt_ignore_errors }}"
       vars:
         configs_action: set-accessprofiles
-        configs_enabled: "{{ envvars_apigateway_usermgt_enabled }}"
+        configs_enabled: "{{ vars_apigateway_usermgt_enabled }}"
         apigateway_configparams_rest_usermgt_accessprofiles: "{{ vars_apigateway_usermgt_accessprofiles }}"
       tags:
         - configs_accessprofiles
@@ -118,7 +118,7 @@
           ignore_errors: "{{ vars_apigateway_extended_settings_ignore_errors }}"
       vars:
         configs_action: set-extended-settings-coregateway
-        configs_enabled: "{{ envvars_apigateway_extended_settings_enabled }}"
+        configs_enabled: "{{ vars_apigateway_extended_settings_enabled }}"
         webmethods_apigateway_extended_settings_coregateway_extended_keys: "{{ vars_apigateway_extended_settings_coregateway_extended_keys }}"
       tags:
         - configs_extended_settings
@@ -129,7 +129,7 @@
           ignore_errors: "{{ vars_apigateway_ldap_ignore_errors }}"
       vars:
         configs_action: set-ldap-settings
-        configs_enabled: "{{ envvars_apigateway_ldap_enabled }}"
+        configs_enabled: "{{ vars_apigateway_ldap_enabled }}"
         webmethods_apigateway_ldap_settings: "{{ vars_apigateway_ldap_settings }}"
       tags:
         - configs_ldap_settings
@@ -140,7 +140,7 @@
           ignore_errors: "{{ vars_apigateway_loadbalancer_ignore_errors }}"
       vars:
         configs_action: set-loadbalancer-urls
-        configs_enabled: "{{ envvars_apigateway_loadbalancer_enabled }}"
+        configs_enabled: "{{ vars_apigateway_loadbalancer_enabled }}"
         webmethods_apigateway_loadbalancers_http_urls: "{{ vars_apigateway_loadbalancers_http_urls }}"
         webmethods_apigateway_loadbalancers_https_urls: "{{ vars_apigateway_loadbalancers_https_urls }}"
         webmethods_apigateway_loadbalancers_websocket_urls: "{{ vars_apigateway_loadbalancers_websocket_urls }}"
@@ -159,7 +159,7 @@
           ignore_errors: "{{ vars_apigateway_portalgateway_ignore_errors }}"
       vars:
         configs_action: set-apiportal-connect
-        configs_enabled: "{{ envvars_apigateway_portalgateway_enabled }}"
+        configs_enabled: "{{ vars_apigateway_portalgateway_enabled }}"
         webmethods_apigateway_portalgateway: "{{ vars_apigateway_portalgateway_apiportal }}"
       when: (vars_apigateway_portalgateway_portaltype | lower) == "apiportal"
       tags:
@@ -171,7 +171,7 @@
           ignore_errors: "{{ vars_apigateway_portalgateway_ignore_errors }}"
       vars:
         configs_action: set-apiportal-connect
-        configs_enabled: "{{ envvars_apigateway_portalgateway_enabled }}"
+        configs_enabled: "{{ vars_apigateway_portalgateway_enabled }}"
         webmethods_apigateway_portalgateway: "{{ vars_apigateway_portalgateway_devportal }}"
       when: (vars_apigateway_portalgateway_portaltype | lower) == "devportal"
       tags:
@@ -183,7 +183,7 @@
           ignore_errors: "{{ vars_apigateway_promotions_stages_ignore_errors }}"
       vars:
         configs_action: set-promotion-stages
-        configs_enabled: "{{ envvars_apigateway_promotions_stages_enabled }}"
+        configs_enabled: "{{ vars_apigateway_promotions_stages_enabled }}"
         webmethods_apigateway_promotions_stages: "{{ vars_apigateway_promotions_stages }}"
       tags:
         - configs_promotion_stages
@@ -194,7 +194,7 @@
           ignore_errors: "{{ vars_apigateway_aliases_ignore_errors }}"
       vars:
         configs_action: set-aliases
-        configs_enabled: "{{ envvars_apigateway_aliases_enabled }}"
+        configs_enabled: "{{ vars_apigateway_aliases_enabled }}"
         rvar_apigateway_aliases: "{{ vars_apigateway_aliases }}"
       tags:
         - configs_aliases
@@ -205,7 +205,7 @@
           ignore_errors: "{{ vars_apigateway_archive_imports_ignore_errors }}"
       vars:
         configs_action: import-archives
-        configs_enabled: "{{ envvars_apigateway_archive_imports_enabled }}"
+        configs_enabled: "{{ vars_apigateway_archive_imports_enabled }}"
         rvar_apigateway_archive_imports: "{{ vars_apigateway_archives }}"
       tags:
         - configs_archives
@@ -216,7 +216,7 @@
           ignore_errors: "{{ vars_apigateway_applications_ignore_errors }}"
       vars:
         configs_action: set-applications
-        configs_enabled: "{{ envvars_apigateway_applications_enabled }}"
+        configs_enabled: "{{ vars_apigateway_applications_enabled }}"
         rvar_apigateway_applications: "{{ vars_apigateway_applications }}"
       tags:
         - configs_applications
@@ -227,7 +227,7 @@
           ignore_errors: "{{ vars_apigateway_plans_ignore_errors }}"
       vars:
         configs_action: set-plans
-        configs_enabled: "{{ envvars_apigateway_plans_enabled }}"
+        configs_enabled: "{{ vars_apigateway_plans_enabled }}"
         rvar_apigateway_plans: "{{ vars_apigateway_plans }}"
       tags:
         - configs_plans
@@ -238,7 +238,7 @@
           ignore_errors: "{{ vars_apigateway_packages_ignore_errors }}"
       vars:
         configs_action: set-packages
-        configs_enabled: "{{ envvars_apigateway_packages_enabled }}"
+        configs_enabled: "{{ vars_apigateway_packages_enabled }}"
         rvar_apigateway_packages: "{{ vars_apigateway_packages }}"
       tags:
         - configs_packages
@@ -249,7 +249,7 @@
           ignore_errors: "{{ vars_apigateway_apis_publish_groups_ignore_errors }}"
       vars:
         configs_action: publish-apis-groups
-        configs_enabled: "{{ envvars_apigateway_apis_publish_groups_enabled }}"
+        configs_enabled: "{{ vars_apigateway_apis_publish_groups_enabled }}"
         rvar_apigateway_apis_publish_groups: "{{ vars_apigateway_apis_publish_groups }}"
       tags:
         - publish_apis
@@ -260,7 +260,7 @@
           ignore_errors: "{{ vars_apigateway_packages_publish_groups_ignore_errors }}"
       vars:
         configs_action: publish-packages-groups
-        configs_enabled: "{{ envvars_apigateway_packages_publish_groups_enabled }}"
+        configs_enabled: "{{ vars_apigateway_packages_publish_groups_enabled }}"
         rvar_apigateway_packages_publish_groups: "{{ vars_apigateway_packages_publish_groups }}"
       tags:
         - publish_apis
