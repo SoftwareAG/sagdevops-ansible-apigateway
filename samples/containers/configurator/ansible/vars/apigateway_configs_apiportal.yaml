@@ -23,10 +23,10 @@ vars_apigateway_portalgateway_apiportal:
 vars_apigateway_portalgateway_devportal:
   gatewayName: "API_Gateway_{{ envvars_apigateway_environment_stage }}"
   gatewayDescription: "API Gateway in {{ envvars_apigateway_environment_stage }} environment"
-  gatewayUsername: "{{ lookup('env', 'env_apigateway_portalgateway_gateway_username') | default('',true) }}"
-  gatewayPassword: "{{ lookup('env', 'env_apigateway_portalgateway_gateway_password') | default('',true) }}"
-  gatewayURL: "{{ lookup('env', 'env_apigateway_portalgateway_gateway_url') | default('',true) }}"
-  version: "1.0"
+  gatewayUsername: "{{ envvars_apigateway_portalgateway_gateway_username }}"
+  gatewayPassword: "{{ envvars_apigateway_portalgateway_gateway_password }}"
+  gatewayURL: "{{ envvars_apigateway_portalgateway_gateway_url }}"
+  version: "{{ envvars_apigateway_portalgateway_version }}"
   stageName: "{{ envvars_apigateway_environment_stage }}"
   published: true
   externalPortal:
@@ -66,6 +66,4 @@ vars_apigateway_packages_publish_groups:
       - name: Swag Pack Bookstore
         version: "1.0"
       - name: Swag Pack UsZip
-        version: "1.0"
-      - name: Swag Pack CovidReports
         version: "1.0"

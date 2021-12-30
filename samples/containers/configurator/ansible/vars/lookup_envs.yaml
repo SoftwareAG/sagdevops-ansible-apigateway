@@ -1,6 +1,50 @@
+---
+
 ################################################################
 ## All the variables loaded from server environment variables
 ################################################################
+# env_apigateway_protocol
+# env_apigateway_host
+# env_apigateway_port
+# env_apigateway_rest_user
+# env_apigateway_rest_password
+# env_apigateway_rest_password_old
+# env_apigateway_lb_http_url
+# env_apigateway_lb_http_url_alt1
+# env_apigateway_lb_http_url_alt2
+# env_apigateway_lb_http_url_alt3
+# env_apigateway_lb_https_url
+# env_apigateway_lb_https_url_alt1
+# env_apigateway_lb_https_url_alt2
+# env_apigateway_lb_https_url_alt3
+# env_apigateway_lb_websocket_url
+# env_apigateway_lb_websocket_url_alt1
+# env_apigateway_lb_websocket_url_alt2
+# env_apigateway_lb_websocket_url_alt3
+# env_apigateway_lb_webapp_url
+# env_apigateway_stage
+# env_apigateway_portalgateway_gateway_url
+# env_apigateway_portalgateway_gateway_username
+# env_apigateway_portalgateway_gateway_password
+# env_apigateway_portalgateway_portaltype
+# env_apigateway_portalgateway_apiportal_url
+# env_apigateway_portalgateway_apiportal_tenant
+# env_apigateway_portalgateway_apiportal_username
+# env_apigateway_portalgateway_apiportal_password
+# env_apigateway_portalgateway_devportal_url
+# env_apigateway_portalgateway_devportal_tenant
+# env_apigateway_portalgateway_devportal_username
+# env_apigateway_portalgateway_devportal_password
+# env_apigateway_configure_usermgt
+# env_apigateway_configure_portalgateway
+# env_apigateway_configure_archives
+# env_apigateway_configure_aliases
+# env_apigateway_configure_ports
+# env_apigateway_configure_ldap
+# env_apigateway_configure_saml
+# env_apigateway_configure_lb
+# env_apigateway_configure_promotions_stages
+# env_apigateway_configure_extended_settings
 
 # enable / disable the config items
 envvars_apigateway_keystoretruststore_enabled: "{{ lookup('env', 'env_apigateway_configure_keystoretruststore') | default('false',true) }}"
