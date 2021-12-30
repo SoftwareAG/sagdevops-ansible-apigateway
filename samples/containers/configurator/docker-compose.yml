@@ -32,9 +32,8 @@ services:
       env_apigateway_rest_user: Administrator
       env_apigateway_rest_password: "somethingnew"
       env_apigateway_rest_password_old: "manage"
-      env_apigateway_configure_default_ignore_errors: "true"
-      env_apigateway_configure_lb_ignore_errors: "false"
-      env_apigateway_configure_extended_settings_ignore_errors: "false"
+      env_apigateway_configure_default_ignore_errors: "false"
+      env_apigateway_configure_portalgateway_ignore_errors: "true"
       env_apigateway_configure_applications: "true"
       env_apigateway_configure_plans: "true"
       env_apigateway_configure_packages: "true"

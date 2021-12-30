@@ -18,6 +18,8 @@ vars_apigateway_portalgateway_apiportal:
     endpointUsername: "{{ envvars_apigateway_portalgateway_apiportal_username }}"
     endpointPassword: "{{ envvars_apigateway_portalgateway_apiportal_password }}"
     type: "apiportal"
+  
+## note: in the type, it still needs to be "apiportal" even for a devportal target
 vars_apigateway_portalgateway_devportal:
   gatewayName: "API_Gateway_{{ envvars_apigateway_environment_stage }}"
   gatewayDescription: "API Gateway in {{ envvars_apigateway_environment_stage }} environment"
@@ -32,15 +34,15 @@ vars_apigateway_portalgateway_devportal:
     endpointURL: "{{ envvars_apigateway_portalgateway_devportal_url }}"
     endpointUsername: "{{ envvars_apigateway_portalgateway_devportal_username }}"
     endpointPassword: "{{ envvars_apigateway_portalgateway_devportal_password }}"
-    type: "devportal"
+    type: "apiportal"
 
 # APIs to publish to api portal
 # each list item will publish a list of APIs to a list of communities using the same portalGatewayId
 vars_apigateway_apis_publish_groups:
   - lookup_portalGatewayId:
-      name: "API_Gateway_{{ envenvvars_apigateway_environment_stage }}"
+      name: "API_Gateway_{{ envvars_apigateway_environment_stage }}"
       version: "1.0"
-      stageName: "{{ envenvvars_apigateway_environment_stage }}"
+      stageName: "{{ envvars_apigateway_environment_stage }}"
     lookup_communityIds:
       - name: "Public Community"
     lookup_apiIds:
@@ -53,9 +55,9 @@ vars_apigateway_apis_publish_groups:
 # each list item will publish a list of Packages to a list of communities using the same portalGatewayId
 vars_apigateway_packages_publish_groups:
   - lookup_portalGatewayId:
-      name: "API_Gateway_{{ envenvvars_apigateway_environment_stage }}"
+      name: "API_Gateway_{{ envvars_apigateway_environment_stage }}"
       version: "1.0"
-      stageName: "{{ envenvvars_apigateway_environment_stage }}"
+      stageName: "{{ envvars_apigateway_environment_stage }}"
     lookup_communityIds:
       - name: "Public Community"
     lookup_packageIds:
