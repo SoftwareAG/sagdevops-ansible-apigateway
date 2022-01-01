@@ -18,7 +18,7 @@ services:
       - stack
 
   apigateway_configurator:
-    image: sagdevops-ansible-apigateway-sample-configurator:latest
+    image: sagdevops-ansible-apigateway-configurator:latest
     build:
       context: .
       dockerfile: Dockerfile
