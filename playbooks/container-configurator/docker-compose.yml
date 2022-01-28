@@ -18,31 +18,23 @@ services:
       - stack
 
   apigateway_configurator:
-    image: sagdevops-ansible-apigateway-sample-configurator:latest
+    image: sagdevops-ansible-apigateway-configurator:latest
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        BASE_ANSIBLE_IMAGE: ${REG}sagdevops-ansible-apigateway:latest
     environment: 
+      env_apigateway_protocol: http
       env_apigateway_host: apigateway
       env_apigateway_port: "5555"
       env_apigateway_rest_user: Administrator
       env_apigateway_rest_password: "somethingnew"
       env_apigateway_rest_password_old: "manage"
-      env_apigateway_configure_default_ignore_errors: "true"
-      env_apigateway_configure_lb_ignore_errors: "false"
-      env_apigateway_configure_extended_settings_ignore_errors: "false"
-      env_apigateway_configure_applications: "true"
-      env_apigateway_configure_plans: "true"
-      env_apigateway_configure_packages: "true"
-      env_apigateway_configure_lb: "true"
-      env_apigateway_configure_extended_settings: "true"
-      env_apigateway_configure_portalgateway: "true"
-      env_apigateway_configure_usermgt: "true"
-      env_apigateway_configure_archives: "true"
-      env_apigateway_configure_aliases: "true"
-      env_apigateway_configure_promotions_stages: "true"
-      env_apigateway_configure_apis_publish_groups: "true"
-      env_apigateway_configure_packages_publish_groups: "true"
+      env_apigateway_configure_default_ignore_errors: "false"
+      env_apigateway_configure_portalgateway_ignore_errors: "true"
+      env_apigateway_configure_apis_publish_groups_ignore_errors: "true"
+      env_apigateway_configure_packages_publish_groups_ignore_errors: "true"
       env_apigateway_lb_http_url: "http://localhost"
       env_apigateway_lb_https_url: "https://localhost"
       env_apigateway_lb_websocket_url: "ws://localhost"
@@ -62,9 +54,7 @@ services:
       env_apigateway_portalgateway_devportal_url: "http://apiportal:18101/portal"
       env_apigateway_portalgateway_devportal_username: "Administrator"
       env_apigateway_portalgateway_devportal_password: "manage"
-      env_apigateway_aliases_covid_endpoint: http://webmethods-sample-apis-covidreports:7071
       env_apigateway_aliases_bookstore_endpoint: http://webmethods-sample-apis-bookstore:7071
       env_apigateway_aliases_uszip_endpoint: http://webmethods-sample-apis-uszip:7071
-      env_apigateway_aliases_sagtours_endpoint: http://webmethods-sample-apis-sagtours:5555
     networks:
       - stack

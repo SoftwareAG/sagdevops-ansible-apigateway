@@ -1,24 +1,71 @@
+---
+
 ################################################################
 ## All the variables loaded from server environment variables
 ################################################################
+# env_apigateway_protocol
+# env_apigateway_host
+# env_apigateway_port
+# env_apigateway_rest_user
+# env_apigateway_rest_password
+# env_apigateway_rest_password_old
+# env_apigateway_lb_http_url
+# env_apigateway_lb_http_url_alt1
+# env_apigateway_lb_http_url_alt2
+# env_apigateway_lb_http_url_alt3
+# env_apigateway_lb_https_url
+# env_apigateway_lb_https_url_alt1
+# env_apigateway_lb_https_url_alt2
+# env_apigateway_lb_https_url_alt3
+# env_apigateway_lb_websocket_url
+# env_apigateway_lb_websocket_url_alt1
+# env_apigateway_lb_websocket_url_alt2
+# env_apigateway_lb_websocket_url_alt3
+# env_apigateway_lb_webapp_url
+# env_apigateway_stage
+# env_apigateway_portalgateway_gateway_url
+# env_apigateway_portalgateway_gateway_username
+# env_apigateway_portalgateway_gateway_password
+# env_apigateway_portalgateway_portaltype
+# env_apigateway_portalgateway_apiportal_url
+# env_apigateway_portalgateway_apiportal_tenant
+# env_apigateway_portalgateway_apiportal_username
+# env_apigateway_portalgateway_apiportal_password
+# env_apigateway_portalgateway_devportal_url
+# env_apigateway_portalgateway_devportal_tenant
+# env_apigateway_portalgateway_devportal_username
+# env_apigateway_portalgateway_devportal_password
+# env_apigateway_configure_usermgt
+# env_apigateway_configure_portalgateway
+# env_apigateway_configure_archives
+# env_apigateway_configure_aliases
+# env_apigateway_configure_ports
+# env_apigateway_configure_ldap
+# env_apigateway_configure_saml
+# env_apigateway_configure_lb
+# env_apigateway_configure_promotions_stages
+# env_apigateway_configure_extended_settings
+
+# default config enabled (defaults to true)
+envvars_apigateway_default_enabled: "{{ lookup('env', 'env_apigateway_configure_default_enabled') | default('true',true) }}"
 
 # enable / disable the config items
-envvars_apigateway_keystoretruststore_enabled: "{{ lookup('env', 'env_apigateway_configure_keystoretruststore') | default('false',true) }}"
-envvars_apigateway_usermgt_enabled: "{{ lookup('env', 'env_apigateway_configure_usermgt') | default('false',true) }}"
-envvars_apigateway_portalgateway_enabled: "{{ lookup('env', 'env_apigateway_configure_portalgateway') | default('false',true) }}"
-envvars_apigateway_archive_imports_enabled: "{{ lookup('env', 'env_apigateway_configure_archives') | default('false',true) }}"
-envvars_apigateway_aliases_enabled: "{{ lookup('env', 'env_apigateway_configure_aliases') | default('false',true) }}"
-envvars_apigateway_ports_enabled: "{{ lookup('env', 'env_apigateway_configure_ports') | default('false',true) }}"
-envvars_apigateway_ldap_enabled: "{{ lookup('env', 'env_apigateway_configure_ldap') | default('false',true) }}"
-envvars_apigateway_saml_enabled: "{{ lookup('env', 'env_apigateway_configure_saml') | default('false',true) }}"
-envvars_apigateway_loadbalancer_enabled: "{{ lookup('env', 'env_apigateway_configure_lb') | default('false',true) }}"
-envvars_apigateway_promotions_stages_enabled: "{{ lookup('env', 'env_apigateway_configure_promotions_stages') | default('false',true) }}"
-envvars_apigateway_extended_settings_enabled: "{{ lookup('env', 'env_apigateway_configure_extended_settings') | default('false',true) }}"
-envvars_apigateway_plans_enabled: "{{ lookup('env', 'env_apigateway_configure_plans') | default('false',true) }}"
-envvars_apigateway_packages_enabled: "{{ lookup('env', 'env_apigateway_configure_packages') | default('false',true) }}"
-envvars_apigateway_applications_enabled: "{{ lookup('env', 'env_apigateway_configure_applications') | default('false',true) }}"
-envvars_apigateway_apis_publish_groups_enabled: "{{ lookup('env', 'env_apigateway_configure_apis_publish_groups') | default('false',true) }}"
-envvars_apigateway_packages_publish_groups_enabled: "{{ lookup('env', 'env_apigateway_configure_packages_publish_groups') | default('false',true) }}"
+envvars_apigateway_keystoretruststore_enabled: "{{ lookup('env', 'env_apigateway_configure_keystoretruststore') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_usermgt_enabled: "{{ lookup('env', 'env_apigateway_configure_usermgt') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_portalgateway_enabled: "{{ lookup('env', 'env_apigateway_configure_portalgateway') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_archive_imports_enabled: "{{ lookup('env', 'env_apigateway_configure_archives') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_aliases_enabled: "{{ lookup('env', 'env_apigateway_configure_aliases') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_ports_enabled: "{{ lookup('env', 'env_apigateway_configure_ports') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_ldap_enabled: "{{ lookup('env', 'env_apigateway_configure_ldap') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_saml_enabled: "{{ lookup('env', 'env_apigateway_configure_saml') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_loadbalancer_enabled: "{{ lookup('env', 'env_apigateway_configure_lb') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_promotions_stages_enabled: "{{ lookup('env', 'env_apigateway_configure_promotions_stages') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_extended_settings_enabled: "{{ lookup('env', 'env_apigateway_configure_extended_settings') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_plans_enabled: "{{ lookup('env', 'env_apigateway_configure_plans') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_packages_enabled: "{{ lookup('env', 'env_apigateway_configure_packages') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_applications_enabled: "{{ lookup('env', 'env_apigateway_configure_applications') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_apis_publish_groups_enabled: "{{ lookup('env', 'env_apigateway_configure_apis_publish_groups') | default(envvars_apigateway_default_enabled,true) }}"
+envvars_apigateway_packages_publish_groups_enabled: "{{ lookup('env', 'env_apigateway_configure_packages_publish_groups') | default(envvars_apigateway_default_enabled,true) }}"
 
 # default ignore errors (defaults to false)
 envvars_apigateway_default_ignore_errors: "{{ lookup('env', 'env_apigateway_configure_default_ignore_errors') | default('false',true) }}"
@@ -52,9 +99,10 @@ envvars_apigateway_truststore_password: "{{ lookup('env', 'env_apigateway_trusts
 envvars_apigateway_environment_stage: "{{ lookup('env', 'env_apigateway_stage') | default('dev',true) }}"
 
 # apigateway target for internal REST calls
-envvars_apigateway_protocol: "{{ lookup('env', 'env_apigateway_protocol') | default('',true) }}"
+envvars_apigateway_protocol: "{{ lookup('env', 'env_apigateway_protocol') | default('http',true) }}"
 envvars_apigateway_host: "{{ lookup('env', 'env_apigateway_host') | default('',true) }}"
 envvars_apigateway_port: "{{ lookup('env', 'env_apigateway_port') | default('',true) }}"
+envvars_apigateway_no_check_certs: "{{ lookup('env', 'env_apigateway_no_check_certs') | default('false',true) }}"
 
 ## apigateway login info for internal REST calls
 envvars_apigateway_rest_login_username: "{{ lookup('env', 'env_apigateway_rest_user') }}"

@@ -10,8 +10,8 @@ LABEL org.opencontainers.image.authors="fabien.sanglier@softwareaggov.com" \
 ARG SAG_ANSIBLE_ROLES_URL=https://github.com/SoftwareAG
 
 ####### getting the common-utils role by tag
-ARG SAG_ANSIBLE_ROLES_COMMON_UTILS=sagdevops-ansible-common-utils
-ARG SAG_ANSIBLE_ROLES_COMMON_UTILS_RELEASE=1.0.0-1
+ARG SAG_ANSIBLE_ROLES_COMMON_UTILS=sagdevops-ansible-common
+ARG SAG_ANSIBLE_ROLES_COMMON_UTILS_RELEASE=1.0.0-2
 ARG SAG_ANSIBLE_ROLES_COMMON_UTILS_FILENAME="${SAG_ANSIBLE_ROLES_COMMON_UTILS}-${SAG_ANSIBLE_ROLES_COMMON_UTILS_RELEASE}"
 
 # fetch and extract the role SAG_ANSIBLE_ROLES_COMMON_UTILS
@@ -33,6 +33,3 @@ ENV ANSIBLE_ROLES_PATH="${ANSIBLE_ROLES_PATH}:${ANSIBLE_ROLES_BASEPATH}/${SAG_AN
 
 # install ansible community playbooks
 RUN ansible-galaxy collection install community.general
-
-# the default command args to pass to the entrypoint
-CMD ["apply_configs.yaml"]
