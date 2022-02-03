@@ -32,9 +32,13 @@
           msg: "_external_elasticsearch_hosts empty...should not be at this point"
         when: _external_elasticsearch_hosts is not defined or (_external_elasticsearch_hosts | length == 0)
 
+      - name: format the list of host with the expected stuff
+        set_fact:
+          _external_elasticsearch_hosts_string: "{{ _external_elasticsearch_hosts | join(',') }}"
+
       - name: update key for elastic search
         set_fact:
-          rvar_configapigateway_externalconfigs: "{{ rvar_configapigateway_externalconfigs | combine({'apigw': {'elasticsearch': {'hosts': {{ _external_elasticsearch_hosts | join(',') }} }}}, recursive=True) }}"
+          rvar_configapigateway_externalconfigs: "{{ rvar_configapigateway_externalconfigs | combine({'apigw': {'elasticsearch': {'hosts': '{{ _external_elasticsearch_hosts_string }}' }}}, recursive=True) }}"
     
     when: rvar_external_elasticsearch_hosts_list is defined and (rvar_external_elasticsearch_hosts_list | length > 0)
   
@@ -54,9 +58,13 @@
           msg: "_external_ignite_hosts empty...should not be at this point"
         when: _external_ignite_hosts is not defined or (_external_ignite_hosts | length == 0)
 
+      - name: format the list of host with the expected stuff
+        set_fact:
+          _external_ignite_hosts_string: "{{ _external_ignite_hosts | join(',') }}"
+
       - name: update key for elastic search
         set_fact:
-          rvar_configapigateway_externalconfigs: "{{ rvar_configapigateway_externalconfigs | combine({'apigw': {'cluster': {'ignite': {'hostnames': {{ _external_ignite_hosts | join(',') }} }}}}, recursive=True) }}"
+          rvar_configapigateway_externalconfigs: "{{ rvar_configapigateway_externalconfigs | combine({'apigw': {'cluster': {'ignite': {'hostnames': '{{ _external_ignite_hosts_string }}' }}}}, recursive=True) }}"
     
     when: rvar_external_ignite_hosts_list is defined and (rvar_external_ignite_hosts_list | length > 0)
 
