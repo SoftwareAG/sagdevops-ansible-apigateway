@@ -1,19 +1,31 @@
 ---
 
-  ## get the hosts of the elasticsearch / internal data store nodes
-  ## in the format that's expected: "host1:port,host2:port,host3:port"
-  - import_role: 
-      name: get-inventory-hosts
-    vars:
-      inventory_pattern: "{{ external_elasticsearch_inventory_pattern }}"
-      inventory_hosts_property: "ansible_host"
-      inventory_hosts_clear_first: true
-      inventory_hosts_add_prefix: ""
-      inventory_hosts_add_suffix: ":{{ external_elasticsearch_port }}"
-  
-  - name: Set elasticsearch_hosts_list facts
+  - debug: var=rvar_external_elasticsearch_hosts_list verbosity=1
+  - debug: var=rvar_external_elasticsearch_port verbosity=1
+
+  - name: fail if list of elastic hosts not specified
+    fail: 
+      msg: "rvar_external_elasticsearch_hosts_list not specified...cannot do anything."
+    when: rvar_external_elasticsearch_hosts_list is not defined or (rvar_external_elasticsearch_hosts_list | length == 0)
+
+  - name: fail if port not defined
+    fail: 
+      msg: "rvar_external_elasticsearch_port not specified...cannot do anything."
+    when: rvar_external_elasticsearch_port is not defined
+
+  - name: format the list of host with the expected stuff
     set_fact:
-      elasticsearch_hosts_list: "{{ output_inventory_hosts }}"
+      _external_elasticsearch_hosts: "{{ _external_elasticsearch_hosts | default([]) }} + [ '{{ _elasticsearch_host_item }}:{{ rvar_external_elasticsearch_port }}' ]"
+    with_items: "{{ rvar_external_elasticsearch_hosts_list }}"
+    loop_control:
+      loop_var: _elasticsearch_host_item
+
+  - debug: var=_external_elasticsearch_hosts verbosity=1
+
+  - name: fail if resulting list not defined or empty
+    fail: 
+      msg: "_external_elasticsearch_hosts empty...should not be at this point"
+    when: _external_elasticsearch_hosts is not defined or (_external_elasticsearch_hosts | length == 0)
 
   - name: Set external internaldatastore url in the right file if host list is not empty
     block:
@@ -26,11 +38,10 @@
           line: "{{ item.key }}={{ item.value }}"
         with_dict:
           pg.gateway.elasticsearch.autostart: "false"
-          pg.gateway.elasticsearch.hosts: "{{ elasticsearch_hosts_list | join(',') }}"
+          pg.gateway.elasticsearch.hosts: "{{ _external_elasticsearch_hosts | join(',') }}"
 
-      - name: Re-Clear the elasticsearch_hosts_list list
+      - name: Clear the _external_elasticsearch_hosts list
         set_fact:
-          elasticsearch_hosts_list: []
-          output_inventory_hosts: []
+          _external_elasticsearch_hosts: []
 
-    when: elasticsearch_hosts_list is defined and (elasticsearch_hosts_list|length > 0)
+    when: _external_elasticsearch_hosts is defined and (_external_elasticsearch_hosts|length > 0)
