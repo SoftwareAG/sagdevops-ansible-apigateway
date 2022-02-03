@@ -38,7 +38,6 @@
           insertafter: '^#{{ item.key }}'
           line: "{{ item.key }}={{ item.value }}"
         with_dict:
-          apigw.kibana.autostart: "false"
           apigw.es.url: "{{ _external_elasticsearch_hosts | join(',') }}"
 
       #### second update: kibana yml file

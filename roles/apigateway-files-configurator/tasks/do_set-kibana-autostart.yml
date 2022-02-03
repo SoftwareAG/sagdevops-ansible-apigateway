@@ -1,0 +1,17 @@
+---
+
+  - debug: var=rvar_kibana_autostart verbosity=1
+
+  - name: fail if mandatory params not specified
+    fail: 
+      msg: "rvar_kibana_autostart not specified...cannot do anything."
+    when: rvar_kibana_autostart is not defined
+
+  - name: "Update config file {{ apigateway_ui_configuration_config_file }}"
+    lineinfile:
+      path: "{{ apigateway_ui_configuration_config_file }}"
+      regexp: "^{{ item.key }}"
+      insertafter: "^#{{ item.key }}"
+      line: "{{ item.key }}={{ item.value }}"
+    with_dict:
+      apigw.kibana.autostart: "{{ rvar_kibana_autostart }}"
