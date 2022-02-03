@@ -1,11 +1,64 @@
 ---
 
   - debug: var=rvar_configapigateway_externalconfigs verbosity=1
+  - debug: var=rvar_external_elasticsearch_hosts_list verbosity=1
+  - debug: var=rvar_external_elasticsearch_port verbosity=1
+  - debug: var=rvar_external_terracotta_hosts_list verbosity=1
+  - debug: var=rvar_external_ignite_hosts_list verbosity=1
 
   - name: Set changed flag to false if not defined
     set_fact: 
       configure_apigateway_set_externalconfigs_changed: false
     when: configure_apigateway_set_externalconfigs_changed is not defined
+    
+  - name: update external config with elastic hostnames
+    block:
+      - name: fail if port not defined
+        fail: 
+          msg: "rvar_external_elasticsearch_port not specified...cannot do anything."
+        when: rvar_external_elasticsearch_port is not defined
+
+      - name: format the list of host with the expected stuff
+        set_fact:
+          _external_elasticsearch_hosts: "{{ _external_elasticsearch_hosts | default([]) }} + [ '{{ _elasticsearch_host_item }}:{{ rvar_external_elasticsearch_port }}' ]"
+        with_items: "{{ rvar_external_elasticsearch_hosts_list }}"
+        loop_control:
+          loop_var: _elasticsearch_host_item
+
+      - debug: var=_external_elasticsearch_hosts verbosity=1
+
+      - name: fail if resulting list not defined or empty
+        fail: 
+          msg: "_external_elasticsearch_hosts empty...should not be at this point"
+        when: _external_elasticsearch_hosts is not defined or (_external_elasticsearch_hosts | length == 0)
+
+      - name: update key for elastic search
+        set_fact:
+          rvar_configapigateway_externalconfigs: "{{ rvar_configapigateway_externalconfigs | combine({'apigw': {'elasticsearch': {'hosts': '{{ _external_elasticsearch_hosts }}' }}}, recursive=True) }}"
+    
+    when: rvar_external_elasticsearch_hosts_list is defined and (rvar_external_elasticsearch_hosts_list | length > 0)
+  
+  - name: update external config with ignite hostnames
+    block:
+      - name: format the list of host with the expected stuff
+        set_fact:
+          _external_ignite_hosts: "{{ _external_ignite_hosts | default([]) }} + [ '{{ _external_ignite_host_item }}' ]"
+        with_items: "{{ rvar_external_ignite_hosts_list }}"
+        loop_control:
+          loop_var: _external_ignite_host_item
+
+      - debug: var=_external_ignite_hosts verbosity=1
+
+      - name: fail if resulting list not defined or empty
+        fail: 
+          msg: "_external_ignite_hosts empty...should not be at this point"
+        when: _external_ignite_hosts is not defined or (_external_ignite_hosts | length == 0)
+
+      - name: update key for elastic search
+        set_fact:
+          rvar_configapigateway_externalconfigs: "{{ rvar_configapigateway_externalconfigs | combine({'apigw': {'cluster': {'ignite': {'hostnames': '{{ _external_ignite_hosts }}' }}}}, recursive=True) }}"
+    
+    when: rvar_external_ignite_hosts_list is defined and (rvar_external_ignite_hosts_list | length > 0)
 
   - name: Create apigateway_externalconfigs only if value variable is not empty
     block:
