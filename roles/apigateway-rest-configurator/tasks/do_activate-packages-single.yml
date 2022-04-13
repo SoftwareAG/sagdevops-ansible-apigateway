@@ -16,7 +16,7 @@
   
   - name: First create a main variables that will get used for the publish call
     set_fact:
-      _apigateway_package_id: "{{ rvar_apigateway_packages_single. | default('',true) }}"
+      _apigateway_package_id: "{{ rvar_apigateway_packages_single.id | default('',true) }}"
 
 ######## fetch the main object ID if it's not already in the payload
 
