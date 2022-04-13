@@ -13,6 +13,22 @@
       - "{{ packages_currentobj_id }}"
       - "{{ packages_activate }}"
 
+######## first, let's fetch the package by id to check if it's already in the state we want
+
+  - name: get the full object by id (returned in var rest_response_object)
+    include_tasks: "packages/get.yml"
+    vars:
+      packages_currentobj_id: "{{ packages_currentobj_id }}"
+
+  - name: get the status field from the response
+    set_fact:
+      _apigateway_package_active: "{{ rest_response_object_id.active }}"
+    when: rest_response_object is defined
+
+  - debug: var=_apigateway_package_active verbosity=1
+
+######## perform the operation if needed
+
   - name: Activate the package if flag active = true
     block:
 
@@ -31,7 +47,11 @@
             Content-Type: application/json
         register: rest_packages_activate_response
 
-    when: packages_activate | bool == true
+    when: _apigateway_package_active | bool == false and packages_activate | bool == true
+  
+  - debug: 
+      msg: Requesting to activate the package, but it's already active...ignoring!
+    when: _apigateway_package_active | bool == true and packages_activate | bool == true
 
   - name: Deactivate the package if flag active = false or does not exist
     block:
@@ -51,7 +71,11 @@
             Content-Type: application/json
         register: rest_packages_activate_response
 
-    when: packages_activate | bool == false
+    when: _apigateway_package_active | bool == true and packages_activate | bool == false
+  
+  - debug: 
+      msg: Requesting to de-activate the package, but it's already inactive...ignoring!
+    when: _apigateway_package_active | bool == false and packages_activate | bool == false
 
   - name: Response
     debug: var=rest_packages_activate_response verbosity=1
