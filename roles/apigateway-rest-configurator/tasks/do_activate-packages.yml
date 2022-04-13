@@ -1,0 +1,10 @@
+---
+
+  - name: rvar_apigateway_packages to activate/deactivate
+    debug: var=rvar_apigateway_packages verbosity=1
+
+  - name: Processing each item serially
+    include_tasks: "do_activate-packages-single.yml"
+    with_items: "{{ rvar_apigateway_packages }}"
+    loop_control:
+      loop_var: rvar_apigateway_packages_single
