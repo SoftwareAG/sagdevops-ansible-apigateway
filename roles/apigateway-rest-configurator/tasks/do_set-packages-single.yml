@@ -124,7 +124,7 @@
       - name: If package is active, deactivate package before edit
         include_tasks: "packages/activate.yml"
         vars:
-          packages_currentobj_id: "{{ _apigateway_object_to_save.id }}"
+          rvar_apigateway_rest_objectid: "{{ _apigateway_object_to_save.id }}"
           packages_activate: "false"
         when: current_package.active | bool == true
 
@@ -188,7 +188,7 @@
   - name: activate or de-activate the package as requested in the update object
     include_tasks: "packages/activate.yml"
     vars:
-      packages_currentobj_id: "{{ _apigateway_object_to_save.id }}"
+      rvar_apigateway_rest_objectid: "{{ _apigateway_object_to_save.id }}"
       packages_activate: "{{ _apigateway_object_to_save.active | default('false',true) }}"
 
   - debug: 

@@ -2,7 +2,7 @@
   - debug: 
       msg: Begin tasks in packages/activate.yml
 
-  - debug: var=packages_currentobj_id verbosity=1
+  - debug: var=rvar_apigateway_rest_objectid verbosity=1
   - debug: var=packages_activate verbosity=1
 
   - name: fail if mandatory params not specified
@@ -10,15 +10,13 @@
       msg: "A mandatory param was not defined, cannot do anything."
     when: item is not defined
     with_items:
-      - "{{ packages_currentobj_id }}"
+      - "{{ rvar_apigateway_rest_objectid }}"
       - "{{ packages_activate }}"
 
 ######## first, let's fetch the package by id to check if it's already in the state we want
 
   - name: get the full object by id (returned in var rest_response_object)
     include_tasks: "packages/get.yml"
-    vars:
-      packages_currentobj_id: "{{ packages_currentobj_id }}"
 
   - name: get the status field from the response
     set_fact:
@@ -34,7 +32,7 @@
 
       - name: Activate the package
         uri:
-          url: "{{ apigateway_rest_packages_api }}/{{ packages_currentobj_id }}/activate"
+          url: "{{ apigateway_rest_packages_api }}/{{ rvar_apigateway_rest_objectid }}/activate"
           method: PUT
           user: "{{ apigateway_rest_login_username }}"
           password: "{{ apigateway_rest_login_password }}"
@@ -58,7 +56,7 @@
 
       - name: Deactivate the package
         uri:
-          url: "{{ apigateway_rest_packages_api }}/{{ packages_currentobj_id }}/deactivate"
+          url: "{{ apigateway_rest_packages_api }}/{{ rvar_apigateway_rest_objectid }}/deactivate"
           method: PUT
           user: "{{ apigateway_rest_login_username }}"
           password: "{{ apigateway_rest_login_password }}"

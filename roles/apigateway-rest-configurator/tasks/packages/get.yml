@@ -1,17 +1,17 @@
 ---
 
-  - debug: var=packages_currentobj_id verbosity=1
+  - debug: var=rvar_apigateway_rest_objectid verbosity=1
   
   - name: fail if mandatory params not specified
     fail: 
       msg: "A mandatory param was not defined, cannot do anything."
     when: item is not defined
     with_items:
-      - "{{ packages_currentobj_id }}"
+      - "{{ rvar_apigateway_rest_objectid }}"
 
   - name: Get package by id
     uri:
-      url: "{{ apigateway_rest_packages_api }}/{{ packages_currentobj_id }}"
+      url: "{{ apigateway_rest_packages_api }}/{{ rvar_apigateway_rest_objectid }}"
       method: GET
       user: "{{ apigateway_rest_login_username }}"
       password: "{{ apigateway_rest_login_password }}"

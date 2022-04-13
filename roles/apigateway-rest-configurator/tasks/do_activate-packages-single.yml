@@ -45,7 +45,7 @@
   - name: activate or de-activate the package as requested in the update object
     include_tasks: "packages/activate.yml"
     vars:
-      packages_currentobj_id: "{{ _apigateway_package_id }}"
+      rvar_apigateway_rest_objectid: "{{ _apigateway_package_id }}"
       packages_activate: "{{ rvar_apigateway_packages_single.active }}"
 
   - debug: 
