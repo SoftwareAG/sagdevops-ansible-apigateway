@@ -10,11 +10,10 @@
 - name: Include tasks
   include_tasks: "getall.yml"
 
-- name: set empty response if it was not already defined
-  set_fact:
-    rest_response_getall:
-      json: []
-  when: rest_response_getall.json is not defined
+- name: fail if mandatory params not specified
+  fail: 
+    msg: "rest_response_getall is not defined, something bad happened with the getAll rest call?"
+  when: rest_response_getall is not defined
 
 - name: Set filter used by the rest payload parsing
   set_fact:

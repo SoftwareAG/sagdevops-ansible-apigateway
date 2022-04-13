@@ -21,13 +21,13 @@
       status_code: [200]
       body_format: json
       timeout: 30
-    register: rest_response_get
+    register: rest_response_obj
 
   - name: Print response
     debug:
-      var: rest_response_get
+      var: rest_response_obj
       verbosity: 1
 
   - name: Set response to custom var
     set_fact:
-      rest_response_object: "{{ rest_response_get.json.packageResponse }}"
+      rest_response_get: "{{ rest_response_obj.json.packageResponse | to_json }}"

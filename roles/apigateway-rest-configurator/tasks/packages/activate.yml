@@ -45,6 +45,9 @@
             Content-Type: application/json
         register: rest_packages_activate_response
 
+      - name: Response
+        debug: var=rest_packages_activate_response verbosity=1
+
     when: _apigateway_package_active | bool == false and packages_activate | bool == true
   
   - debug: 
@@ -69,11 +72,11 @@
             Content-Type: application/json
         register: rest_packages_activate_response
 
+      - name: Response
+        debug: var=rest_packages_activate_response verbosity=1
+
     when: _apigateway_package_active | bool == true and packages_activate | bool == false
   
   - debug: 
       msg: Requesting to de-activate the package, but it's already inactive...ignoring!
     when: _apigateway_package_active | bool == false and packages_activate | bool == false
-
-  - name: Response
-    debug: var=rest_packages_activate_response verbosity=1
