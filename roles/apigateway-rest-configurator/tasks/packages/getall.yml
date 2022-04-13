@@ -18,3 +18,7 @@
     debug:
       var: rest_response_getall.json
       verbosity: 1
+
+  - name: Set response to custom var
+    set_fact:
+      rest_response_object: "{{ rest_response_getall.json.packageResponse }}"
