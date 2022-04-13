@@ -28,10 +28,6 @@
       var: rest_response_obj
       verbosity: 1
 
-  - name: parse response to json object
-    set_fact:
-      rest_response_obj_json: "{{ rest_response_obj.json | from_json }}"
-
   - name: Set response to custom var
     set_fact:
-      rest_response_get: "{{ rest_response_obj_json.packageResponse }}"
+      rest_response_get: "{{ rest_response_obj.json.packageResponse }}"

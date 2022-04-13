@@ -15,13 +15,18 @@
 
 ######## first, let's fetch the package by id to check if it's already in the state we want
 
-  - name: get the full object by id (returned in var rest_response_object)
+  - name: get the full object by id (returned in var rest_response_get)
     include_tasks: "packages/get.yml"
+
+  - name: fail if expected response not there
+    fail: 
+      msg: "rest_response_get is not defined, something bad happened with the rest call?"
+    when: rest_response_get is not defined
 
   - name: get the status field from the response
     set_fact:
-      _apigateway_package_active: "{{ rest_response_object_id.active }}"
-    when: rest_response_object is defined
+      _apigateway_package_active: "{{ rest_response_get.active }}"
+    when: rest_response_get is defined
 
   - debug: var=_apigateway_package_active verbosity=1
 

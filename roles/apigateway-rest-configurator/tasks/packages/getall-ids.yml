@@ -10,7 +10,7 @@
 - name: Include tasks
   include_tasks: "getall.yml"
 
-- name: fail if mandatory params not specified
+- name: fail if expected response not there
   fail: 
     msg: "rest_response_getall is not defined, something bad happened with the getAll rest call?"
   when: rest_response_getall is not defined
