@@ -14,7 +14,7 @@
       - "{{ rvar_apigateway_packages_single.version }}"
       - "{{ rvar_apigateway_packages_single.active }}"
   
-  - name: First create a main variables that will get used for the publish call
+  - name: First create a main variables for the package id
     set_fact:
       _apigateway_package_id: "{{ rvar_apigateway_packages_single.id | default('',true) }}"
 
