@@ -1,6 +1,6 @@
 ---
 
-  - debug: var=webmethods_apigateway_extended_settings_isruntime_watt_keys verbosity=1
+  - debug: var=rvar_apigateway_watt_params verbosity=1
 
   - name: "Update config file {{ runtime_instance_config_file }} with new extended settings"
     lineinfile:
@@ -8,5 +8,5 @@
       regexp: "^{{ item.key }}"
       insertafter: "^#{{ item.key }}"
       line: "{{ item.key }}={{ item.value }}"
-    with_dict: "{{ webmethods_apigateway_extended_settings_isruntime_watt_keys }}"
-    when: webmethods_apigateway_extended_settings_isruntime_watt_keys is defined and (webmethods_apigateway_extended_settings_isruntime_watt_keys|length > 0)
+    with_dict: "{{ rvar_apigateway_watt_params }}"
+    when: rvar_apigateway_watt_params is defined and (rvar_apigateway_watt_params|length > 0)
