@@ -1,11 +1,17 @@
 ---
 
   - debug: var=rvar_apigateway_watt_params verbosity=1
+  
+  - debug:
+      msg: "Regex: ^{{ item.key | replace('.','\\.') }}=  /// Replace Value: {{ item.key }}={{ item.value }}"
+      verbosity: 1
+    with_dict: "{{ rvar_apigateway_watt_params }}"
+    when: rvar_apigateway_watt_params is defined and (rvar_apigateway_watt_params|length > 0)
 
   - name: "Update config file {{ runtime_instance_config_file }} with new extended settings"
     lineinfile:
       path: "{{ runtime_instance_config_file }}"
-      regexp: "^{{ item.key }}"
+      regexp: "^{{ item.key | replace('.','\\.') }}="
       insertafter: "^#{{ item.key }}"
       line: "{{ item.key }}={{ item.value }}"
     with_dict: "{{ rvar_apigateway_watt_params }}"
