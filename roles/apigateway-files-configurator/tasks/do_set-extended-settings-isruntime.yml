@@ -10,6 +10,7 @@
 
   - name: "Update config file {{ runtime_instance_config_file }} with new extended settings"
     lineinfile:
+      state: present
       path: "{{ runtime_instance_config_file }}"
       regexp: "^{{ item.key | replace('.','\\.') }}="
       insertafter: "^#{{ item.key | replace('.','\\.') }}="
