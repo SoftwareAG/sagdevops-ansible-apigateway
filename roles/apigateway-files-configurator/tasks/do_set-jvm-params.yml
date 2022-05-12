@@ -1,10 +1,11 @@
 ---
 
-  - name: "Update config file {{ custom_wrapper_file }} with apigateway_jvm_params params if defined"
+  - name: "Update config file {{ custom_wrapper_file }} with rvar_apigateway_jvm_params params if defined"
     lineinfile:
+      state: present
       path: "{{ custom_wrapper_file }}"
-      regexp: '^{{ item.key }}'
-      insertafter: '^#{{ item.key }}'
+      regexp: "^{{ item.key | replace('.','\\.') }}="
+      insertafter: "^#{{ item.key | replace('.','\\.') }}="
       line: "{{ item.key }}={{ item.value }}"
-    with_dict: "{{ apigateway_jvm_params }}"
-    when: apigateway_jvm_params is defined and (apigateway_jvm_params|length > 0)
+    with_dict: "{{ rvar_apigateway_jvm_params }}"
+    when: rvar_apigateway_jvm_params is defined and (rvar_apigateway_jvm_params|length > 0)
