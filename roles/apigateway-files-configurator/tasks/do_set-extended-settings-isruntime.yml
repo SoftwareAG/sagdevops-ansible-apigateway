@@ -12,7 +12,7 @@
     lineinfile:
       path: "{{ runtime_instance_config_file }}"
       regexp: "^{{ item.key | replace('.','\\.') }}="
-      insertafter: "^#{{ item.key }}"
+      insertafter: "^#{{ item.key | replace('.','\\.') }}="
       line: "{{ item.key }}={{ item.value }}"
     with_dict: "{{ rvar_apigateway_watt_params }}"
     when: rvar_apigateway_watt_params is defined and (rvar_apigateway_watt_params|length > 0)
