@@ -1,22 +1,9 @@
 ---
 
-  - name: "Update config file {{ custom_wrapper_file }} with rvar_apigateway_jvm_mem_min param if defined"
-    lineinfile:
-      state: present
-      path: "{{ custom_wrapper_file }}"
-      regexp: "^{{ item.key | replace('.','\\.') }}="
-      insertafter: "^#{{ item.key | replace('.','\\.') }}="
-      line: "{{ item.key }}={{ item.value }}"
-    with_dict:
-      "wrapper.java.initmemory": "{{ rvar_apigateway_jvm_mem_min }}"
-    when: rvar_apigateway_jvm_mem_min is defined and rvar_apigateway_jvm_mem_min != ""
-
-  - name: "Update config file {{ custom_wrapper_file }} with rvar_apigateway_jvm_mem_max param if defined"
-    lineinfile:
-      path: "{{ custom_wrapper_file }}"
-      regexp: "^{{ item.key | replace('.','\\.') }}="
-      insertafter: "^#{{ item.key | replace('.','\\.') }}="
-      line: "{{ item.key }}={{ item.value }}"
-    with_dict:
-      "wrapper.java.maxmemory": "{{ rvar_apigateway_jvm_mem_max }}"
-    when: rvar_apigateway_jvm_mem_max is defined and rvar_apigateway_jvm_mem_max != ""
+  - import_role: 
+      name: configure-jvm-wrapper
+    vars:
+      configs_action: set-jvm-memory
+      rvar_wrapper_file: "{{ custom_wrapper_file }}"
+      # rvar_jvm_mem_min:
+      # rvar_jvm_mem_max:
