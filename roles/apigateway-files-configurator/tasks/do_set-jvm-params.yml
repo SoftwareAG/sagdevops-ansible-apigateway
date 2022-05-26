@@ -5,3 +5,4 @@
     vars:
       configs_action: set-jvm-params
       rvar_wrapper_file: "{{ custom_wrapper_file }}"
+      # rvar_jvm_params:
