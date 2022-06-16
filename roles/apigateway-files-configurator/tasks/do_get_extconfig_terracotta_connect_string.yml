@@ -1,5 +1,10 @@
 ---
 
+- name: fail if port not defined
+  fail: 
+    msg: "rvar_apigateway_terracotta_connect_port not specified...cannot do anything."
+  when: rvar_apigateway_terracotta_connect_port is not defined
+
 ## get the hosts of the terracotta nodes
 ## in the format that's expected: "host1:port,host2:port,host3:port"
 - import_role:
