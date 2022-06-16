@@ -5,12 +5,27 @@
   - debug: var=rvar_external_elasticsearch_port verbosity=1
   - debug: var=rvar_external_terracotta_hosts_list verbosity=1
   - debug: var=rvar_external_ignite_hosts_list verbosity=1
+      
+  - name: fail if external config structure is not defined
+    fail: 
+      msg: "rvar_configapigateway_externalconfigs not specified...cannot do anything."
+    when: rvar_configapigateway_externalconfigs is not defined
+
+  - name: fail if external config structure does not have apigw 1st child
+    fail: 
+      msg: "rvar_configapigateway_externalconfigs.apigw not specified...cannot do anything."
+    when: rvar_configapigateway_externalconfigs.apigw is not defined
 
   - name: Set changed flag to false if not defined
     set_fact: 
       configure_apigateway_set_externalconfigs_changed: false
     when: configure_apigateway_set_externalconfigs_changed is not defined
     
+  - name: fail if both terracotta and ignite server lists were provided
+    fail: 
+      msg: "Both Terracotta and Ignote hosts were provided... not possible, pick one!!"
+    when: rvar_external_elasticsearch_hosts_list is defined and (rvar_external_elasticsearch_hosts_list | length > 0) and rvar_external_terracotta_hosts_list is defined and (rvar_external_terracotta_hosts_list | length > 0)
+
   - name: update external config with elastic hostnames
     block:
       - name: fail if port not defined
@@ -44,6 +59,12 @@
   
   - name: update external config with ignite hostnames
     block:
+
+      - name: add default clustering block if it's not there
+        set_fact:
+          rvar_configapigateway_externalconfigs: "{{ rvar_configapigateway_externalconfigs | combine(apigateway_external_configs_template_clustering_ignite, recursive=True) }}"
+        when: rvar_configapigateway_externalconfigs.apigw.cluster is not defined
+
       - name: format the list of host with the expected stuff
         set_fact:
           _external_ignite_hosts: "{{ _external_ignite_hosts | default([]) }} + [ '{{ _external_ignite_host_item }}' ]"
@@ -64,10 +85,41 @@
 
       - name: update key for elastic search
         set_fact:
-
           rvar_configapigateway_externalconfigs: "{{ rvar_configapigateway_externalconfigs | combine({'apigw': {'cluster': {'ignite': {'hostnames': _external_ignite_hosts_string }}}}, recursive=True) }}"
     
     when: rvar_external_ignite_hosts_list is defined and (rvar_external_ignite_hosts_list | length > 0)
+  
+  - name: update external config with terracotta hostnames
+    block:
+      
+      - name: add default clustering block if it's not there
+        set_fact:
+          rvar_configapigateway_externalconfigs: "{{ rvar_configapigateway_externalconfigs | combine(apigateway_external_configs_template_clustering_terracotta, recursive=True) }}"
+        when: rvar_configapigateway_externalconfigs.apigw.cluster is not defined
+
+      - name: format the list of host with the expected stuff
+        set_fact:
+          _external_terracotta_hosts: "{{ _external_terracotta_hosts | default([]) }} + [ '{{ _external_terracotta_host_item }}' ]"
+        with_items: "{{ rvar_external_terracotta_hosts_list }}"
+        loop_control:
+          loop_var: _external_terracotta_host_item
+
+      - debug: var=_external_terracotta_hosts verbosity=1
+
+      - name: fail if resulting list not defined or empty
+        fail: 
+          msg: "_external_terracotta_hosts empty...should not be at this point"
+        when: _external_terracotta_hosts is not defined or (_external_terracotta_hosts | length == 0)
+
+      - name: format the list of host with the expected stuff
+        set_fact:
+          _external_terracotta_hosts_string: "{{ _external_terracotta_hosts | join(',') }}"
+
+      - name: update key for elastic search
+        set_fact:
+          rvar_configapigateway_externalconfigs: "{{ rvar_configapigateway_externalconfigs | combine({'apigw': {'cluster': {'tsaUrls': _external_terracotta_hosts_string }}}, recursive=True) }}"
+    
+    when: rvar_external_terracotta_hosts_list is defined and (rvar_external_terracotta_hosts_list | length > 0)
 
   - name: Create apigateway_externalconfigs only if value variable is not empty
     block:
