@@ -41,3 +41,9 @@ apigateway_external_configs_template_clustering_ignite:
         discoveryPort:     47100
         communicationPort: 47500
         portRange:         5
+
+apigateway_external_configs_template_kibana:
+  apigw:
+    kibana:
+      dashboardInstance: http://localhost:9405
+      autostart: true
