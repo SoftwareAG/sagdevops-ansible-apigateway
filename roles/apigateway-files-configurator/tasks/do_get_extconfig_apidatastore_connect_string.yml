@@ -1,0 +1,31 @@
+---
+
+- name: fail if port not defined
+  fail: 
+    msg: "rvar_apigateway_apidatastore_connect_port not specified...cannot do anything."
+  when: rvar_apigateway_apidatastore_connect_port is not defined
+
+## get the hosts of the apidatastore
+- import_role:
+    name: get-inventory-hosts
+  vars:
+    inventory_pattern: "{{ rvar_apigateway_apidatastore_connect_inventory_pattern }}"
+    inventory_hosts_property: "ansible_host"
+    inventory_hosts_clear_first: true
+    inventory_hosts_add_prefix: ""
+    inventory_hosts_add_suffix: "\\:{{ rvar_apigateway_apidatastore_connect_port }}"
+
+- name: Set out facts
+  set_fact:
+    _apidatastore_connect_hosts: "{{ output_inventory_hosts }}"
+
+- debug: var=_apidatastore_connect_hosts verbosity=1
+
+- name: fail if resulting list not defined or empty
+  fail:
+    msg: "_apidatastore_connect_hosts empty...should not be at this point"
+  when: _apidatastore_connect_hosts is not defined or (_apidatastore_connect_hosts | length == 0)
+
+- name: format the list of host with the expected stuff
+  set_fact:
+    rout_apigateway_apidatastore_connect_string: "{{ _apidatastore_connect_hosts | join(',') }}"
