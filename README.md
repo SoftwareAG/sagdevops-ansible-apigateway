@@ -7,6 +7,9 @@ Roles:
 - apigateway-rest-configurator
   - These are configuration tasks that strictly leverage the REST APIs provided by webMethods APIGateway (and as such, these tasks can be run from anywhere with network access to the target webMethods APIGateway REST endpoints)
 
+**Note:**
+For a sample Infrastructure-as-Code (IaC) project that leverages these roles, head on over to [webmethods-ansible-api-gateway](https://github.com/softwareag-government-solutions/webmethods-ansible-api-gateway), maintained by [SoftwareAG Government Solutions's](https://www.softwareaggov.com)
+
 # Authors
 
 Fabien Sanglier
