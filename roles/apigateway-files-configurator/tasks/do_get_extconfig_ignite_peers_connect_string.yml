@@ -21,4 +21,4 @@
 
 - name: format the list of host with the expected stuff
   set_fact:
-    rvar_apigateway_ignitepeers_conect_string: "{{ _ignite_peers | join(',') }}"
+    rout_apigateway_ignitepeers_conect_string: "{{ _ignite_peers | join(',') }}"
