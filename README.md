@@ -7,6 +7,14 @@ Roles:
 - apigateway-rest-configurator
   - These are configuration tasks that strictly leverage the REST APIs provided by webMethods APIGateway (and as such, these tasks can be run from anywhere with network access to the target webMethods APIGateway REST endpoints)
 
+# Authors
+
+Fabien Sanglier
+- Emails: [@Software AG](mailto:fabien.sanglier@softwareag.com) // [@Software AG Government Solutions](mailto:fabien.sanglier@softwareaggov.com)
+- Github: 
+  - [Fabien Sanglier](https://github.com/lanimall)
+  - [Fabien Sanglier @ SoftwareAG Government Solutions](https://github.com/fabien-sanglier-saggs)
+
 ## Project dependencies:
 
 Some of the tasks in these roles will have dependencies on roles defined in [sagdevops-ansible-common-utils](https://github.com/SoftwareAG/sagdevops-ansible-common-utils)
@@ -59,13 +67,6 @@ Test apigateway-files-configurator:
 ```
 docker run ${REG}apigateway-files-configurator:${TAG} ping.yml
 ```
-
-# Authors
-Fabien Sanglier
-- Emails: [@Software AG](mailto:fabien.sanglier@softwareag.com) [@Software AG Government Solutions](mailto:fabien.sanglier@softwareaggov.com)
-- Github: 
-  - [Fabien Sanglier @ SoftwareAG Government Solutions](https://github.com/fabien-sanglier-saggs)
-  - [Fabien Sanglier](https://github.com/lanimall)
 
 ______________________
 These tools are provided as-is and without warranty or support. They do not constitute part of the Software AG product suite. Users are free to use, fork and modify them, subject to the license agreement. While Software AG welcomes contributions, we cannot guarantee to include every contribution in the master project.
