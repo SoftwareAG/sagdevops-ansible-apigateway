@@ -1,14 +1,14 @@
 ---
 
-  - debug: var=webmethods_apigateway_extended_settings_isruntime_watt_keys verbosity=1
-  - debug: var=webmethods_apigateway_extended_settings_coregateway_extended_keys verbosity=1
+  - debug: var=rvar_extended_settings_watt_keys verbosity=1
+  - debug: var=rvar_extended_settings_extended_keys verbosity=1
   
   - name: Prepare request body content
     set_fact:
       webmethods_apigateway_extended_settings_request_body:
         preferredSettings:
-          wattKeys: "{{ webmethods_apigateway_extended_settings_isruntime_watt_keys }}"
-          extendedKeys: "{{ webmethods_apigateway_extended_settings_coregateway_extended_keys }}"
+          wattKeys: "{{ rvar_extended_settings_watt_keys }}"
+          extendedKeys: "{{ rvar_extended_settings_extended_keys }}"
 
   - debug: var=webmethods_apigateway_extended_settings_request_body verbosity=1
 
