@@ -42,7 +42,7 @@
   - name: tasks for newer versions of ansible that support form-multipart
     block:
 
-      - name: Upload new truststore to apigateway
+      - name: Upload new truststore to apigateway using uri module
         uri:
           url: "{{ curl_wrapper_target_uri }}"
           method: POST
