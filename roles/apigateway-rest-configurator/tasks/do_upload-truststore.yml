@@ -39,27 +39,28 @@
 
   - debug: var=rvar_apigateway_truststore verbosity=1
 
-  - name: tasks for newer versions of ansible that support form-multipart
-    block:
+  # TODO: need to work on this...body structure is not the same as curl!!
+  # - name: tasks for newer versions of ansible that support form-multipart
+  #   block:
 
-      - name: Upload new truststore to apigateway using uri module
-        uri:
-          url: "{{ curl_wrapper_target_uri }}"
-          method: POST
-          user: "{{ apigateway_rest_login_username }}"
-          password: "{{ apigateway_rest_login_password }}"
-          return_content: yes
-          force_basic_auth: yes
-          validate_certs: "{{ not ( apigateway_rest_no_check_certs | default() | bool ) }}"
-          status_code: [200]
-          body: "{{ rvar_apigateway_truststore | default({},true) }}"
-          body_format: form-multipart
-          timeout: 30
-        register: update_keystore
+  #     - name: Upload new truststore to apigateway using uri module
+  #       uri:
+  #         url: "{{ curl_wrapper_target_uri }}"
+  #         method: POST
+  #         user: "{{ apigateway_rest_login_username }}"
+  #         password: "{{ apigateway_rest_login_password }}"
+  #         return_content: yes
+  #         force_basic_auth: yes
+  #         validate_certs: "{{ not ( apigateway_rest_no_check_certs | default() | bool ) }}"
+  #         status_code: [200]
+  #         body: "{{ rvar_apigateway_truststore | default({},true) }}"
+  #         body_format: form-multipart
+  #         timeout: 30
+  #       register: update_keystore
 
-      - debug: var=update_keystore verbosity=1
+  #     - debug: var=update_keystore verbosity=1
 
-    when: ansible_version.major > 2 or (ansible_version.major == 2 and ansible_version.minor >= 10)
+  #   when: ansible_version.major > 2 or (ansible_version.major == 2 and ansible_version.minor >= 10)
 
   - name: tasks for older versions of ansible that do not support form-multipart
     block:
@@ -76,4 +77,4 @@
           curl_wrapper_headers_fields:
             "Accept": "application/json"
 
-    when: ansible_version.major < 2 or (ansible_version.major == 2 and ansible_version.minor <= 9)
+    # when: ansible_version.major < 2 or (ansible_version.major == 2 and ansible_version.minor <= 9)
