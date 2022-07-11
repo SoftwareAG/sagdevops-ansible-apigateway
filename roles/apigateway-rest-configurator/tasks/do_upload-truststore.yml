@@ -1,5 +1,7 @@
 ---
 
+  - debug: var=rvar_apigateway_truststore verbosity=1
+
   - name: Get current API Gateway truststore
     uri:
       url: "{{ apigateway_rest_is_truststore }}"

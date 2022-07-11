@@ -190,6 +190,15 @@ rvar_apigateway_keystore:
   # keyStoreDescription: "<string>"
   # fileContentPath: "<string>"
 
+# this is for the aliases inside the keystore
+rvar_apigateway_keystore_keyalias_list: []
+  # - keyStoreName: "<string>"
+  #   nullPKpasswds: "false"
+  #   isPwdBase64Encoded: "false"
+  #   bitarray: "1"
+  #   pkAliasesList: "<string>"
+  #   pkPasswordsList: "<string>"
+
 rvar_apigateway_keytruststore_configuration:
   # keystoreName: "<string>"
   # signingAlias: "<string>"
