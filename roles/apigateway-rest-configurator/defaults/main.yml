@@ -171,7 +171,7 @@ apigateway_configparams_rest_usermgt_accessprofiles:
   #       - deserunt dolor
 
 ## api gateway truststore format
-webmethods_apigateway_truststore:
+rvar_apigateway_truststore:
   # keyStoreName: "<string>"
   # keyStoreType: "<string>"
   # keyStoreProvider: "<string>"
@@ -181,7 +181,7 @@ webmethods_apigateway_truststore:
   # fileContent: "@<file_path>"
 
 ## api gateway truststore format
-webmethods_apigateway_keystore:
+rvar_apigateway_keystore:
   # keyStoreName: "<string>"
   # keyStoreType: "<string>"
   # keyStoreProvider: "<string>"
@@ -190,7 +190,7 @@ webmethods_apigateway_keystore:
   # keyStoreDescription: "<string>"
   # fileContentPath: "<string>"
 
-webmethods_apigateway_keytruststore_configuration:
+rvar_apigateway_keytruststore_configuration:
   # keystoreName: "<string>"
   # signingAlias: "<string>"
   # truststoreName: "<string>"
