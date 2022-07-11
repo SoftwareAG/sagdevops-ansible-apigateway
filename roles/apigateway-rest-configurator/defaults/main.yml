@@ -242,7 +242,7 @@ webmethods_apigateway_promotions_stages:
   #   keystoreAlias: "<string>"
   #   keyAlias: "<string>"
 
-webmethods_apigateway_ports_types_internals:
+rvar_apigateway_internals_ports_types:
   regular_https:
     factoryKey: webMethods/HTTPS
     ssl: "true"
@@ -288,7 +288,7 @@ webmethods_apigateway_ports_types_internals:
     protocol: WebSocket
     listenerType: websocket
 
-webmethods_apigateway_ports_list:
+rvar_apigateway_ports_list:
   # - port_type: regular_https
   #   port_detail:
   #     listenerKey:
