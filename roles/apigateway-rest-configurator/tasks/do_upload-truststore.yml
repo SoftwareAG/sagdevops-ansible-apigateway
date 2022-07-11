@@ -1,7 +1,5 @@
 ---
 
-  - debug: var=rvar_apigateway_truststore verbosity=1
-
   - name: Get current API Gateway truststore
     uri:
       url: "{{ apigateway_rest_is_truststore }}"
@@ -36,8 +34,10 @@
       curl_wrapper_target_uri: "{{ apigateway_rest_is_truststore }}/{{ rvar_apigateway_truststore.keyStoreName }}"
     when: rvar_apigateway_truststore.keyStoreName in get_all_truststore_names
 
-  - name: CURL URI
+  - name: the identified curl uri based on same truststore exist or not...
     debug: var=curl_wrapper_target_uri verbosity=1
+
+  - debug: var=rvar_apigateway_truststore verbosity=1
 
   - name: tasks for newer versions of ansible that support form-multipart
     block:
