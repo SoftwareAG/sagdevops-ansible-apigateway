@@ -20,7 +20,7 @@
       
   - name: Add the system fields to the object to save based on the port_type
     set_fact:
-      rvar_apigateway_port_detail: "{{ rvar_apigateway_port_detail | combine(rvar_apigateway_ports_types_internals[rvar_apigateway_port_type],recursive=True) }}"
+      rvar_apigateway_port_detail: "{{ rvar_apigateway_port_detail | combine(rvar_apigateway_internals_ports_types[rvar_apigateway_port_type],recursive=True) }}"
 
   - name: Add the bind address field if it's not there or empty
     set_fact:
