@@ -379,7 +379,7 @@ rvar_apigateway_saml_groups_mapping_list:
   # - saml_group_name: <string>
   #   local_group_name: <string>
 
-rvar_apigateway_saml_settings:
+# rvar_apigateway_saml_settings:
   # saml_enabled: "<boolean>"
   # saml_redirect: "/saml/sso/login"
   # saml_sp_id: "<string>"
@@ -397,6 +397,33 @@ rvar_apigateway_saml_settings:
   # saml_encrypkey_alias: "<string>"
   # saml_encrypkey_pwd: "<string>"
 
+rvar_apigateway_saml_settings: {}
+  # idpFilename: Excepteur minim magna qui
+  # idpMetadataContent: commodo
+  # idpUrl: ame
+  # keystoreAlias: minim Excepteur occaecat veniam
+  # saml_assertion_signed: incididunt nisi cillum
+  # saml_authreq_signed: dolor no
+  # saml_defaultkey_alias: magna ullamco s
+  # saml_enabled: dolor voluptate in
+  # saml_encrypkey_alias: occaecat deserunt aute
+  # saml_redirect: culpa e
+  # saml_signkey_alias: ut est
+  # saml_sp_id: enim
+  # useSSOLoginByDefault: est ipsum sed non
+  # groupMapping:
+  #   attributeToGroupMap:
+  #     proident__: elit ea nostrud
+  #     laborum14b: dolor sed
+  #     culpa605: consequat non
+  #   groupAttributes:
+  #   - dolor nostrud in
+  #   - irure deserunt Ut
+  # userProfileMapping:
+  #   emailAddresses: ad mollit consectetur
+  #   firstName: laboris dolore
+  #   lastName: ex Duis officia incididunt
+  
 rvar_apigateway_archive_imports:
   # - path: "<string>"
   #   overwrite: "*"
