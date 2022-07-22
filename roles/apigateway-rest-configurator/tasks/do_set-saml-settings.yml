@@ -43,23 +43,25 @@
       var: update_rest_response
       verbosity: 1
 
-  - name: Assign json responses to compare variables
-    set_fact:
-      dict1: "{{ get_existing_saml.json }}"
-      dict2: "{{ update_rest_response.json }}"
+  # TODO: this difference checker is returning errors... look into it
 
-  - name: find differences between before and after
-    set_fact:
-      configs_differences: "{{ lookup('template', 'apigateway_restapi_diff_dictionaries.json.j2') }}"
+  # - name: Assign json responses to compare variables
+  #   set_fact:
+  #     dict1: "{{ get_existing_saml.json }}"
+  #     dict2: "{{ update_rest_response.json }}"
 
-  - name: differences
-    debug: var=configs_differences verbosity=1
+  # - name: find differences between before and after
+  #   set_fact:
+  #     configs_differences: "{{ lookup('template', 'apigateway_restapi_diff_dictionaries.json.j2') }}"
 
-  - name: Set changed flag to true if differences were detected
-    set_fact:
-      configure_apigateway_set_saml_settings_changed: "{{ configs_differences is defined and configs_differences|length > 0 }}"
+  # - name: differences
+  #   debug: var=configs_differences verbosity=1
 
-  - name: Print the changed var
-    debug:
-      var: configure_apigateway_set_saml_settings_changed
-      verbosity: 2
+  # - name: Set changed flag to true if differences were detected
+  #   set_fact:
+  #     configure_apigateway_set_saml_settings_changed: "{{ configs_differences is defined and configs_differences|length > 0 }}"
+
+  # - name: Print the changed var
+  #   debug:
+  #     var: configure_apigateway_set_saml_settings_changed
+  #     verbosity: 2
