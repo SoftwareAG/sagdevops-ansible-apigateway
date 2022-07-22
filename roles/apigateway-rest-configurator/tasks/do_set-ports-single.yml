@@ -110,7 +110,7 @@
           ports_enable: false
         when: get_existing_port.json.enabled | bool
 
-      - name: Update api gateway port
+      - name: Update existing api gateway port
         uri:
           url: "{{ apigateway_rest_is_ports }}"
           method: "PUT"
@@ -148,7 +148,7 @@
   - name: If current API Gateway port does not exists, add it
     block:
 
-      - name: Save api gateway port
+      - name: Save new api gateway port
         uri:
           url: "{{ apigateway_rest_is_ports }}"
           method: "POST"
