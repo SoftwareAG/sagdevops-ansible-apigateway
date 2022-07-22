@@ -12,7 +12,12 @@
     fail: 
       msg: "rvar_apigateway_port.port_detail not specified...cannot do anything."
     when: rvar_apigateway_port.port_detail is not defined
-    
+
+  - name: fail if rvar_apigateway_port.port_detail.port not specified
+    fail: 
+      msg: "rvar_apigateway_port.port_detail.port not specified...cannot do anything."
+    when: rvar_apigateway_port.port_detail.port is not defined
+
   - name: Extract port fields and save into variable
     set_fact:
       rvar_apigateway_port_type: "{{ rvar_apigateway_port.port_type }}"
