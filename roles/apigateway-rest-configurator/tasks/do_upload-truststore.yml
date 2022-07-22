@@ -10,7 +10,7 @@
   - name: fail if rvar_apigateway_truststore.keyStoreName contains invalid chars
     fail: 
       msg: "rvar_apigateway_truststore.keyStoreName contains invalid characters..."
-    when: not rvar_apigateway_truststore.keyStoreName | match('^[0-9a-zA-Z_]+$')
+    when: rvar_apigateway_truststore.keyStoreName | regex_search('^[0-9a-zA-Z_]+$') == ""
 
   - name: Get current API Gateway truststore
     uri:
