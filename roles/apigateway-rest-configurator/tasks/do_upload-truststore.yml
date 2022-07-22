@@ -1,5 +1,17 @@
 ---
 
+  - debug: var=rvar_apigateway_truststore verbosity=1
+
+  - name: fail if rvar_apigateway_truststore.keyStoreName not specified
+    fail: 
+      msg: "rvar_apigateway_truststore.keyStoreName is not specified...cannot do anything."
+    when: rvar_apigateway_truststore.keyStoreName is not defined or rvar_apigateway_truststore.keyStoreName | trim == ""
+
+  - name: fail if rvar_apigateway_truststore.keyStoreName contains invalid chars
+    fail: 
+      msg: "rvar_apigateway_truststore.keyStoreName contains invalid characters..."
+    when: not rvar_apigateway_truststore.keyStoreName | match('^[0-9a-zA-Z_]+$')
+
   - name: Get current API Gateway truststore
     uri:
       url: "{{ apigateway_rest_is_truststore }}"
@@ -36,8 +48,6 @@
 
   - name: the identified curl uri based on same truststore exist or not...
     debug: var=curl_wrapper_target_uri verbosity=1
-
-  - debug: var=rvar_apigateway_truststore verbosity=1
 
   # TODO: need to work on this...body structure is not the same as curl!!
   # - name: tasks for newer versions of ansible that support form-multipart
