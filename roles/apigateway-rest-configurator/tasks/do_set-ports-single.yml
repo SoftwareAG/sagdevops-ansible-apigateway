@@ -16,7 +16,7 @@
   - name: fail if rvar_apigateway_port.port_detail.port not specified
     fail: 
       msg: "rvar_apigateway_port.port_detail.port not specified...cannot do anything."
-    when: rvar_apigateway_port.port_detail.port is not defined
+    when: rvar_apigateway_port.port_detail.port is not defined or rvar_apigateway_port.port_detail.port | trim == ""
 
   - name: Extract port fields and save into variable
     set_fact:
