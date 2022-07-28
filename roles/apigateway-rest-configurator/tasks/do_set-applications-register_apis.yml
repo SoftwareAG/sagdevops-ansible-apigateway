@@ -7,6 +7,7 @@
       msg: "A mandatory param was not defined, cannot do anything."
     when: item is not defined
     with_items:
+      - "{{ rvar_apigateway_applications_single }}"
       - "{{ rvar_apigateway_applications_single.name }}"
       - "{{ rvar_apigateway_applications_single.version }}"
       - "{{ rvar_apigateway_applications_single.custom_registerAPIsByFilter }}"
@@ -60,4 +61,4 @@
       - name: Response for new registered APIs
         debug: var=rest_response_api_registration verbosity=1
 
-    when: custom_registerAPIsIDs is defined and custom_registerAPIsIDs | length > 0
+    when: custom_registerAPIsIDs.apiIDs is defined and custom_registerAPIsIDs.apiIDs | length > 0
