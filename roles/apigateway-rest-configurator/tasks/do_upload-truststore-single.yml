@@ -1,16 +1,16 @@
 ---
 
-  - debug: var=rvar_apigateway_truststore verbosity=1
+  - debug: var=rvar_apigateway_truststore_item verbosity=1
 
-  - name: fail if rvar_apigateway_truststore.keyStoreName not specified
+  - name: fail if rvar_apigateway_truststore_item.keyStoreName not specified
     fail: 
-      msg: "rvar_apigateway_truststore.keyStoreName is not specified...cannot do anything."
-    when: rvar_apigateway_truststore.keyStoreName is not defined or rvar_apigateway_truststore.keyStoreName | trim == ""
+      msg: "rvar_apigateway_truststore_item.keyStoreName is not specified...cannot do anything."
+    when: rvar_apigateway_truststore_item.keyStoreName is not defined or rvar_apigateway_truststore_item.keyStoreName | trim == ""
 
-  - name: fail if rvar_apigateway_truststore.keyStoreName contains invalid chars
+  - name: fail if rvar_apigateway_truststore_item.keyStoreName contains invalid chars
     fail: 
-      msg: "rvar_apigateway_truststore.keyStoreName contains invalid characters..."
-    when: rvar_apigateway_truststore.keyStoreName | regex_search('^[0-9a-zA-Z_]+$')) is none
+      msg: "rvar_apigateway_truststore_item.keyStoreName contains invalid characters..."
+    when: rvar_apigateway_truststore_item.keyStoreName | regex_search('^[0-9a-zA-Z_]+$')) is none
 
   - name: Get current API Gateway truststore
     uri:
@@ -39,12 +39,12 @@
   - name: If new truststore data does not exist, then URI is the generic one
     set_fact:
       curl_wrapper_target_uri: "{{ apigateway_rest_is_truststore }}"
-    when: not rvar_apigateway_truststore.keyStoreName in get_all_truststore_names
+    when: not rvar_apigateway_truststore_item.keyStoreName in get_all_truststore_names
 
   - name: If new truststore data already exists, then URI contains the name of the trsustore
     set_fact:
-      curl_wrapper_target_uri: "{{ apigateway_rest_is_truststore }}/{{ rvar_apigateway_truststore.keyStoreName }}"
-    when: rvar_apigateway_truststore.keyStoreName in get_all_truststore_names
+      curl_wrapper_target_uri: "{{ apigateway_rest_is_truststore }}/{{ rvar_apigateway_truststore_item.keyStoreName }}"
+    when: rvar_apigateway_truststore_item.keyStoreName in get_all_truststore_names
 
   - name: the identified curl uri based on same truststore exist or not...
     debug: var=curl_wrapper_target_uri verbosity=1
@@ -63,7 +63,7 @@
   #         force_basic_auth: yes
   #         validate_certs: "{{ not ( apigateway_rest_no_check_certs | default() | bool ) }}"
   #         status_code: [200]
-  #         body: "{{ rvar_apigateway_truststore | default({},true) }}"
+  #         body: "{{ rvar_apigateway_truststore_item | default({},true) }}"
   #         body_format: form-multipart
   #         timeout: 30
   #       register: update_keystore
@@ -83,7 +83,7 @@
           curl_wrapper_basicauth_user: "{{ apigateway_rest_login_username }}"
           curl_wrapper_basicauth_password: "{{ apigateway_rest_login_password }}"
           curl_wrapper_no_check_certs: "{{ apigateway_rest_no_check_certs }}"
-          curl_wrapper_multipart_formdata_fields: "{{ rvar_apigateway_truststore }}"
+          curl_wrapper_multipart_formdata_fields: "{{ rvar_apigateway_truststore_item }}"
           curl_wrapper_headers_fields:
             "Accept": "application/json"
 

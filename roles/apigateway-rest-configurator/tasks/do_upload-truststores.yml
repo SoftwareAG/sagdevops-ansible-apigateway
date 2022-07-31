@@ -1,0 +1,10 @@
+---
+
+  - name: Ports to update
+    debug: var=rvar_apigateway_truststore_list verbosity=1
+
+  - name: Include Single truststore tasks
+    include_tasks: "do_upload-truststore-single"
+    with_items: "{{ rvar_apigateway_truststore_list }}"
+    loop_control:
+      loop_var: rvar_apigateway_truststore_item

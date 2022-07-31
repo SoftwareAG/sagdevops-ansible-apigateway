@@ -171,33 +171,28 @@ apigateway_configparams_rest_usermgt_accessprofiles:
   #       - deserunt dolor
 
 ## api gateway truststore format
-rvar_apigateway_truststore:
-  # keyStoreName: "<string>"
-  # keyStoreType: "<string>"
-  # keyStoreProvider: "<string>"
-  # keyStorePassword: "<string>"
-  # uploadFileName: "<string>"
-  # keyStoreDescription: "<string>"
-  # fileContent: "@<file_path>"
+rvar_apigateway_truststore_list:
+  # - keyStoreName: "<string>"
+  #   keyStoreType: "<string>"
+  #   keyStoreProvider: "<string>"
+  #   keyStorePassword: "<string>"
+  #   uploadFileName: "<string>"
+  #   keyStoreDescription: "<string>"
+  #   fileContent: "@<file_path>"
 
 ## api gateway truststore format
-rvar_apigateway_keystore:
-  # keyStoreName: "<string>"
-  # keyStoreType: "<string>"
-  # keyStoreProvider: "<string>"
-  # keyStorePassword: "<string>"
-  # uploadFileName: "<string>"
-  # keyStoreDescription: "<string>"
-  # fileContentPath: "<string>"
-
-# this is for the aliases inside the keystore
-rvar_apigateway_keystore_keyalias_list: []
+rvar_apigateway_keystore_list:
   # - keyStoreName: "<string>"
-  #   nullPKpasswds: "false"
-  #   isPwdBase64Encoded: "false"
-  #   bitarray: "1"
+  #   keyStoreType: "<string>"
+  #   keyStoreProvider: "<string>"
+  #   keyStorePassword: "<string>"
+  #   uploadFileName: "<string>"
+  #   keyStoreDescription: "<string>"
+  #   fileContent: "<string>"
   #   pkAliasesList: "<string>"
   #   pkPasswordsList: "<string>"
+  #   nullPKpasswds: "false"
+  #   isPwdBase64Encoded: "false"
 
 rvar_apigateway_keytruststore_configuration:
   # keystoreName: "<string>"
@@ -380,24 +375,25 @@ rvar_apigateway_saml_groups_mapping_list:
   #   local_group_name: <string>
 
 # rvar_apigateway_saml_settings:
-  # saml_enabled: "<boolean>"
-  # saml_redirect: "/saml/sso/login"
-  # saml_sp_id: "<string>"
-  # saml_assertion_signed: "<boolean>"
-  # saml_authreq_signed:  "<boolean>"
-  # saml_sp_metadata_url: "<string>"
-  # saml_ldp_metadata_url: "<string>"
-  # saml_keystore_type: "<string>"
-  # saml_keystore_location: "<string>"
-  # saml_keystore_pwd: "<string>"
-  # saml_defaultkey_alias: "<string>"
-  # saml_defaultkey_pwd: "<string>"
-  # saml_signkey_alias: "<string>"
-  # saml_signkey_pwd: "<string>"
-  # saml_encrypkey_alias: "<string>"
-  # saml_encrypkey_pwd: "<string>"
+# saml_enabled: "<boolean>"
+# saml_redirect: "/saml/sso/login"
+# saml_sp_id: "<string>"
+# saml_assertion_signed: "<boolean>"
+# saml_authreq_signed:  "<boolean>"
+# saml_sp_metadata_url: "<string>"
+# saml_ldp_metadata_url: "<string>"
+# saml_keystore_type: "<string>"
+# saml_keystore_location: "<string>"
+# saml_keystore_pwd: "<string>"
+# saml_defaultkey_alias: "<string>"
+# saml_defaultkey_pwd: "<string>"
+# saml_signkey_alias: "<string>"
+# saml_signkey_pwd: "<string>"
+# saml_encrypkey_alias: "<string>"
+# saml_encrypkey_pwd: "<string>"
 
-rvar_apigateway_saml_settings: {}
+rvar_apigateway_saml_settings:
+  {}
   # idpFilename: Excepteur minim magna qui
   # idpMetadataContent: commodo
   # idpUrl: ame
@@ -423,7 +419,7 @@ rvar_apigateway_saml_settings: {}
   #   emailAddresses: ad mollit consectetur
   #   firstName: laboris dolore
   #   lastName: ex Duis officia incididunt
-  
+
 rvar_apigateway_archive_imports:
   # - path: "<string>"
   #   overwrite: "*"
