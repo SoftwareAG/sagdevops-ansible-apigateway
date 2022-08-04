@@ -10,7 +10,12 @@
   - name: fail if rvar_apigateway_truststore_item.keyStoreName contains invalid chars
     fail: 
       msg: "rvar_apigateway_truststore_item.keyStoreName contains invalid characters..."
-    when: rvar_apigateway_truststore_item.keyStoreName | regex_search('^[0-9a-zA-Z_]+$')) is none
+    when: (rvar_apigateway_truststore_item.keyStoreName | regex_search('^[0-9a-zA-Z_]+$')) is none
+  
+  # - name: TODO - we should check if the filecontent file is there and fail if not?
+  #   stat: 
+  #     path: "path/to/file/path"
+  #   register: path_filecontent
 
   - name: Get current API Gateway truststore
     uri:
