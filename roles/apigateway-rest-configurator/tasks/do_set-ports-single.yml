@@ -134,16 +134,15 @@
         set_fact:
           rvar_apigateway_port_listenerkey: "{{ rvar_apigateway_port_saved.json.newlistenerKey }}"
 
-      - name: re-enable the port if it was enabled pre-update
+      - name: re-enable the port if the port_enabled is not defined, and port was enabled pre-update
         include_tasks: "ports/enable.yml"
         vars:
           ports_listenerkey: "{{ rvar_apigateway_port_listenerkey }}"
           ports_pkg: "{{ rvar_apigateway_port_detail.pkg }}"
           ports_enable: true
-        when: get_existing_port.json.enabled | bool
+        when: rvar_apigateway_port.port_enabled is not defined and get_existing_port.json.enabled | bool
 
     when: get_existing_port.json.uniqueID is defined
-
 
   - name: If current API Gateway port does not exists, add it
     block:
@@ -216,3 +215,11 @@
 
   - name: Response for the saved object
     debug: var=rvar_apigateway_port_ipaccessmode_saved verbosity=1
+
+  - name: final enable the port if it is desired
+    include_tasks: "ports/enable.yml"
+    vars:
+      ports_listenerkey: "{{ rvar_apigateway_port_listenerkey }}"
+      ports_pkg: "{{ rvar_apigateway_port_detail.pkg }}"
+      ports_enable: "{{ rvar_apigateway_port.port_enabled | bool }}"
+    when: rvar_apigateway_port.port_enabled is defined

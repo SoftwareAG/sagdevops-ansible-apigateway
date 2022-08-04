@@ -285,11 +285,11 @@ rvar_apigateway_internals_ports_types:
 
 rvar_apigateway_ports_list:
   # - port_type: regular_https
+  #   port_enabled: true
   #   port_detail:
   #     listenerKey:
   #     oldPkg:
   #     certChain: ''
-  #     enable: 'no'
   #     port: '5443'
   #     portAlias: SAGSecurePort
   #     portDescription:
