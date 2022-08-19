@@ -1,12 +1,12 @@
 ---
 
-  - debug: var=apigateway_configparams_rest_usermgt_user_single verbosity=1
+  - debug: var=rvar_apigateway_usermgt_user_single verbosity=1
 
   - name: First, get the user ids based on the input names (returned in var rest_response_user_ids)
     include_tasks: "users/get-users-ids-by-loginids.yml"
     vars:
-      apigateway_configparams_rest_usermgt_user_loginids: 
-        - "{{ apigateway_configparams_rest_usermgt_user_single.loginId }}"
+      rvar_apigateway_usermgt_user_loginids: 
+        - "{{ rvar_apigateway_usermgt_user_single.loginId }}"
 
   - name: Update the existing user if it existed
     block:
@@ -32,16 +32,16 @@
 
       - name: Merge the existing user content with the updated content
         set_fact:
-          apigateway_configparams_rest_usermgt_user_single_toupdate: "{{ rest_response_get.json.users[0] | combine(apigateway_configparams_rest_usermgt_user_single,recursive=True) }}"
+          rvar_apigateway_usermgt_user_single_toupdate: "{{ rest_response_get.json.users[0] | combine(rvar_apigateway_usermgt_user_single,recursive=True) }}"
 
       - name: Update the existing user
         uri:
-          url: "{{ apigateway_rest_users_api }}/{{ apigateway_configparams_rest_usermgt_user_single_toupdate.id }}"
+          url: "{{ apigateway_rest_users_api }}/{{ rvar_apigateway_usermgt_user_single_toupdate.id }}"
           method: PUT
           user: "{{ apigateway_rest_login_username }}"
           password: "{{ apigateway_rest_login_password }}"
           return_content: yes
-          body: "{{ apigateway_configparams_rest_usermgt_user_single_toupdate | to_json }}"
+          body: "{{ rvar_apigateway_usermgt_user_single_toupdate | to_json }}"
           force_basic_auth: yes
           validate_certs: "{{ not ( apigateway_rest_no_check_certs | default() | bool ) }}"
           status_code: [200, 201]
@@ -64,7 +64,7 @@
           user: "{{ apigateway_rest_login_username }}"
           password: "{{ apigateway_rest_login_password }}"
           return_content: yes
-          body: "{{ apigateway_configparams_rest_usermgt_user_single | default({}) | to_json }}"
+          body: "{{ rvar_apigateway_usermgt_user_single | default({}) | to_json }}"
           force_basic_auth: yes
           validate_certs: "{{ not ( apigateway_rest_no_check_certs | default() | bool ) }}"
           status_code: [200, 201]
