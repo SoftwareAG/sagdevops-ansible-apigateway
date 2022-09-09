@@ -474,6 +474,22 @@ rvar_apigateway_plans:
   #   packageNamesVersion: []
   #   # packageIds: []
 
+# apis to add or update
+# the following attributes combinations of "name/version" will be transformed to corresponding internal id for unique lookups
+# important: knowledge of the api object is required to update the object correctly...
+# simply add the fields/values to be updated into each object item and updates will be done for these fields (keeping existing fields unchanged)
+rvar_apigateway_apis:
+  # - name: Sample api1
+  #   version: "1.0"
+  #   field1: "field1_value"
+  #   field2: "field2_value"
+  #   field3: "field3_value"
+  # - name: Sample api2
+  #   version: "1.0"
+  #   field1: "field1_value"
+  #   field2: "field2_value"
+  #   field3: "field3_value"
+
 # applications to add or update
 # the following attributes with "names/version" will be transformed to corresponding attributes of internal ids:
 # - custom_registerAPIsByFilter --> triggers the registration apis call

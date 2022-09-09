@@ -1,0 +1,14 @@
+---
+
+  - debug: 
+      msg: Begin tasks in do_set-apis-single.yml
+
+  - debug: var=rvar_apigateway_apis_single verbosity=1
+
+  - name: save or update an api
+    include_tasks: "apis/save-or-update.yml"
+    vars:
+      rvar_apigateway_api: "{{ rvar_apigateway_apis_single }}"
+
+  - debug: 
+      msg: End tasks in do_set-apis-single.yml
