@@ -1,27 +1,27 @@
 ---
 
-  - debug: var=apigateway_configparams_rest_usermgt_group_single verbosity=1
+  - debug: var=rvar_apigateway_usermgt_group_single verbosity=1
       
   - name: fail if mandatory params not specified
     fail: 
       msg: "A mandatory param was not defined, cannot do anything."
     when: item is not defined
     with_items:
-      - "{{ apigateway_configparams_rest_usermgt_group_single.name }}"
-      - "{{ apigateway_configparams_rest_usermgt_group_single.description }}"
+      - "{{ rvar_apigateway_usermgt_group_single.name }}"
+      - "{{ rvar_apigateway_usermgt_group_single.description }}"
 
   - name: First, get the group ids based on the input names (returned in var rest_response_group_ids)
     include_tasks: "groups/get-groups-ids-by-names.yml"
     vars:
-      apigateway_configparams_rest_usermgt_group_names: 
-        - "{{ apigateway_configparams_rest_usermgt_group_single.name }}"
+      rvar_apigateway_usermgt_group_names: 
+        - "{{ rvar_apigateway_usermgt_group_single.name }}"
 
   - debug: var=rest_response_group_ids verbosity=1
 
   - name: Get the internal user ids that belong to the group, based on the login ids passed in
     include_tasks: "users/get-users-ids-by-loginids.yml"
     vars:
-      apigateway_configparams_rest_usermgt_user_loginids: "{{ apigateway_configparams_rest_usermgt_group_single.user_loginids_add }}"
+      rvar_apigateway_usermgt_user_loginids: "{{ rvar_apigateway_usermgt_group_single.user_loginids_add }}"
 
   - debug: var=rest_response_user_ids verbosity=1
 
@@ -63,20 +63,20 @@
       - name: Merge the existing group content with the updated content
         set_fact:
           __updated_group_userids: "{{ __current_group_userids + rest_response_user_ids | default([],true) }}"
-        when: (apigateway_configparams_rest_usermgt_group_single.empty_user_ids | default(false) | bool) == false
+        when: (rvar_apigateway_usermgt_group_single.empty_user_ids | default(false) | bool) == false
 
       - name: Overwrite the existing group content with the updated content
         set_fact:
           __updated_group_userids: "{{ rest_response_user_ids | default([],true) }}"
-        when: (apigateway_configparams_rest_usermgt_group_single.empty_user_ids | default(false) | bool) == true
+        when: (rvar_apigateway_usermgt_group_single.empty_user_ids | default(false) | bool) == true
 
       - name: Save the existing group content in the var to update
         set_fact:
           __group_toupdate: "{{ __current_group | combine(new_item, recursive=true) }}"
         vars:
           new_item:          
-            name: "{{ apigateway_configparams_rest_usermgt_group_single.name }}"
-            description: "{{ apigateway_configparams_rest_usermgt_group_single.description }}"
+            name: "{{ rvar_apigateway_usermgt_group_single.name }}"
+            description: "{{ rvar_apigateway_usermgt_group_single.description }}"
             userIds: "{{ __updated_group_userids }}"
 
       - debug: var=__group_toupdate verbosity=1
@@ -107,8 +107,8 @@
       - name: Set group payload
         set_fact:
           __group_tocreate:
-            name: "{{ apigateway_configparams_rest_usermgt_group_single.name }}"
-            description: "{{ apigateway_configparams_rest_usermgt_group_single.description }}"
+            name: "{{ rvar_apigateway_usermgt_group_single.name }}"
+            description: "{{ rvar_apigateway_usermgt_group_single.description }}"
             userIds: "{{ rest_response_user_ids | default([],true) }}"
 
       - debug: var=__group_tocreate verbosity=1

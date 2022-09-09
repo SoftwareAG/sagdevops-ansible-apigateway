@@ -11,7 +11,7 @@
 
 - name: Set user login ids filter to parse the rest response
   set_fact:
-    rest_response_filter_names: "{{ apigateway_configparams_rest_usermgt_user_loginids }}"
+    rest_response_filter_names: "{{ rvar_apigateway_usermgt_user_loginids }}"
 
 - name: Parse response and find the user id based on user name
   set_fact:

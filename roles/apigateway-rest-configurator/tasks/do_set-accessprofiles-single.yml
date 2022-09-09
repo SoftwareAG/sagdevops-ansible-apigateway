@@ -1,24 +1,24 @@
 ---
 
-  - debug: var=apigateway_configparams_rest_usermgt_accessprofile_single verbosity=1
+  - debug: var=rvar_apigateway_usermgt_accessprofile_single verbosity=1
 
   - name: Get the group ids based on the input names (returned in var rest_response_group_ids)
     include_tasks: "groups/get-groups-ids-by-names.yml"
     vars:
-      apigateway_configparams_rest_usermgt_group_names: "{{ apigateway_configparams_rest_usermgt_accessprofile_single.groupnames }}"
+      rvar_apigateway_usermgt_group_names: "{{ rvar_apigateway_usermgt_accessprofile_single.groupnames }}"
 
   - name: Merge the payload groupIds field with the IDs that we just got from their names
     set_fact:
-      apigateway_configparams_rest_usermgt_accessprofile_single_enrichment: 
-        groupIds: "{{ (apigateway_configparams_rest_usermgt_accessprofile_single.groupIds | default([],true)) + rest_response_group_ids }}"
+      rvar_apigateway_usermgt_accessprofile_single_enrichment: 
+        groupIds: "{{ (rvar_apigateway_usermgt_accessprofile_single.groupIds | default([],true)) + rest_response_group_ids }}"
     when: rest_response_group_ids is defined and rest_response_group_ids | length > 0
 
   - name: Update the payload object with the IDs instead of the names
     set_fact:
-      apigateway_configparams_rest_usermgt_accessprofile_single_enriched: "{{ apigateway_configparams_rest_usermgt_accessprofile_single | combine(apigateway_configparams_rest_usermgt_accessprofile_single_enrichment,recursive=True) }}"
-    when: apigateway_configparams_rest_usermgt_accessprofile_single_enrichment is defined
+      rvar_apigateway_usermgt_accessprofile_single_enriched: "{{ rvar_apigateway_usermgt_accessprofile_single | combine(rvar_apigateway_usermgt_accessprofile_single_enrichment,recursive=True) }}"
+    when: rvar_apigateway_usermgt_accessprofile_single_enrichment is defined
 
-  - debug: var=apigateway_configparams_rest_usermgt_accessprofile_single_enriched verbosity=1
+  - debug: var=rvar_apigateway_usermgt_accessprofile_single_enriched verbosity=1
 
   - name: First, get all accessprofiles to determine if the access profile with same name exists
     uri:
@@ -42,7 +42,7 @@
   - name: Set name filter to parse the rest response
     set_fact:
       rest_response_filter_names:
-        - "{{ apigateway_configparams_rest_usermgt_accessprofile_single_enriched.name }}"
+        - "{{ rvar_apigateway_usermgt_accessprofile_single_enriched.name }}"
 
   - name: Parse response and find the id based on name
     set_fact:
@@ -75,16 +75,16 @@
 
       - name: Merge the existing access profile content with the updated content
         set_fact:
-          apigateway_configparams_rest_usermgt_accessprofile_single_enriched_toupdate: "{{ rest_response_get.json.accessProfiles[0] | combine(apigateway_configparams_rest_usermgt_accessprofile_single_enriched,recursive=True) }}"
+          rvar_apigateway_usermgt_accessprofile_single_enriched_toupdate: "{{ rest_response_get.json.accessProfiles[0] | combine(rvar_apigateway_usermgt_accessprofile_single_enriched,recursive=True) }}"
 
       - name: Update the existing access profile
         uri:
-          url: "{{ apigateway_rest_accessprofiles_api }}/{{ apigateway_configparams_rest_usermgt_accessprofile_single_enriched_toupdate.id }}"
+          url: "{{ apigateway_rest_accessprofiles_api }}/{{ rvar_apigateway_usermgt_accessprofile_single_enriched_toupdate.id }}"
           method: PUT
           user: "{{ apigateway_rest_login_username }}"
           password: "{{ apigateway_rest_login_password }}"
           return_content: yes
-          body: "{{ apigateway_configparams_rest_usermgt_accessprofile_single_enriched_toupdate | to_json }}"
+          body: "{{ rvar_apigateway_usermgt_accessprofile_single_enriched_toupdate | to_json }}"
           force_basic_auth: yes
           validate_certs: "{{ not ( apigateway_rest_no_check_certs | default() | bool ) }}"
           status_code: [200, 201]
@@ -107,7 +107,7 @@
           user: "{{ apigateway_rest_login_username }}"
           password: "{{ apigateway_rest_login_password }}"
           return_content: yes
-          body: "{{ apigateway_configparams_rest_usermgt_accessprofile_single_enriched | default({}) | to_json }}"
+          body: "{{ rvar_apigateway_usermgt_accessprofile_single_enriched | default({}) | to_json }}"
           force_basic_auth: yes
           validate_certs: "{{ not ( apigateway_rest_no_check_certs | default() | bool ) }}"
           status_code: [200, 201]

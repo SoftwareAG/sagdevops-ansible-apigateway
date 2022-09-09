@@ -136,7 +136,7 @@ webmethods_apigateway_ui_props_https_truststore_path:
 webmethods_apigateway_ui_props_https_truststore_password:
 
 ## user mgt services payloads
-apigateway_configparams_rest_usermgt_users:
+rvar_apigateway_usermgt_users:
   # - loginId: something.user
   #   firstName: 'something'
   #   lastName: 'user'
@@ -146,7 +146,7 @@ apigateway_configparams_rest_usermgt_users:
   #   active: true
   #   language: english
 
-apigateway_configparams_rest_usermgt_groups:
+rvar_apigateway_usermgt_groups:
   # - name: groupname1
   #   description: group description
   #   empty_user_ids: false
@@ -154,7 +154,7 @@ apigateway_configparams_rest_usermgt_groups:
   #     - "loginid1"
   #     - "loginid2"
 
-apigateway_configparams_rest_usermgt_accessprofiles:
+rvar_apigateway_usermgt_accessprofiles:
   # - name: sed consequat
   #   description: Ut sit
   #   privilege:
