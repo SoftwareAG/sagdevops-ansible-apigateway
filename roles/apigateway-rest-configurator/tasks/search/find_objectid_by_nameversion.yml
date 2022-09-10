@@ -1,0 +1,88 @@
+---
+
+# inputs:
+# _find_object_type: an object type to search
+# _find_object_name: name of object
+# _find_object_version: version of object
+# _find_object_responsefield_id: name of the id attribute (different based on type of object)
+# _find_object_responsefield_name: name of the name attribute (different based on type of object)
+# _find_object_responsefield_version: name of the version attribute (different based on type of object)
+# returns:
+# _found_object_id
+
+- debug:
+    var: "{{ item }}"
+    verbosity: 1
+  with_items:
+    - _find_object_type
+    - _find_object_name
+    - _find_object_version
+    - _find_object_responsefield_id
+    - _find_object_responsefield_name
+    - _find_object_responsefield_version
+
+- name: fail if mandatory params not specified
+  fail:
+    msg: "A mandatory param was not defined, cannot do anything."
+  when: item is not defined
+  with_items:
+    - _find_object_type
+    - _find_object_name
+    - _find_object_version
+    - _find_object_responsefield_id
+    - _find_object_responsefield_name
+    - _find_object_responsefield_version
+
+- include_tasks: "search.yml"
+  vars:
+    _apigateway_search_types_list:
+      - "{{ _find_object_type }}"
+    _apigateway_search_condition: "and"
+    _apigateway_search_responsefields_list:
+      - "{{ _find_object_responsefield_id }}"
+      - "{{ _find_object_responsefield_name }}"
+      - "{{ _find_object_responsefield_version }}"
+    _apigateway_search_scopes_list:
+      - attributeName: "{{ _find_object_responsefield_name }}"
+        keyword: "{{ _find_object_name }}"
+      - attributeName: "{{ _find_object_responsefield_version }}"
+        keyword: "{{ _find_object_version }}"
+
+- name: check if _apigateway_search_response is not defined
+  fail:
+    msg: "_apigateway_search_response is not defined...something wrong happened"  
+  when: _apigateway_search_response is not defined
+
+- name: Parse response payload root attribute
+  set_fact:
+    _found_object_root_attribute: "{{ _apigateway_search_response | selectattr(_find_object_type, 'undefined') }}"
+
+- name: check if _apigateway_search_response contains expected root attribute 
+  fail:
+    msg: "_apigateway_search_response does not contain attribute {{ _find_object_type }} ...something wrong happened"  
+  when: _found_object_root_attribute is not defined or _found_object_root_attribute|list|length == 0
+
+- name: Parse response payload
+  set_fact:
+    _found_object: "{{ _apigateway_search_response[_find_object_type] }}"
+    _found_object_id: ""
+
+- name: check if found object list is greater than 1
+  fail:
+    msg: "more than one object got returned...something wrong happened?"  
+  when: _found_object|list|length > 1
+
+- block:
+
+    - name: Parse response payload for id attribute
+      set_fact:
+        _found_object_id_attribute: "{{ _found_object|first|selectattr(_find_object_responsefield_id, 'undefined') }}"
+
+    - name: Get the id in the response
+      set_fact:
+        _found_object_id: "{{ ( _found_object | first)[_find_object_responsefield_id] }}"
+      when: _found_object_id_attribute is defined and _found_object_id_attribute|list|length > 0
+  
+  when: _found_object|list|length > 0
+
+- debug: var=_found_object_id verbosity=1

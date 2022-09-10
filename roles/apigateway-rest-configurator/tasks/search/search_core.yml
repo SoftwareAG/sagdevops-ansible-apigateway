@@ -1,0 +1,39 @@
+---
+
+# inputs:
+# _apigateway_search_body: search api body params
+# returns:
+# _apigateway_search_response
+
+- debug: var=_apigateway_search_body verbosity=1
+
+- name: fail if mandatory params not specified
+  fail:
+    msg: "A mandatory param was not defined, cannot do anything."
+  when: item is not defined
+  with_items:
+    - _apigateway_search_body
+
+- name: Search objects
+  uri:
+    url: "{{ apigateway_rest_search_api }}"
+    method: POST
+    user: "{{ apigateway_rest_login_username }}"
+    password: "{{ apigateway_rest_login_password }}"
+    return_content: yes
+    body: "{{ _apigateway_search_body | default({}) | to_json }}"
+    force_basic_auth: yes
+    validate_certs: "{{ not ( apigateway_rest_no_check_certs | default() | bool ) }}"
+    status_code: [200]
+    body_format: json
+    timeout: 30
+  register: _apigateway_search_rest_response_raw
+
+- name: Print response
+  debug:
+    var: _apigateway_search_rest_response_raw
+    verbosity: 1
+
+- name: Set json response
+  set_fact:
+    _apigateway_search_response: "{{ _apigateway_search_rest_response_raw.json }}"
