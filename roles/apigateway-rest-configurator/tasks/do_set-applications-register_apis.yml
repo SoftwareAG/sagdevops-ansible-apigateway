@@ -29,7 +29,7 @@
     when: currentobj_application_id is defined and currentobj_application_id != ""
 
   - name: Get the internal API IDs identified in custom_registerAPIsByFilter list
-    include_tasks: "apis/find-ids.yml"
+    include_tasks: "apis/find_ids.yml"
     vars:
       rvar_object_filters: "{{ rvar_apigateway_applications_single.custom_registerAPIsByFilter }}"
 
