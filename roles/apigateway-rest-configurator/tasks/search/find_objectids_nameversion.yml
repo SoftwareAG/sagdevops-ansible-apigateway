@@ -9,20 +9,21 @@
 #   - name: "some_name2"
 #     version: "some_version2"
 # _find_object_responsefield_id: name of the id attribute (different based on type of object)
-# _find_object_filters_mapper_dict: dict that maps the filter keys to actual data object keys - USED for Search Response fields + filter-matching for the search result items
-# _find_object_search_dict: dict that maps the filter keys to actual data object keys - USED for SEARCH only
+# _find_object_responsefield_name: name of the name attribute (different based on type of object)
+# _find_object_responsefield_version: name of the version attribute (different based on type of object)
 #
 # returns:
 # string list of _found_object_ids
+
 - debug:
     var: "{{ item }}"
     verbosity: 1
   with_items:
     - _find_object_type
     - _find_object_filters
-    - _find_object_filters_mapper_dict
-    - _find_object_search_dict
-    - _find_object_id_attribute
+    - _find_object_responsefield_id
+    - _find_object_responsefield_name
+    - _find_object_responsefield_version
 
 - name: fail if mandatory params not specified
   fail:
@@ -31,47 +32,46 @@
   with_items:
     - _find_object_type
     - _find_object_filters
-    - _find_object_id_attribute
-    - _find_object_filters_mapper_dict
+    - _find_object_responsefield_id
+    - _find_object_responsefield_name
+    - _find_object_responsefield_version
 
-- name: set search dict if not defined
+- name: transform object filters list to scope list
   set_fact:
-    _find_object_search_dict: "{{ _find_object_filters_mapper_dict }}"
-  when: _find_object_search_dict is not defined
+    _find_object_unique_names: >-
+          {{ 
+          _find_object_filters
+          | selectattr('name', 'defined')
+          | map(attribute='name')
+          | list 
+          }}
+    _find_object_unique_versions: >-
+          {{
+          _find_object_filters
+          | selectattr('version', 'defined')
+          | map(attribute='version')
+          | list
+          }}
 
-- name: set search fields defaults
-  set_fact:
-    _find_object_filter_attributes_list: []
-    _find_object_responsefields_list:
-      - "{{ _find_object_id_attribute }}"
-
-- name: set search filter_attributes fields
-  set_fact:
-    _find_object_filter_attributes_list: "{{ _find_object_filter_attributes_list }} + [ {{ _attribute_to_append }} ]"
-  vars:
-    _attribute_to_append:
-      attributeName: "{{ item.value }}"
-      keyword:  >-
-        {{
-        _find_object_filters
-        | selectattr(item.key, 'defined')
-        | map(attribute=item.key)
-        | list | map('trim') | unique | join('|')
-        }}
-  with_dict: "{{ _find_object_search_dict }}"
-
-- name: set search response fields
-  set_fact:
-    _find_object_responsefields_list: "{{ _find_object_responsefields_list }} + [ '{{ item.value }}' ]"
-  with_dict: "{{ _find_object_filters_mapper_dict }}"
+- name: check if name and versions values were all provided
+  fail:
+    msg: "filter values for names and versions are not equal...some names or versions were not provided!"  
+  when: _find_object_unique_names | length != _find_object_unique_versions | length
 
 - include_tasks: "search.yml"
   vars:
     _apigateway_search_types_list:
       - "{{ _find_object_type }}"
     _apigateway_search_condition: "and"
-    _apigateway_search_responsefields_list: "{{ _find_object_responsefields_list }}"
-    _apigateway_search_scopes_list: "{{ _find_object_filter_attributes_list }}"
+    _apigateway_search_responsefields_list:
+      - "{{ _find_object_responsefield_id }}"
+      - "{{ _find_object_responsefield_name }}"
+      - "{{ _find_object_responsefield_version }}"
+    _apigateway_search_scopes_list:
+      - attributeName: "{{ _find_object_responsefield_name }}"
+        keyword: "{{ _find_object_unique_names | unique | join('|') }}"
+      - attributeName: "{{ _find_object_responsefield_version }}"
+        keyword: "{{ _find_object_unique_versions | unique | join('|') }}"
 
 - name: check if _apigateway_search_response is not defined
   fail:
@@ -89,12 +89,13 @@
 
 - name: Parse response payload for the ids
   set_fact:
-    _found_object_ids: "{{ lookup('template', 'apigateway_search_responseparsing_get_ids.json.j2') }}"
+    _found_object_ids: "{{ lookup('template', 'apigateway_search_responseparsing_nameversion_get_ids.json.j2') }}"
   vars:
     _objects_list: "{{ _apigateway_search_response[_find_object_type] }}"
     _objects_filters_list: "{{ _find_object_filters }}"
-    _objects_match_attribute_id: "{{ _find_object_id_attribute }}"
-    _objects_filters_mapper_dict: "{{ _find_object_filters_mapper_dict }}"
+    _objects_match_attribute_id: "{{ _find_object_responsefield_id }}"
+    _objects_match_attribute_name: "{{ _find_object_responsefield_name }}"
+    _objects_match_attribute_version: "{{ _find_object_responsefield_version }}"
 
 - name: All IDs found
   debug: var=_found_object_ids verbosity=1

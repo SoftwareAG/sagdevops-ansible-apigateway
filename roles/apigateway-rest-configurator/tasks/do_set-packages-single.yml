@@ -34,7 +34,7 @@
     block:
 
       - name: get the id based on the filter (returned in var rest_response_object_id)
-        include_tasks: "packages/get-single-id.yml"
+        include_tasks: "packages/find-single-id.yml"
         vars:
           rvar_object_filter:
             name: "{{ rvar_apigateway_packages_single.name }}"
@@ -79,7 +79,7 @@
     block:
 
       - name: Get the internal Plan IDs identified in custom_planIdsByFilter list
-        include_tasks: "plans/getall-ids.yml"
+        include_tasks: "plans/find_ids.yml"
         vars:
           rvar_object_filters: "{{ rvar_apigateway_packages_single.custom_planIdsByFilter }}"
 

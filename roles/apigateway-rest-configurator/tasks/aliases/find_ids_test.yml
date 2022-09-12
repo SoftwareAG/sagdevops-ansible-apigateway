@@ -1,0 +1,14 @@
+---
+
+- include_tasks: "find_ids.yml"
+  vars:
+    rvar_object_filters:
+      - name: name1
+        type: simple
+        stage: stag1
+      - name: name1
+        type: endpoint
+        stage: ""
+      - name: name2
+        type: simple
+        stage: doesnotexist

@@ -1,0 +1,7 @@
+---
+
+  - include_tasks: "apis/find_ids_test.yml"
+
+  - include_tasks: "portalgateways/find_ids_test.yml"
+
+  - include_tasks: "aliases/find_ids_test.yml"

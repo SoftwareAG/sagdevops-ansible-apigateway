@@ -3,9 +3,11 @@
 # This get an array of object IDs based on provided human-readable filter object values
 # rvar_object_filters:
 #   - name: "some_name1"
-#     version: "some_version1"
-#   - name: "some_name2"
-#     version: "some_version2"
+#     type: "some_alias_type"
+#     stage: "some_stage1"
+#   - name: "some_name1"
+#     type: "some_alias_type"
+#     stage: "some_stage1"
 # Return a rest_response_object_ids list of ID strings
 
 - name: set initial list to make sure it's always empty at the start
@@ -18,17 +20,22 @@
   vars:
     _filter_item:
       filter1: "{{ item.name }}"
-      filter2: "{{ item.version }}"
+      filter2: "{{ item.type }}"
+      filter3: "{{ item.stage }}"
   loop: "{{ rvar_object_filters }}"
 
 - include_tasks: "../search/find_objectids.yml"
   vars:
-    _find_object_type: api
+    _find_object_type: alias
     _find_object_id_attribute: "id"
     _find_object_filters: "{{ _object_transformed_filters }}"
     _find_object_filters_mapper_dict:
-      filter1: apiName
-      filter2: apiVersion
+      filter1: name
+      filter2: type
+      filter3: stage
+    _find_object_search_dict:
+      filter1: name
+      filter2: type
 
 - set_fact:
     rest_response_object_ids: "{{ _found_object_ids }}"

@@ -23,12 +23,12 @@
 
 - include_tasks: "../search/find_objectids.yml"
   vars:
-    _find_object_type: api
-    _find_object_id_attribute: "id"
+    _find_object_type: plan
+    _find_object_id_attribute: id
     _find_object_filters: "{{ _object_transformed_filters }}"
     _find_object_filters_mapper_dict:
-      filter1: apiName
-      filter2: apiVersion
+      filter1: name
+      filter2: version
 
 - set_fact:
     rest_response_object_ids: "{{ _found_object_ids }}"
