@@ -1,19 +1,31 @@
 ---
 
 # inputs:
+
 # _find_object_type: an object type to search
 # [ "USER", "GROUP", "USERS", "GROUPS", "ACCESSPROFILES", "LDAPGROUPS", "CDSGROUPS", "ASSERTION", "APPLICATION", "API", "ALIAS", "POLICY", "POLICY_ACTION", "PLAN", "PACKAGE", "ADMINISTRATOR_SETTING", "PORTAL_GATEWAY", "OAUTH2_SCOPE_DATA", "SUBSCRIPTION", "API_DOCUMENT", "APPROVAL_CONFIGURATION", "OUTBOUND_PROXY", "PROXY_BYPASS", "URL_ALIAS", "KEYSTORE", "TRUSTSTORE", "KERBEROS_SETTING", "JNDI_PROVIDER_ALIAS", "JMS_CONNECTION_ALIAS", "JMS_TRIGGER", "WEB_SERVICE_ENDPOINT_ALIAS", "ACCESS_CONTROL_LIST", "RULE", "MICROGATEWAY_GROUPS", "GATEWAY_SCOPE", "OAUTH2MATERIALIZEDTOKEN", "TRANSACTION_EVENTS", "LIFECYCLE_EVENTS", "POLICYVIOLATION_EVENTS", "MONITOR_EVENTS", "ERROR_EVENTS", "THREATPROTECTION_EVENTS", "PERFORMANCE_METRICS", "QUOTA_USAGE", "DASHBOARD", "AUDIT_LOG", "REQUEST_RESPONSE_TRACE_SPANS", "APPLICATION_LOG", "MEDIATOR_TRACE_SPANS", "SERVER_LOG_TRACE_SPANS" ]
+# _find_object_id_attribute: name of the ID attribute to return (different based on type of object)
 # _find_object_filters: list of name/version filters
-#   - name: "some_name1"
-#     version: "some_version1"
-#   - name: "some_name2"
-#     version: "some_version2"
-# _find_object_responsefield_id: name of the id attribute (different based on type of object)
-# _find_object_filters_mapper_dict: dict that maps the filter keys to actual data object keys - USED for Search Response fields + filter-matching for the search result items
-# _find_object_search_dict: dict that maps the filter keys to actual data object keys - USED for SEARCH only
+#   - filter1: "some_filter1"
+#     filter2: "some_filter2" (optional)
+#     filter3: "some_filter3" (optional)
+#   - filter1: "some_filter1"
+#     filter2: "some_filter2" (optional)
+#     filter3: "some_filter3" (optional)
+# _find_object_filters_mapper_dict: dict that maps the filter keys/values to actual data object keys/values - USED for Search Response fields + filter-matching for the search result items
+#   filter1: "some_data_attribute1"
+#   filter2: "some_data_attribute2" (optional)
+#   filter3: "some_data_attribute3" (optional)
+# _find_object_search_dict: dict that maps the _find_object_filters keys/values to actual data object keys/values - USED for initial keyword SEARCH only
+# NOTE: if not specified, default to _find_object_filters_mapper_dict
+#   filter1: "some_data_attribute1"
+#   filter2: "some_data_attribute2" (optional)
+#   filter3: "some_data_attribute3" (optional)
 #
 # returns:
 # string list of _found_object_ids
+#
+
 - debug:
     var: "{{ item }}"
     verbosity: 1
