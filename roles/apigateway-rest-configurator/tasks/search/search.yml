@@ -29,10 +29,32 @@
     - _apigateway_search_scopes_list
     - _apigateway_search_responsefields_list
 
-- include_tasks: "search_core.yml"
+- name: Search objects
+  uri:
+    url: "{{ apigateway_rest_search_api }}"
+    method: POST
+    user: "{{ apigateway_rest_login_username }}"
+    password: "{{ apigateway_rest_login_password }}"
+    return_content: yes
+    body: "{{ _apigateway_search_body | default({}) | to_json }}"
+    force_basic_auth: yes
+    validate_certs: "{{ not ( apigateway_rest_no_check_certs | default() | bool ) }}"
+    status_code: [200]
+    body_format: json
+    timeout: 30
   vars:
     _apigateway_search_body:
       types: "{{ _apigateway_search_types_list }}"
       condition: "{{ _apigateway_search_condition }}"
       scope: "{{ _apigateway_search_scopes_list }}"
       responseFields: "{{ _apigateway_search_responsefields_list }}"
+  register: _apigateway_search_rest_response_raw
+
+- name: Print response
+  debug:
+    var: _apigateway_search_rest_response_raw
+    verbosity: 1
+
+- name: Set json response
+  set_fact:
+    _apigateway_search_response: "{{ _apigateway_search_rest_response_raw.json }}"
