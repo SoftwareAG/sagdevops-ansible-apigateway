@@ -16,7 +16,7 @@
     block:
 
       - name: First, get the object id based on the filter (returned in var rest_response_object_id)
-        include_tasks: "applications/find-single-id.yml"
+        include_tasks: "applications/find_single_id.yml"
         vars:
           rvar_object_filter:
             name: "{{ rvar_apigateway_applications_single.name }}"

@@ -34,7 +34,7 @@
     block:
 
       - name: get the id based on the filter (returned in var rest_response_object_id)
-        include_tasks: "packages/find-single-id.yml"
+        include_tasks: "packages/find_single_id.yml"
         vars:
           rvar_object_filter:
             name: "{{ rvar_apigateway_packages_single.name }}"
