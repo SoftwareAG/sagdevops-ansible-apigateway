@@ -35,6 +35,7 @@
     - _find_object_filters_mapper_dict
     - _find_object_search_dict
     - _find_object_id_attribute
+    - _find_object_extra_responsefields_list
 
 - name: fail if mandatory params not specified
   fail:
@@ -54,9 +55,8 @@
 - name: set search fields defaults
   set_fact:
     _find_object_filter_attributes_list: []
-    _find_object_responsefields_list:
-      - "{{ _find_object_id_attribute }}"
-
+    _find_object_responsefields_list: "{{ _find_object_extra_responsefields_list | default([]) }} + [ {{ _find_object_id_attribute }} ]"
+        
 - name: set search filter_attributes fields
   set_fact:
     _find_object_filter_attributes_list: "{{ _find_object_filter_attributes_list }} + [ {{ _attribute_to_append }} ]"
@@ -127,4 +127,5 @@
     _find_object_filters: []
     _find_object_filters_mapper_dict: {}
     _find_object_search_dict: {}
+    _find_object_extra_responsefields_list: []
     _find_object_id_attribute: ""

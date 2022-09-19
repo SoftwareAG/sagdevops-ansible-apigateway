@@ -24,6 +24,8 @@
       filter3: "{{ item.stage }}"
   loop: "{{ rvar_object_filters }}"
 
+## note: here, because stage can be null/empty, we don't include it in search...
+## BUT we will still check on it when the many search results come back
 - include_tasks: "../search/find_objectids.yml"
   vars:
     _find_object_type: alias

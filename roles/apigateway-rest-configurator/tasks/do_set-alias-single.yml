@@ -1,11 +1,27 @@
 ---
 
+  - debug: 
+      msg: Begin tasks in do_set-alias-single.yml
+
   - debug: var=rvar_apigateway_alias_single verbosity=1
+  
+  - name: fail if mandatory params not specified
+    fail: 
+      msg: "A mandatory param was not defined, cannot do anything."
+    when: item is not defined
+    with_items:
+      - "{{ rvar_apigateway_alias_single }}"
+      - "{{ rvar_apigateway_alias_single.name }}"
+      - "{{ rvar_apigateway_alias_single.type }}"
+      - "{{ rvar_apigateway_alias_single.stage }}"
 
   - name: First, get the alias id based on the alias names (returned in var rest_response_alias_id)
-    include_tasks: "aliases/get-alias-id-by-name.yml"
+    include_tasks: "aliases/find_single_id.yml"
     vars:
-      rvar_alias_name: "{{ rvar_apigateway_alias_single.name }}"
+      rvar_object_filter:
+        name: "{{ rvar_apigateway_alias_single.name }}"
+        type: "{{ rvar_apigateway_alias_single.type }}"
+        stage: "{{ rvar_apigateway_alias_single.stage }}"
 
   - name: Update the existing alias if it existed
     block:
