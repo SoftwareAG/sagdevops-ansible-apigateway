@@ -1,0 +1,36 @@
+---
+
+# This get an array of object IDs based on provided human-readable filter object values
+# rvar_object_filters:
+#   - name: "some_name1"
+#     version: "some_version1"
+#   - name: "some_name2"
+#     version: "some_version2"
+# Return a rest_response_object_ids list of ID strings
+
+- name: set initial list to make sure it's always empty at the start
+  set_fact:
+    _object_transformed_filters: []
+
+- name: transform rvar_object_filters to expected format for search
+  set_fact:
+    _object_transformed_filters: "{{ _object_transformed_filters }} + [ {{ _filter_item }} ]"
+  vars:
+    _filter_item:
+      filter1: "{{ item.name }}"
+      filter2: "{{ item.version }}"
+  loop: "{{ rvar_object_filters }}"
+
+- include_tasks: "../search/find_objectids.yml"
+  vars:
+    _find_object_type: application
+    _find_object_id_attribute: applicationID
+    _find_object_filters: "{{ _object_transformed_filters }}"
+    _find_object_filters_mapper_dict:
+      filter1: name
+      filter2: version
+
+- set_fact:
+    rest_response_object_ids: "{{ _found_object_ids }}"
+
+- debug: var=rest_response_object_ids verbosity=1

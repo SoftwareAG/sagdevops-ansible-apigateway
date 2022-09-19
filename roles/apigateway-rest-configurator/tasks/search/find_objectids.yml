@@ -1,0 +1,131 @@
+---
+
+# inputs:
+
+# _find_object_type: an object type to search
+# [ "USER", "GROUP", "USERS", "GROUPS", "ACCESSPROFILES", "LDAPGROUPS", "CDSGROUPS", "ASSERTION", "APPLICATION", "API", "ALIAS", "POLICY", "POLICY_ACTION", "PLAN", "PACKAGE", "ADMINISTRATOR_SETTING", "PORTAL_GATEWAY", "OAUTH2_SCOPE_DATA", "SUBSCRIPTION", "API_DOCUMENT", "APPROVAL_CONFIGURATION", "OUTBOUND_PROXY", "PROXY_BYPASS", "URL_ALIAS", "KEYSTORE", "TRUSTSTORE", "KERBEROS_SETTING", "JNDI_PROVIDER_ALIAS", "JMS_CONNECTION_ALIAS", "JMS_TRIGGER", "WEB_SERVICE_ENDPOINT_ALIAS", "ACCESS_CONTROL_LIST", "RULE", "MICROGATEWAY_GROUPS", "GATEWAY_SCOPE", "OAUTH2MATERIALIZEDTOKEN", "TRANSACTION_EVENTS", "LIFECYCLE_EVENTS", "POLICYVIOLATION_EVENTS", "MONITOR_EVENTS", "ERROR_EVENTS", "THREATPROTECTION_EVENTS", "PERFORMANCE_METRICS", "QUOTA_USAGE", "DASHBOARD", "AUDIT_LOG", "REQUEST_RESPONSE_TRACE_SPANS", "APPLICATION_LOG", "MEDIATOR_TRACE_SPANS", "SERVER_LOG_TRACE_SPANS" ]
+# _find_object_id_attribute: name of the ID attribute to return (different based on type of object)
+# _find_object_filters: list of name/version filters
+#   - filter1: "some_filter1"
+#     filter2: "some_filter2" (optional)
+#     filter3: "some_filter3" (optional)
+#   - filter1: "some_filter1"
+#     filter2: "some_filter2" (optional)
+#     filter3: "some_filter3" (optional)
+# _find_object_filters_mapper_dict: dict that maps the filter keys/values to actual data object keys/values - USED for Search Response fields + filter-matching for the search result items
+#   filter1: "some_data_attribute1"
+#   filter2: "some_data_attribute2" (optional)
+#   filter3: "some_data_attribute3" (optional)
+# _find_object_search_dict: dict that maps the _find_object_filters keys/values to actual data object keys/values - USED for initial keyword SEARCH only
+# NOTE: if not specified, default to _find_object_filters_mapper_dict
+#   filter1: "some_data_attribute1"
+#   filter2: "some_data_attribute2" (optional)
+#   filter3: "some_data_attribute3" (optional)
+#
+# returns:
+# string list of _found_object_ids
+#
+
+- debug:
+    var: "{{ item }}"
+    verbosity: 1
+  with_items:
+    - _find_object_type
+    - _find_object_filters
+    - _find_object_filters_mapper_dict
+    - _find_object_search_dict
+    - _find_object_id_attribute
+    - _find_object_extra_responsefields_list
+
+- name: fail if mandatory params not specified
+  fail:
+    msg: "A mandatory param was not defined, cannot do anything."
+  when: item is not defined
+  with_items:
+    - _find_object_type
+    - _find_object_filters
+    - _find_object_id_attribute
+    - _find_object_filters_mapper_dict
+
+- name: set search dict if not defined
+  set_fact:
+    _find_object_search_dict: "{{ _find_object_filters_mapper_dict }}"
+  when: _find_object_search_dict is not defined or _find_object_search_dict.keys()|length == 0
+
+- name: set search fields defaults
+  set_fact:
+    _find_object_filter_attributes_list: []
+    _find_object_responsefields_list: "{{ _find_object_extra_responsefields_list | default([]) }} + [ '{{ _find_object_id_attribute }}' ]"
+        
+- name: set search filter_attributes fields
+  set_fact:
+    _find_object_filter_attributes_list: "{{ _find_object_filter_attributes_list }} + [ {{ _attribute_to_append }} ]"
+  vars:
+    _attribute_to_append:
+      attributeName: "{{ item.value }}"
+      keyword:  >-
+        {{
+        _find_object_filters
+        | selectattr(item.key, 'defined')
+        | map(attribute=item.key)
+        | list | map('trim') | unique | join('|')
+        }}
+  with_dict: "{{ _find_object_search_dict }}"
+
+- name: set search response fields
+  set_fact:
+    _find_object_responsefields_list: "{{ _find_object_responsefields_list }} + [ '{{ item.value }}' ]"
+  with_dict: "{{ _find_object_filters_mapper_dict }}"
+
+- include_tasks: "search.yml"
+  vars:
+    _apigateway_search_types_list:
+      - "{{ _find_object_type }}"
+    _apigateway_search_condition: "and"
+    _apigateway_search_responsefields_list: "{{ _find_object_responsefields_list }}"
+    _apigateway_search_scopes_list: "{{ _find_object_filter_attributes_list }}"
+
+- name: reset fields to defaults
+  set_fact:
+    _find_object_filter_attributes_list: []
+    _find_object_responsefields_list: []
+
+- name: check if _apigateway_search_response is not defined
+  fail:
+    msg: "_apigateway_search_response is not defined...something wrong happened"  
+  when: _apigateway_search_response is not defined
+
+- name: Parse response payload root attribute
+  set_fact:
+    _found_object_root_attribute: "{{ _apigateway_search_response | selectattr(_find_object_type, 'undefined') }}"
+
+- name: check if _apigateway_search_response contains expected root attribute 
+  fail:
+    msg: "_apigateway_search_response does not contain attribute {{ _find_object_type }} ...something wrong happened"  
+  when: _found_object_root_attribute is not defined or _found_object_root_attribute|list|length == 0
+
+- name: Parse response payload for the ids
+  set_fact:
+    _found_object_ids: "{{ lookup('template', 'apigateway_search_responseparsing_get_ids.json.j2') }}"
+  vars:
+    _objects_list: "{{ _apigateway_search_response[_find_object_type] }}"
+    _objects_filters_list: "{{ _find_object_filters }}"
+    _objects_match_attribute_id: "{{ _find_object_id_attribute }}"
+    _objects_filters_mapper_dict: "{{ _find_object_filters_mapper_dict }}"
+
+- name: All IDs found
+  debug: var=_found_object_ids verbosity=1
+
+- name: fail if response array has more than the amount of provided filter list
+  fail: 
+    msg: "The object_ids array contains more results that the provided filter array... not expected... Some records came back multiple time? Investigate!"
+  when: _found_object_ids | length > _find_object_filters | length
+
+- name: final reset fields to defaults
+  set_fact:
+    _find_object_type: ""
+    _find_object_filters: []
+    _find_object_filters_mapper_dict: {}
+    _find_object_search_dict: {}
+    _find_object_extra_responsefields_list: []
+    _find_object_id_attribute: ""

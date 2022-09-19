@@ -6,7 +6,7 @@
   - debug: var=rvar_apigateway_apis_single verbosity=1
 
   - name: save or update an api
-    include_tasks: "apis/save-or-update.yml"
+    include_tasks: "apis/save_or_update.yml"
     vars:
       rvar_apigateway_api: "{{ rvar_apigateway_apis_single }}"
 
