@@ -1,0 +1,31 @@
+---
+
+  - debug: var=rvar_apigateway_alias_tocreate verbosity=1
+  
+  - name: fail if mandatory params not specified
+    fail: 
+      msg: "A mandatory param was not defined, cannot do anything."
+    when: item is not defined
+    with_items:
+      - "{{ rvar_apigateway_alias_tocreate }}"
+
+  - name: Create new Alias
+    uri:
+      url: "{{ apigateway_rest_alias_api }}"
+      method: POST
+      user: "{{ apigateway_rest_login_username }}"
+      password: "{{ apigateway_rest_login_password }}"
+      body: "{{ rvar_apigateway_alias_tocreate | to_json }}"
+      return_content: yes
+      force_basic_auth: yes
+      validate_certs: "{{ not ( apigateway_rest_no_check_certs | default() | bool ) }}"
+      status_code: [200, 201]
+      body_format: json
+      timeout: 30
+    register: rest_response_mutate_create
+
+  - debug: var=rest_response_mutate_create verbosity=1
+
+  - name: Set response to custom var
+    set_fact:
+      rest_response_create: "{{ rest_response_mutate_create.json }}"

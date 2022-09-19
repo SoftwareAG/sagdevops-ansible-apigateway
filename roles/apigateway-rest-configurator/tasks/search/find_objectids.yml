@@ -55,7 +55,7 @@
 - name: set search fields defaults
   set_fact:
     _find_object_filter_attributes_list: []
-    _find_object_responsefields_list: "{{ _find_object_extra_responsefields_list | default([]) }} + [ {{ _find_object_id_attribute }} ]"
+    _find_object_responsefields_list: "{{ _find_object_extra_responsefields_list | default([]) }} + [ '{{ _find_object_id_attribute }}' ]"
         
 - name: set search filter_attributes fields
   set_fact:
