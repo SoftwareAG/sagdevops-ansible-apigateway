@@ -11,7 +11,7 @@
 
 - name: Set group names filter to parse the rest response
   set_fact:
-    rest_response_filter_names: "{{ apigateway_configparams_rest_usermgt_group_names }}"
+    rest_response_filter_names: "{{ rvar_apigateway_usermgt_group_names }}"
 
 - name: Parse response and find the group id based on group name
   set_fact:

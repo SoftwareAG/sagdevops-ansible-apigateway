@@ -1,0 +1,15 @@
+[{%- if _objects_list is defined -%}
+    {% set vars = {'filter_matched': False} %}
+    {%- for filter_item in _objects_filters_list -%}
+        {% if _objects_list is iterable and (_objects_list is not string and _objects_list is not mapping) %}
+            {%- for dataitem in _objects_list -%}
+              {%- if dataitem[_objects_match_attribute_name] == filter_item.name and dataitem[_objects_match_attribute_version] == filter_item.version -%}
+                {%- if dataitem[_objects_match_attribute_id] is defined -%}
+                  {%- if vars.filter_matched -%},{%- endif -%}'{{ dataitem[_objects_match_attribute_id] }}'
+                  {%- if vars.update({'filter_matched': True}) -%} {%- endif -%}
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+        {%- endif -%}
+    {%- endfor -%}
+{%- endif -%}]

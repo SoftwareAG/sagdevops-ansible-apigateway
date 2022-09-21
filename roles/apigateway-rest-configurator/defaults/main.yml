@@ -41,6 +41,7 @@ apigateway_rest_users_api: "{{ apigateway_rest_base_path }}/users"
 apigateway_rest_urlaliases_api: "{{ apigateway_rest_base_path }}/urlaliases"
 apigateway_rest_groups_api: "{{ apigateway_rest_base_path }}/groups"
 apigateway_rest_accessprofiles_api: "{{ apigateway_rest_base_path }}/accessProfiles"
+apigateway_rest_search_api: "{{ apigateway_rest_base_path }}/search"
 
 # applications and apis
 apigateway_rest_applications_api: "{{ apigateway_rest_base_path }}/applications"
@@ -136,7 +137,7 @@ webmethods_apigateway_ui_props_https_truststore_path:
 webmethods_apigateway_ui_props_https_truststore_password:
 
 ## user mgt services payloads
-apigateway_configparams_rest_usermgt_users:
+rvar_apigateway_usermgt_users:
   # - loginId: something.user
   #   firstName: 'something'
   #   lastName: 'user'
@@ -146,7 +147,7 @@ apigateway_configparams_rest_usermgt_users:
   #   active: true
   #   language: english
 
-apigateway_configparams_rest_usermgt_groups:
+rvar_apigateway_usermgt_groups:
   # - name: groupname1
   #   description: group description
   #   empty_user_ids: false
@@ -154,7 +155,7 @@ apigateway_configparams_rest_usermgt_groups:
   #     - "loginid1"
   #     - "loginid2"
 
-apigateway_configparams_rest_usermgt_accessprofiles:
+rvar_apigateway_usermgt_accessprofiles:
   # - name: sed consequat
   #   description: Ut sit
   #   privilege:
@@ -171,26 +172,30 @@ apigateway_configparams_rest_usermgt_accessprofiles:
   #       - deserunt dolor
 
 ## api gateway truststore format
-webmethods_apigateway_truststore:
-  # keyStoreName: "<string>"
-  # keyStoreType: "<string>"
-  # keyStoreProvider: "<string>"
-  # keyStorePassword: "<string>"
-  # uploadFileName: "<string>"
-  # keyStoreDescription: "<string>"
-  # fileContent: "@<file_path>"
+rvar_apigateway_truststore_list:
+  # - keyStoreName: "<string>"
+  #   keyStoreType: "<string>"
+  #   keyStoreProvider: "<string>"
+  #   keyStorePassword: "<string>"
+  #   uploadFileName: "<string>"
+  #   keyStoreDescription: "<string>"
+  #   fileContent: "@<file_path>"
 
 ## api gateway truststore format
-webmethods_apigateway_keystore:
-  # keyStoreName: "<string>"
-  # keyStoreType: "<string>"
-  # keyStoreProvider: "<string>"
-  # keyStorePassword: "<string>"
-  # uploadFileName: "<string>"
-  # keyStoreDescription: "<string>"
-  # fileContentPath: "<string>"
+rvar_apigateway_keystore_list:
+  # - keyStoreName: "<string>"
+  #   keyStoreType: "<string>"
+  #   keyStoreProvider: "<string>"
+  #   keyStorePassword: "<string>"
+  #   uploadFileName: "<string>"
+  #   keyStoreDescription: "<string>"
+  #   fileContent: "<string>"
+  #   pkAliasesList: "<string>"
+  #   pkPasswordsList: "<string>"
+  #   nullPKpasswds: "false"
+  #   isPwdBase64Encoded: "false"
 
-webmethods_apigateway_keytruststore_configuration:
+rvar_apigateway_keytruststore_configuration:
   # keystoreName: "<string>"
   # signingAlias: "<string>"
   # truststoreName: "<string>"
@@ -233,7 +238,7 @@ webmethods_apigateway_promotions_stages:
   #   keystoreAlias: "<string>"
   #   keyAlias: "<string>"
 
-webmethods_apigateway_ports_types_internals:
+rvar_apigateway_internals_ports_types:
   regular_https:
     factoryKey: webMethods/HTTPS
     ssl: "true"
@@ -279,13 +284,13 @@ webmethods_apigateway_ports_types_internals:
     protocol: WebSocket
     listenerType: websocket
 
-webmethods_apigateway_ports_list:
+rvar_apigateway_ports_list:
   # - port_type: regular_https
+  #   port_enabled: true
   #   port_detail:
   #     listenerKey:
   #     oldPkg:
   #     certChain: ''
-  #     enable: 'no'
   #     port: '5443'
   #     portAlias: SAGSecurePort
   #     portDescription:
@@ -319,8 +324,8 @@ webmethods_apigateway_ports_list:
   #     hostsList: []
 
 ## extended settings - is runtime settings (note: this must be run on all the nodes)
-webmethods_apigateway_extended_settings_isruntime_watt_keys: {}
-webmethods_apigateway_extended_settings_coregateway_extended_keys: {}
+rvar_apigateway_settings_watts_dict: {}
+rvar_apigateway_settings_extended_dict: {}
 
 ## ldap settings
 webmethods_apigateway_ldap_settings:
@@ -370,23 +375,51 @@ rvar_apigateway_saml_groups_mapping_list:
   # - saml_group_name: <string>
   #   local_group_name: <string>
 
+# rvar_apigateway_saml_settings:
+# saml_enabled: "<boolean>"
+# saml_redirect: "/saml/sso/login"
+# saml_sp_id: "<string>"
+# saml_assertion_signed: "<boolean>"
+# saml_authreq_signed:  "<boolean>"
+# saml_sp_metadata_url: "<string>"
+# saml_ldp_metadata_url: "<string>"
+# saml_keystore_type: "<string>"
+# saml_keystore_location: "<string>"
+# saml_keystore_pwd: "<string>"
+# saml_defaultkey_alias: "<string>"
+# saml_defaultkey_pwd: "<string>"
+# saml_signkey_alias: "<string>"
+# saml_signkey_pwd: "<string>"
+# saml_encrypkey_alias: "<string>"
+# saml_encrypkey_pwd: "<string>"
+
 rvar_apigateway_saml_settings:
-  # saml_enabled: "<boolean>"
-  # saml_redirect: "/saml/sso/login"
-  # saml_sp_id: "<string>"
-  # saml_assertion_signed: "<boolean>"
-  # saml_authreq_signed:  "<boolean>"
-  # saml_sp_metadata_url: "<string>"
-  # saml_ldp_metadata_url: "<string>"
-  # saml_keystore_type: "<string>"
-  # saml_keystore_location: "<string>"
-  # saml_keystore_pwd: "<string>"
-  # saml_defaultkey_alias: "<string>"
-  # saml_defaultkey_pwd: "<string>"
-  # saml_signkey_alias: "<string>"
-  # saml_signkey_pwd: "<string>"
-  # saml_encrypkey_alias: "<string>"
-  # saml_encrypkey_pwd: "<string>"
+  {}
+  # idpFilename: Excepteur minim magna qui
+  # idpMetadataContent: commodo
+  # idpUrl: ame
+  # keystoreAlias: minim Excepteur occaecat veniam
+  # saml_assertion_signed: incididunt nisi cillum
+  # saml_authreq_signed: dolor no
+  # saml_defaultkey_alias: magna ullamco s
+  # saml_enabled: dolor voluptate in
+  # saml_encrypkey_alias: occaecat deserunt aute
+  # saml_redirect: culpa e
+  # saml_signkey_alias: ut est
+  # saml_sp_id: enim
+  # useSSOLoginByDefault: est ipsum sed non
+  # groupMapping:
+  #   attributeToGroupMap:
+  #     proident__: elit ea nostrud
+  #     laborum14b: dolor sed
+  #     culpa605: consequat non
+  #   groupAttributes:
+  #   - dolor nostrud in
+  #   - irure deserunt Ut
+  # userProfileMapping:
+  #   emailAddresses: ad mollit consectetur
+  #   firstName: laboris dolore
+  #   lastName: ex Duis officia incididunt
 
 rvar_apigateway_archive_imports:
   # - path: "<string>"
@@ -441,6 +474,22 @@ rvar_apigateway_plans:
   #   protected: false
   #   packageNamesVersion: []
   #   # packageIds: []
+
+# apis to add or update
+# the following attributes combinations of "name/version" will be transformed to corresponding internal id for unique lookups
+# important: knowledge of the api object is required to update the object correctly...
+# simply add the fields/values to be updated into each object item and updates will be done for these fields (keeping existing fields unchanged)
+rvar_apigateway_apis:
+  # - name: Sample api1
+  #   version: "1.0"
+  #   field1: "field1_value"
+  #   field2: "field2_value"
+  #   field3: "field3_value"
+  # - name: Sample api2
+  #   version: "1.0"
+  #   field1: "field1_value"
+  #   field2: "field2_value"
+  #   field3: "field3_value"
 
 # applications to add or update
 # the following attributes with "names/version" will be transformed to corresponding attributes of internal ids:

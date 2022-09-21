@@ -1,16 +1,16 @@
 ---
 
-  - debug: var=rvar_extended_settings_watt_keys verbosity=1
-  - debug: var=rvar_extended_settings_extended_keys verbosity=1
+  - debug: var=rvar_apigateway_settings_watts_dict verbosity=1
+  - debug: var=rvar_apigateway_settings_extended_dict verbosity=1
   
   - name: Prepare request body content
     set_fact:
-      webmethods_apigateway_extended_settings_request_body:
+      rvar_apigateway_request_body:
         preferredSettings:
-          wattKeys: "{{ rvar_extended_settings_watt_keys }}"
-          extendedKeys: "{{ rvar_extended_settings_extended_keys }}"
+          wattKeys: "{{ rvar_apigateway_settings_watts_dict }}"
+          extendedKeys: "{{ rvar_apigateway_settings_extended_dict }}"
 
-  - debug: var=webmethods_apigateway_extended_settings_request_body verbosity=1
+  - debug: var=rvar_apigateway_request_body verbosity=1
 
   - name: Update extended settings
     uri:
@@ -19,7 +19,7 @@
       user: "{{ apigateway_rest_login_username }}"
       password: "{{ apigateway_rest_login_password }}"
       return_content: yes
-      body: "{{ webmethods_apigateway_extended_settings_request_body | to_json }}"
+      body: "{{ rvar_apigateway_request_body | to_json }}"
       force_basic_auth: yes
       validate_certs: "{{ not ( apigateway_rest_no_check_certs | default() | bool ) }}"
       status_code: "200"

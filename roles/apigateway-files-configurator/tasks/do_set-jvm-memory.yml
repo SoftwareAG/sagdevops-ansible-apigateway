@@ -1,9 +1,10 @@
 ---
 
-  - import_role: 
-      name: configure-jvm-wrapper
-    vars:
-      configs_action: set-jvm-memory
-      rvar_wrapper_file: "{{ custom_wrapper_file }}"
-      # rvar_jvm_mem_min:
-      # rvar_jvm_mem_max:
+## for info about input variables,
+## see sagdevops-ansible-common-webmethods/roles/configure-jvm-wrapper/tasks/do_set-jvm-memory.yml
+
+- import_role:
+    name: configure-jvm-wrapper
+  vars:
+    configs_action: set-jvm-memory
+    rvar_wrapper_file: "{{ custom_wrapper_file }}"

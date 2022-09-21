@@ -26,7 +26,7 @@
   - name: Get portalGateway object id
     block:
 
-      - include_tasks: "portalgateways/get-single-id.yml"
+      - include_tasks: "portalgateways/find_single_id.yml"
         vars:
           rvar_object_filter: "{{ rvar_apigateway_apis_publish.lookup_portalGatewayId }}"
 
@@ -46,7 +46,7 @@
     block:
 
       - name: Get the internal API IDs identified in lookup_apiIds list
-        include_tasks: "apis/getall-ids.yml"
+        include_tasks: "apis/find_ids.yml"
         vars:
           rvar_object_filters: "{{ rvar_apigateway_apis_publish.lookup_apiIds }}"
 

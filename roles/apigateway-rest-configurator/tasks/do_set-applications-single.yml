@@ -7,11 +7,12 @@
       msg: "A mandatory param was not defined, cannot do anything."
     when: item is not defined
     with_items:
+      - "{{ rvar_apigateway_applications_single }}"
       - "{{ rvar_apigateway_applications_single.name }}"
       - "{{ rvar_apigateway_applications_single.version }}"
 
   - name: First, get the object id based on the filter (returned in var rest_response_object_id)
-    include_tasks: "applications/get-single-id.yml"
+    include_tasks: "applications/find_single_id.yml"
     vars:
       rvar_object_filter:
         name: "{{ rvar_apigateway_applications_single.name }}"
@@ -119,4 +120,6 @@
 
 ########## register APIs to application
 
-  - include_tasks: "do_set-applications-register_apis.yml"
+  - name: include register apis only if custom_registerAPIsByFilter is defined
+    include_tasks: "do_set-applications-register_apis.yml"
+    when: rvar_apigateway_applications_single.custom_registerAPIsByFilter is defined and rvar_apigateway_applications_single.custom_registerAPIsByFilter | length > 0

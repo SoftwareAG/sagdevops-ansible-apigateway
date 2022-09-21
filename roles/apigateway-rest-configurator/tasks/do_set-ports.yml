@@ -1,10 +1,10 @@
 ---
 
   - name: Ports to update
-    debug: var=webmethods_apigateway_ports_list verbosity=1
+    debug: var=rvar_apigateway_ports_list verbosity=1
 
   - name: Include Update ports tasks
     include_tasks: "do_set-ports-single.yml"
-    with_items: "{{ webmethods_apigateway_ports_list }}"
+    with_items: "{{ rvar_apigateway_ports_list }}"
     loop_control:
-      loop_var: webmethods_apigateway_port
+      loop_var: rvar_apigateway_port

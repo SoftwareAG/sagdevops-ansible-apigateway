@@ -1,0 +1,10 @@
+---
+
+  - name: var=rvar_apigateway_apis to add/update
+    debug: var=rvar_apigateway_apis verbosity=1
+
+  - name: Saving each item serially
+    include_tasks: "do_set-apis-single.yml"
+    with_items: "{{ rvar_apigateway_apis }}"
+    loop_control:
+      loop_var: rvar_apigateway_apis_single

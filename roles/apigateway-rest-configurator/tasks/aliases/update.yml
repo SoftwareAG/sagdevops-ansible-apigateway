@@ -1,0 +1,34 @@
+---
+
+  - debug: var=rvar_apigateway_alias_id verbosity=1
+  - debug: var=rvar_apigateway_alias_toupdate verbosity=1
+  
+  - name: fail if mandatory params not specified
+    fail: 
+      msg: "A mandatory param was not defined, cannot do anything."
+    when: item is not defined
+    with_items:
+      - "{{ rvar_apigateway_alias_id }}"
+      - "{{ rvar_apigateway_alias_toupdate }}"
+
+  - name: Update Alias
+    uri:
+      url: "{{ apigateway_rest_alias_api }}/{{ rvar_apigateway_alias_id }}"
+      method: PUT
+      user: "{{ apigateway_rest_login_username }}"
+      password: "{{ apigateway_rest_login_password }}"
+      body: "{{ rvar_apigateway_alias_toupdate | to_json }}"
+      return_content: yes
+      force_basic_auth: yes
+      validate_certs: "{{ not ( apigateway_rest_no_check_certs | default() | bool ) }}"
+      status_code: [200, 201]
+      body_format: json
+      timeout: 30
+    register: rest_response_mutate_update
+
+  - name: Response for new updated api
+    debug: var=rest_response_mutate_update verbosity=1
+
+  - name: Set response to custom var
+    set_fact:
+      rest_response_update: "{{ rest_response_mutate_update.json }}"

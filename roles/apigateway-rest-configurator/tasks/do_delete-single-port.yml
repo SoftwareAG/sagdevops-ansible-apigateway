@@ -51,7 +51,7 @@
 
   - name: Add the system fields to the object to save based on the protocol
     set_fact:
-      webmethods_apigateway_port_tosave: "{{ webmethods_apigateway_port.port_detail | combine(webmethods_apigateway_ports_types_internals[webmethods_apigateway_port.port_type],recursive=True) }}"
+      webmethods_apigateway_port_tosave: "{{ webmethods_apigateway_port.port_detail | combine(rvar_apigateway_internals_ports_types[webmethods_apigateway_port.port_type],recursive=True) }}"
 
   - name: Add the bind address field if it's not there or empty
     set_fact:
