@@ -1,0 +1,34 @@
+---
+
+# This get the object id for the local auth server
+# Return a rest_response_object_ids list of ID strings
+
+- include_tasks: "../search/find_objectids.yml"
+  vars:
+    _find_object_type: alias
+    _find_object_id_attribute: "id"
+    _find_object_filters:
+      - filter1: OKTA
+        filter2: clientMetadataMapping
+        filter3: OKTA
+    _find_object_filters_mapper_dict:
+      filter1: name
+      filter2: type
+      filter3: providerName
+    _find_object_extra_responsefields_list:
+      - id
+      - name
+      - type
+      - description
+
+- name: Init the response var
+  set_fact:
+    rest_response_object_id: ""
+
+- name: set single object id
+  set_fact:
+    rest_response_object_id: "{{ _found_object_ids | first }}"
+  when: _found_object_ids | length > 0
+
+- debug: var=rest_response_object_id verbosity=1
+

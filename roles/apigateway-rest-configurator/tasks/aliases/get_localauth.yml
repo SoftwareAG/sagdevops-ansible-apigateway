@@ -1,0 +1,17 @@
+---
+
+  # find the alias id based on known params for the local auth
+  - include_tasks: "find_alias_id_localauth.yml"
+
+  - debug: var=rest_response_object_id verbosity=1
+  
+  - name: fail if id not found
+    fail: 
+      msg: "Something went wrong: The local auth alias is not found..."
+    when: rest_response_object_id is not defined or rest_response_object_id == ""
+
+  - include_tasks: "get.yml"
+    vars:
+      rvar_apigateway_alias_id: "{{ rest_response_object_id }}"
+
+  - debug: var=rest_response_object verbosity=1

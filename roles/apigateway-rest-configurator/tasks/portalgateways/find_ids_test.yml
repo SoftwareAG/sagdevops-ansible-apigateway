@@ -1,0 +1,14 @@
+---
+
+- include_tasks: "find_ids.yml"
+  vars:
+    rvar_object_filters:
+      - name: API PortalGateway Config
+        version: "1.0"
+        stageName: "DEV"
+      - name: API PortalGateway Config
+        version: "1.0"
+        stageName: "doesnotexist"
+      - name: doesnotexist
+        version: "1.0"
+        stageName: "doesnotexist"
