@@ -1,0 +1,22 @@
+---
+
+  - import_role: 
+      name: configure-jvm-wrapper
+    vars:
+      configs_action: set-jvm-params
+      rvar_wrapper_file: "{{ custom_wrapper_file }}"
+      rvar_jvm_params:
+        wrapper.java.additional.900: "-verbose:gc"
+        wrapper.java.additional.901: "-XX:+PrintAdaptiveSizePolicy"
+        wrapper.java.additional.902: "-XX:+PrintGC"
+        wrapper.java.additional.903: "-XX:+PrintGCCause"
+        wrapper.java.additional.904: "-XX:+PrintGCDetails"
+        wrapper.java.additional.905: "-XX:+PrintGCTimeStamps"
+        wrapper.java.additional.906: "-XX:+PrintGCDateStamps"
+        wrapper.java.additional.907: "-XX:+PrintTenuringDistribution"
+        wrapper.java.additional.908: "-XX:+UseGCLogFileRotation"
+        wrapper.java.additional.909: "-XX:GCLogFileSize:20M"
+        wrapper.java.additional.910: "-XX:NumberOfGCLogFiles:20"
+        wrapper.java.additional.911: "-Xloggc:%OSGI_INSTALL_AREA%/logs/gc_agw.log"
+        wrapper.java.additional.912: "-XX:+HeapDumpOnOutOfMemoryError"
+        wrapper.java.additional.913: "-XX:HeapDumpPath:%OSGI_INSTALL_AREA%/logs"
