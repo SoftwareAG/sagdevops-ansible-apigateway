@@ -1,6 +1,6 @@
 ---
 
-  - debug: var=webmethods_apigateway_portalgateway verbosity=1
+  - debug: var=rvar_apigateway_portalgateway verbosity=1
 
   - name: Get current API portal connects
     uri:
@@ -33,7 +33,7 @@
       user: "{{ apigateway_rest_login_username }}"
       password: "{{ apigateway_rest_login_password }}"
       return_content: yes
-      body: "{{ webmethods_apigateway_portalgateway | default({}) | to_json }}"
+      body: "{{ rvar_apigateway_portalgateway | default({}) | to_json }}"
       force_basic_auth: yes
       validate_certs: "{{ not ( apigateway_rest_no_check_certs | default() | bool ) }}"
       status_code: [200, 201]
@@ -53,7 +53,7 @@
       user: "{{ apigateway_rest_login_username }}"
       password: "{{ apigateway_rest_login_password }}"
       return_content: yes
-      body: "{{ webmethods_apigateway_portalgateway | default({}) | to_json }}"
+      body: "{{ rvar_apigateway_portalgateway | default({}) | to_json }}"
       force_basic_auth: yes
       validate_certs: "{{ not ( apigateway_rest_no_check_certs | default() | bool ) }}"
       status_code: [200, 201]
