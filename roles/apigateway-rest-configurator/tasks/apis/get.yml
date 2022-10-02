@@ -30,4 +30,4 @@
 
   - name: Set response to custom var
     set_fact:
-      rest_response_object: "{{ rest_response_get.json }}"
+      rest_response_object: "{{ rest_response_get.json.apiResponse.api | default({},true) }}"

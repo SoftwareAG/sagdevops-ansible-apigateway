@@ -8,15 +8,37 @@
     when: item is not defined
     with_items:
       - "{{ rvar_apigateway_api }}"
-      - "{{ rvar_apigateway_api.name }}"
-      - "{{ rvar_apigateway_api.version }}"
+
+  - name: assign attributes apiName if not defined
+    set_fact:
+      rvar_apigateway_api_patched: "{{ rvar_apigateway_api | combine(patch,recursive=True) }}"
+    vars:
+      patch:
+        apiName: "{{ rvar_apigateway_api.name | default('') }}"
+    when: rvar_apigateway_api.apiName is not defined
+
+  - name: assign attributes apiVersion if not defined
+    set_fact:
+      rvar_apigateway_api_patched: "{{ rvar_apigateway_api_patched | combine(patch,recursive=True) }}"
+    vars:
+      patch:
+        apiVersion: "{{ rvar_apigateway_api.version | default('') }}"
+    when: rvar_apigateway_api.apiVersion is not defined
+
+  - name: fail if mandatory params not specified
+    fail: 
+      msg: "A mandatory param was not defined, cannot do anything."
+    when: item is not defined
+    with_items:
+      - "{{ rvar_apigateway_api_patched.apiName }}"
+      - "{{ rvar_apigateway_api_patched.apiVersion }}"
 
   - name: First, get the object id based on the filter (returned in var rest_response_object_id)
     include_tasks: "find_single_id.yml"
     vars:
       rvar_object_filter:
-        name: "{{ rvar_apigateway_api.name }}"
-        version: "{{ rvar_apigateway_api.version }}"
+        name: "{{ rvar_apigateway_api_patched.apiName }}"
+        version: "{{ rvar_apigateway_api_patched.apiVersion }}"
 
   - name: Assign returned object id to custom var
     set_fact:
@@ -32,20 +54,14 @@
          
       - name: Create the initial update dictionary
         set_fact:
-          existing_object: "{{ rest_response_object.apiResponse.api }}"
+          existing_object: "{{ rest_response_object }}"
           rvar_apigateway_api_toupdate: {}
         
       - debug: var=existing_object verbosity=1
 
       - name: Overwrite the existing object with the values to update 
         set_fact:
-          existing_object: "{{ existing_object | combine(rvar_apigateway_api,recursive=True) }}"
-
-      - name: Build the final update dict, starting with the existing_object, removing the fields we don't need/want in the process
-        set_fact:
-          rvar_apigateway_api_toupdate: "{{ rvar_apigateway_api_toupdate | combine({item.key: item.value}) }}"
-        when: item.key not in ['id']
-        with_dict: "{{ existing_object }}"
+          rvar_apigateway_api_toupdate: "{{ existing_object | combine(rvar_apigateway_api_patched,recursive=True) }}"
 
       - debug: var=rvar_apigateway_api_toupdate verbosity=1
 
@@ -79,7 +95,7 @@
           user: "{{ apigateway_rest_login_username }}"
           password: "{{ apigateway_rest_login_password }}"
           return_content: yes
-          body: "{{ rvar_apigateway_api | default({}) | to_json }}"
+          body: "{{ rvar_apigateway_api_patched | default({}) | to_json }}"
           force_basic_auth: yes
           validate_certs: "{{ not ( apigateway_rest_no_check_certs | default() | bool ) }}"
           status_code: [200, 201]
