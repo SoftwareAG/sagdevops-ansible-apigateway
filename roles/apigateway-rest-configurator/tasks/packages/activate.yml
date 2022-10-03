@@ -2,16 +2,16 @@
   - debug: 
       msg: Begin tasks in packages/activate.yml
 
-  - debug: var=rvar_apigateway_rest_objectid verbosity=1
-  - debug: var=packages_activate verbosity=1
+  - debug: var=rvar_apigateway_package_id verbosity=1
+  - debug: var=rvar_status_activate verbosity=1
 
   - name: fail if mandatory params not specified
     fail: 
       msg: "A mandatory param was not defined, cannot do anything."
     when: item is not defined
     with_items:
-      - "{{ rvar_apigateway_rest_objectid }}"
-      - "{{ packages_activate }}"
+      - "{{ rvar_apigateway_package_id }}"
+      - "{{ rvar_status_activate }}"
 
 ######## first, let's fetch the package by id to check if it's already in the state we want
 
@@ -37,7 +37,7 @@
 
       - name: Activate the package
         uri:
-          url: "{{ apigateway_rest_packages_api }}/{{ rvar_apigateway_rest_objectid }}/activate"
+          url: "{{ apigateway_rest_packages_api }}/{{ rvar_apigateway_package_id }}/activate"
           method: PUT
           user: "{{ apigateway_rest_login_username }}"
           password: "{{ apigateway_rest_login_password }}"
@@ -53,18 +53,18 @@
       - name: Response
         debug: var=rest_packages_activate_response verbosity=1
 
-    when: _apigateway_package_active | bool == false and packages_activate | bool == true
+    when: _apigateway_package_active | bool == false and rvar_status_activate | bool == true
   
   - debug: 
       msg: Requesting to activate the package, but it's already active...ignoring!
-    when: _apigateway_package_active | bool == true and packages_activate | bool == true
+    when: _apigateway_package_active | bool == true and rvar_status_activate | bool == true
 
   - name: Deactivate the package if flag active = false or does not exist
     block:
 
       - name: Deactivate the package
         uri:
-          url: "{{ apigateway_rest_packages_api }}/{{ rvar_apigateway_rest_objectid }}/deactivate"
+          url: "{{ apigateway_rest_packages_api }}/{{ rvar_apigateway_package_id }}/deactivate"
           method: PUT
           user: "{{ apigateway_rest_login_username }}"
           password: "{{ apigateway_rest_login_password }}"
@@ -80,8 +80,8 @@
       - name: Response
         debug: var=rest_packages_activate_response verbosity=1
 
-    when: _apigateway_package_active | bool == true and packages_activate | bool == false
+    when: _apigateway_package_active | bool == true and rvar_status_activate | bool == false
   
   - debug: 
       msg: Requesting to de-activate the package, but it's already inactive...ignoring!
-    when: _apigateway_package_active | bool == false and packages_activate | bool == false
+    when: _apigateway_package_active | bool == false and rvar_status_activate | bool == false

@@ -1,0 +1,87 @@
+---
+  - debug: 
+      msg: Begin tasks in apis/activate.yml
+
+  - debug: var=rvar_apigateway_api_id verbosity=1
+  - debug: var=rvar_status_activate verbosity=1
+
+  - name: fail if mandatory params not specified
+    fail: 
+      msg: "A mandatory param was not defined, cannot do anything."
+    when: item is not defined
+    with_items:
+      - "{{ rvar_apigateway_api_id }}"
+      - "{{ rvar_status_activate }}"
+
+######## first, let's fetch the api by id to check if it's already in the state we want
+
+  - name: get the full object by id (returned in var rest_response_get)
+    include_tasks: "apis/get.yml"
+
+  - name: fail if expected response not there
+    fail: 
+      msg: "rest_response_object is not defined, something bad happened with the rest call?"
+    when: rest_response_object is not or rest_response_object.
+
+  - name: get the status field from the response
+    set_fact:
+      _apigateway_api_active: "{{ rest_response_object.isActive }}"
+    when: rest_response_object is defined
+
+  - debug: var=_apigateway_api_active verbosity=1
+
+######## perform the operation if needed
+
+  - name: Activate the api if flag active = true
+    block:
+
+      - name: Activate the api
+        uri:
+          url: "{{ apigateway_rest_apis_api }}/{{ rvar_apigateway_api_id }}/activate"
+          method: PUT
+          user: "{{ apigateway_rest_login_username }}"
+          password: "{{ apigateway_rest_login_password }}"
+          return_content: yes
+          force_basic_auth: yes
+          validate_certs: "{{ not ( apigateway_rest_no_check_certs | default() | bool ) }}"
+          status_code: [200, 201]
+          timeout: 30
+          headers:
+            Content-Type: application/json
+        register: rest_apis_activate_response
+
+      - name: Response
+        debug: var=rest_apis_activate_response verbosity=1
+
+    when: _apigateway_api_active | bool == false and rvar_status_activate | bool == true
+  
+  - debug: 
+      msg: Requesting to activate the api, but it's already active...ignoring!
+    when: _apigateway_api_active | bool == true and rvar_status_activate | bool == true
+
+  - name: Deactivate the api if flag active = false or does not exist
+    block:
+
+      - name: Deactivate the api
+        uri:
+          url: "{{ apigateway_rest_apis_api }}/{{ rvar_apigateway_api_id }}/deactivate"
+          method: PUT
+          user: "{{ apigateway_rest_login_username }}"
+          password: "{{ apigateway_rest_login_password }}"
+          return_content: yes
+          force_basic_auth: yes
+          validate_certs: "{{ not ( apigateway_rest_no_check_certs | default() | bool ) }}"
+          status_code: [200, 201]
+          timeout: 30
+          headers:
+            Content-Type: application/json
+        register: rest_apis_activate_response
+
+      - name: Response
+        debug: var=rest_apis_activate_response verbosity=1
+
+    when: _apigateway_api_active | bool == true and rvar_status_activate | bool == false
+  
+  - debug: 
+      msg: Requesting to de-activate the api, but it's already inactive...ignoring!
+    when: _apigateway_api_active | bool == false and rvar_status_activate | bool == false
