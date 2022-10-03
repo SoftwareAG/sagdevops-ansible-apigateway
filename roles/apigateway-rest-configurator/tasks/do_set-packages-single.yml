@@ -188,8 +188,8 @@
   - name: activate or de-activate the package as requested in the update object
     include_tasks: "packages/activate.yml"
     vars:
-      rvar_apigateway_rest_objectid: "{{ _apigateway_object_to_save.id }}"
-      packages_activate: "{{ _apigateway_object_to_save.active | default('false',true) }}"
+      rvar_apigateway_package_id: "{{ _apigateway_object_to_save.id }}"
+      rvar_status_activate: "{{ _apigateway_object_to_save.active | default('false',true) }}"
 
   - debug: 
       msg: End tasks in do_set-packages-single.yml
