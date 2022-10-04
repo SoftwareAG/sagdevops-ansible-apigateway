@@ -52,6 +52,9 @@
           timeout: 30
         register: rest_ports_operation_response
 
+      - name: Response
+        debug: var=rest_ports_operation_response verbosity=1
+
     when: ports_enable | bool == true
 
 ######## Disable the port
@@ -74,13 +77,9 @@
           timeout: 30
         register: rest_ports_operation_response
 
+      - name: Response
+        debug: var=rest_ports_operation_response verbosity=1
+
     when: ports_enable | bool == false
 
 ######## Final
-
-  - name: Print response
-    debug:
-      var: rest_ports_operation_response.json
-      verbosity: 1
-
-
