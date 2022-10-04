@@ -34,8 +34,7 @@
 
   - name: save api gateway endpoints into var
     set_fact:
-      _api_gateway_endpoints: "{{ rest_response_object.apiResponse.gatewayEndPoints | default([],true) }}"
-    when: rest_response_object is defined and rest_response_object.apiResponse is defined
+      _api_gateway_endpoints: "{{ rest_response_object.gatewayEndPoints | default([],true) }}"
 
   - debug: var=_api_gateway_endpoints verbosity=1
 

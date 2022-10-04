@@ -54,14 +54,14 @@
          
       - name: Create the initial update dictionary
         set_fact:
-          existing_object: "{{ rest_response_object }}"
+          existing_api_object: "{{ rest_response_object.api }}"
           rvar_apigateway_api_toupdate: {}
         
-      - debug: var=existing_object verbosity=1
+      - debug: var=existing_api_object verbosity=1
 
       - name: Overwrite the existing object with the values to update 
         set_fact:
-          rvar_apigateway_api_toupdate: "{{ existing_object | combine(rvar_apigateway_api_patched,recursive=True) }}"
+          rvar_apigateway_api_toupdate: "{{ existing_api_object | combine(rvar_apigateway_api_patched,recursive=True) }}"
 
       - debug: var=rvar_apigateway_api_toupdate verbosity=1
 

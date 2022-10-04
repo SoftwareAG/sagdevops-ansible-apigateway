@@ -16,17 +16,11 @@
 ######## first, let's fetch the api by id to check if it's already in the state we want
 
   - name: get the full object by id
-    include_tasks: "apis/get.yml"
-
-  - name: fail if expected response not there
-    fail: 
-      msg: "rest_response_object is not defined, something bad happened with the rest call?"
-    when: rest_response_object is not defined
+    include_tasks: "get.yml"
 
   - name: get the status field from the response
     set_fact:
-      _apigateway_api_active: "{{ rest_response_object.isActive }}"
-    when: rest_response_object is defined
+      _apigateway_api_active: "{{ rest_response_object.api.isActive }}"
 
   - debug: var=_apigateway_api_active verbosity=1
 
