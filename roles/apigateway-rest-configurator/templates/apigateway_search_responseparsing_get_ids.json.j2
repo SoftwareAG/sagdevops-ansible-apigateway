@@ -8,7 +8,7 @@
     
     {%- for filter_item in _objects_filters_list -%}
       {%- for dataitem in _objects_list -%}
-        {%- if dataitem[_objects_filters_mapper_dict.filter1] is defined and dataitem[_objects_filters_mapper_dict.filter1] == filter_item.filter1 -%}
+        {%- if (filter_item.filter1 == "NULL" and dataitem[_objects_filters_mapper_dict.filter1] is not defined) or (dataitem[_objects_filters_mapper_dict.filter1] is defined and dataitem[_objects_filters_mapper_dict.filter1] == filter_item.filter1) -%}
           {%- if dataitem[_objects_match_attribute_id] is defined -%}
             {%- if vars.filter_matched -%},{%- endif -%}'{{ dataitem[_objects_match_attribute_id] }}'
             {%- if vars.update({'filter_matched': True}) -%} {%- endif -%}
@@ -21,8 +21,8 @@
 
     {%- for filter_item in _objects_filters_list -%}
       {%- for dataitem in _objects_list -%}
-        {%- if dataitem[_objects_filters_mapper_dict.filter1] is defined and dataitem[_objects_filters_mapper_dict.filter1] == filter_item.filter1 -%}
-        {%- if dataitem[_objects_filters_mapper_dict.filter2] is defined and dataitem[_objects_filters_mapper_dict.filter2] == filter_item.filter2 -%}
+        {%- if (filter_item.filter1 == "NULL" and dataitem[_objects_filters_mapper_dict.filter1] is not defined) or (dataitem[_objects_filters_mapper_dict.filter1] is defined and dataitem[_objects_filters_mapper_dict.filter1] == filter_item.filter1) -%}
+        {%- if (filter_item.filter2 == "NULL" and dataitem[_objects_filters_mapper_dict.filter2] is not defined) or (dataitem[_objects_filters_mapper_dict.filter2] is defined and dataitem[_objects_filters_mapper_dict.filter2] == filter_item.filter2) -%}
           {%- if dataitem[_objects_match_attribute_id] is defined -%}
             {%- if vars.filter_matched -%},{%- endif -%}'{{ dataitem[_objects_match_attribute_id] }}'
             {%- if vars.update({'filter_matched': True}) -%} {%- endif -%}
@@ -36,9 +36,9 @@
 
     {%- for filter_item in _objects_filters_list -%}
       {%- for dataitem in _objects_list -%}
-        {%- if dataitem[_objects_filters_mapper_dict.filter1] is defined and dataitem[_objects_filters_mapper_dict.filter1] == filter_item.filter1 -%}
-        {%- if dataitem[_objects_filters_mapper_dict.filter2] is defined and dataitem[_objects_filters_mapper_dict.filter2] == filter_item.filter2 -%}
-        {%- if dataitem[_objects_filters_mapper_dict.filter3] is defined and dataitem[_objects_filters_mapper_dict.filter3] == filter_item.filter3 -%}
+        {%- if (filter_item.filter1 == "NULL" and dataitem[_objects_filters_mapper_dict.filter1] is not defined) or (dataitem[_objects_filters_mapper_dict.filter1] is defined and dataitem[_objects_filters_mapper_dict.filter1] == filter_item.filter1) -%}
+        {%- if (filter_item.filter2 == "NULL" and dataitem[_objects_filters_mapper_dict.filter2] is not defined) or (dataitem[_objects_filters_mapper_dict.filter2] is defined and dataitem[_objects_filters_mapper_dict.filter2] == filter_item.filter2) -%}
+        {%- if (filter_item.filter3 == "NULL" and dataitem[_objects_filters_mapper_dict.filter3] is not defined) or (dataitem[_objects_filters_mapper_dict.filter3] is defined and dataitem[_objects_filters_mapper_dict.filter3] == filter_item.filter3) -%}
           {%- if dataitem[_objects_match_attribute_id] is defined -%}
             {%- if vars.filter_matched -%},{%- endif -%}'{{ dataitem[_objects_match_attribute_id] }}'
             {%- if vars.update({'filter_matched': True}) -%} {%- endif -%}

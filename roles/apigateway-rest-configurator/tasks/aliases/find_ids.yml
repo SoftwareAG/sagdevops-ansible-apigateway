@@ -14,6 +14,8 @@
   set_fact:
     _object_transformed_filters: []
 
+## stage is not always defined, so if stage is NOT, we default to string "NULL" and 
+## will use this special string value to match an "undefined" in the json data returned by the search
 - name: transform rvar_object_filters to expected format for search
   set_fact:
     _object_transformed_filters: "{{ _object_transformed_filters }} + [ {{ _filter_item }} ]"
@@ -21,7 +23,7 @@
     _filter_item:
       filter1: "{{ item.name }}"
       filter2: "{{ item.type }}"
-      filter3: "{{ item.stage }}"
+      filter3: "{{ item.stage | default('NULL') }}"
   loop: "{{ rvar_object_filters }}"
 
 ## note: here, because stage can be null/empty, we don't include it in search...

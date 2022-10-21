@@ -20,7 +20,7 @@
       rvar_object_filter:
         name: "{{ rvar_apigateway_alias_single.name }}"
         type: "{{ rvar_apigateway_alias_single.type }}"
-        stage: "{{ rvar_apigateway_alias_single.stage | default('',true) }}"
+        stage: "{{ rvar_apigateway_alias_single.stage }}"
 
   - name: Update the existing alias if it existed
     block:
