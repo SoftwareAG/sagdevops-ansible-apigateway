@@ -1,0 +1,14 @@
+---
+
+  - debug: 
+      msg: Begin tasks in do_set-config-destination-elastic.yml
+
+  - debug: var=rvar_apigateway_config_data_dict verbosity=1
+  
+  - include_tasks: "configurations/update.yml"
+    vars:
+      _apigateway_rest_configurations_url: "{{ apigateway_rest_configurations_destination_elasticsearch }}"
+      _apigateway_config_data_dict: "{{ rvar_apigateway_config_data_dict }}"
+
+  - debug: 
+      msg: End tasks in do_set-config-destination-elastic.yml

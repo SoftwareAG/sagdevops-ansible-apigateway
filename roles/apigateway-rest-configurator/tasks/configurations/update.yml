@@ -1,0 +1,41 @@
+---
+
+- debug: var=_apigateway_config_data_dict verbosity=1
+
+- name: fail if mandatory params not specified
+  fail:
+    msg: "A mandatory param was not defined, cannot do anything."
+  when: item is not defined
+  with_items:
+    - "{{ _apigateway_config_data_dict }}"
+
+- name: Create the initial update dictionary
+  set_fact:
+    _apigateway_config_data_dict_toupdate: {}
+
+- name: Get config
+  include_tasks: "get.yml"
+
+- name: Overwrite the existing object with the values to update
+  set_fact:
+    _apigateway_config_data_dict_toupdate: "{{ rest_response_object | combine(_apigateway_config_data_dict,recursive=True) }}"
+
+- debug: var=_apigateway_config_data_dict_toupdate verbosity=1
+
+- name: Update the config
+  uri:
+    url: "{{ _apigateway_rest_configurations_url }}"
+    method: PUT
+    user: "{{ apigateway_rest_login_username }}"
+    password: "{{ apigateway_rest_login_password }}"
+    return_content: yes
+    body: "{{ _apigateway_config_data_dict_toupdate | to_json }}"
+    force_basic_auth: yes
+    validate_certs: "{{ not ( apigateway_rest_no_check_certs | default() | bool ) }}"
+    status_code: [200, 201]
+    body_format: json
+    timeout: 30
+  register: rest_response_mutate_update
+
+- name: Response for new updated api
+  debug: var=rest_response_mutate_update verbosity=1
