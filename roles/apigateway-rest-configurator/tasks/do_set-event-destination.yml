@@ -1,0 +1,68 @@
+---
+
+  - debug: 
+      msg: Begin tasks in do_set-config-destination.yml
+
+  - debug: var=rvar_apigateway_destination_type verbosity=1
+  - debug: var=rvar_apigateway_destination_config_dict verbosity=1
+
+  - name: set the right configuration url based on the requested destination type
+    set_fact:
+      _apigateway_rest_configurations_url: "{{ apigateway_rest_configurations_destination_elasticsearch }}"
+    when: rvar_apigateway_destination_type | default() | trim | lower == "elastic"
+
+  - name: set the right configuration url based on the requested destination type
+    set_fact:
+      _apigateway_rest_configurations_url: "{{ apigateway_rest_configurations_destination_apiportal }}"
+    when: rvar_apigateway_destination_type | default() | trim | lower == "apiportal"
+
+  - name: set the right configuration url based on the requested destination type
+    set_fact:
+      _apigateway_rest_configurations_url: "{{ apigateway_rest_configurations_destination_gateway }}"
+    when: rvar_apigateway_destination_type | default() | trim | lower == "apigateway"
+
+  - name: set the right configuration url based on the requested destination type
+    set_fact:
+      _apigateway_rest_configurations_url: "{{ apigateway_rest_configurations_destination_email }}"
+    when: rvar_apigateway_destination_type | default() | trim | lower == "email"
+
+  - name: set the right configuration url based on the requested destination type
+    set_fact:
+      _apigateway_rest_configurations_url: "{{ apigateway_rest_configurations_destination_jdbc }}"
+    when: rvar_apigateway_destination_type | default() | trim | lower == "jdbc"
+
+  - name: set the right configuration url based on the requested destination type
+    set_fact:
+      _apigateway_rest_configurations_url: "{{ apigateway_rest_configurations_destination_snmp }}"
+    when: rvar_apigateway_destination_type | default() | trim | lower == "snmp"
+
+  - name: set the right configuration url based on the requested destination type
+    set_fact:
+      _apigateway_rest_configurations_url: "{{ apigateway_rest_configurations_destination_des }}"
+    when: rvar_apigateway_destination_type | default() | trim | lower == "des"
+
+  - name: set the right configuration url based on the requested destination type
+    set_fact:
+      _apigateway_rest_configurations_url: "{{ apigateway_rest_configurations_destination_centrasite }}"
+    when: rvar_apigateway_destination_type | default() | trim | lower == "centrasite"
+
+  - name: set the right configuration url based on the requested destination type
+    set_fact:
+      _apigateway_rest_configurations_url: "{{ apigateway_rest_configurations_destination_centrasite_snmp }}"
+    when: rvar_apigateway_destination_type | default() | trim | lower == "centrasite_snmp"
+
+  - name: set the right configuration url based on the requested destination type
+    set_fact:
+      _apigateway_rest_configurations_url: "{{ apigateway_rest_configurations_destination_auditlogs }}"
+    when: rvar_apigateway_destination_type | default() | trim | lower == "auditlogs"
+
+  - fail:
+      msg: "The configuration destination type was not found as a supported type...review what's supported by this ansible playbook."
+    when: _apigateway_rest_configurations_url is not defined or _apigateway_rest_configurations_url == ""
+
+  - include_tasks: "configurations/update.yml"
+    vars:
+      _apigateway_config_data_dict: "{{ rvar_apigateway_destination_config_dict }}"
+
+  - debug: 
+      msg: End tasks in do_set-config-destination.yml
