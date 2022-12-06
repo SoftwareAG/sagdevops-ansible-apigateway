@@ -40,7 +40,7 @@ apigateway_external_configs_template_clustering_ignite:
         hostnames:         "override_me"
         discoveryPort:     47100
         communicationPort: 47500
-        portRange:         5
+        portRange:         0
 
 apigateway_external_configs_template_kibana:
   apigw:
